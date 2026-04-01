@@ -1,0 +1,118 @@
+[
+  { 
+    "id": 1, 
+    "name": "김덕배", 
+    "age": 72, 
+    "gender": "남", 
+    "time": "10:30", 
+    "status": "orange", 
+    "disease": "고혈압, 당뇨",
+    "aiRecommendation": {
+      "title": "혈압 상승 추세 및 두통 호소로",
+      "highlight": "대면 진료가 권고",
+      "reasons": [
+        { "type": "up", "text": "최근 3일간 수축기 혈압 평균 <span class=\"font-bold text-slate-900\">145mmHg</span>로 목표치 초과" },
+        { "type": "alert", "text": "오늘 아침 문진에서 <span class=\"font-bold text-slate-900\">새로운 증상(뒷목 뻐근함, 두통)</span> 호소" },
+        { "type": "check", "text": "복약 순응도는 100%로 매우 양호함" }
+      ],
+      "details": "환자의 최근 7일간 활동량 데이터 분석 결과, 평소 대비 활동량이 30% 감소하였으며 이는 혈압 상승과 상관관계가 있는 것으로 추정됩니다. 또한, 야간 수면 중 심박수 변동성이 증가하여 스트레스 지수가 높게 측정되었습니다. 복약은 성실히 이행 중이나 현재의 약제 용량 조절이 필요할 수 있는 임상적 징후가 포착되었습니다.",
+      "stats": [
+        { "label": "활동량 변화", "value": "-30% (전주 대비)" },
+        { "label": "수면 효율", "value": "68% (주의)" }
+      ]
+    },
+    "vitals": {
+      "bp": { "current": "145/92", "trend": "전주 대비 12 상승", "trendUp": true, "data": [132, 138, 142, 145, 148] },
+      "sugar": { "current": "108", "status": "정상 범위 유지중", "data": [112, 105, 115, 108, 102] },
+      "adherence": { "current": "100", "data": [100, 100, 100, 100, 100] }
+    },
+    "footerAction": "대면 진료 예약하기"
+  },
+  { 
+    "id": 2, 
+    "name": "이순자", 
+    "age": 68, 
+    "gender": "여", 
+    "time": "10:45", 
+    "status": "teal", 
+    "disease": "고혈압",
+    "aiRecommendation": {
+      "title": "모든 수치가 안정적이며 특이사항 없어",
+      "highlight": "비대면 진료가 가능",
+      "reasons": [
+        { "type": "check", "text": "혈압 및 심박수 <span class=\"font-bold text-slate-900\">정상 범위 내</span>에서 안정적 유지" },
+        { "type": "check", "text": "최근 일주일간 <span class=\"font-bold text-slate-900\">이상 증상 보고 없음</span>" },
+        { "type": "check", "text": "활동량 및 수면 패턴 규칙적임" }
+      ],
+      "details": "환자의 생체 신호가 지난 한 달간 매우 안정적인 패턴을 보이고 있습니다. 특히 수축기 혈압이 120-130mmHg 사이를 일정하게 유지하고 있으며, 자각 증상 또한 없는 상태입니다. 현재의 처방을 유지하며 정기적인 모니터링만으로 충분할 것으로 판단됩니다.",
+      "stats": [
+        { "label": "활동량 변화", "value": "+5% (안정적)" },
+        { "label": "수면 효율", "value": "88% (양호)" }
+      ]
+    },
+    "vitals": {
+      "bp": { "current": "128/82", "trend": "안정적 유지 중", "trendUp": false, "data": [125, 128, 126, 129, 128] },
+      "sugar": { "current": "95", "status": "양호", "data": [98, 92, 96, 94, 95] },
+      "adherence": { "current": "100", "data": [100, 100, 100, 100, 100] }
+    },
+    "footerAction": "대면 진료 예약하기"
+  },
+  { 
+    "id": 3, 
+    "name": "박상철", 
+    "age": 75, 
+    "gender": "남", 
+    "time": "11:00", 
+    "status": "amber", 
+    "disease": "당뇨",
+    "aiRecommendation": {
+      "title": "공복 혈당 변동성 증가로 인한",
+      "highlight": "집중 모니터링 및 주의",
+      "reasons": [
+        { "type": "up", "text": "공복 혈당 수치가 <span class=\"font-bold text-slate-900\">140mg/dL 이상</span>으로 2회 관측" },
+        { "type": "alert", "text": "식단 기록에서 <span class=\"font-bold text-slate-900\">고탄수화물 섭취 빈도</span> 증가 확인" },
+        { "type": "check", "text": "체중이 최근 2주간 1.5kg 증가함" }
+      ],
+      "details": "최근 식습관의 변화로 인해 혈당 조절에 어려움을 겪고 있는 것으로 분석됩니다. 특히 야식 섭취 빈도가 늘어남에 따라 공복 혈당이 불안정한 상태입니다. 약물 조절보다는 생활 습관 개선(식단 및 운동)에 대한 집중적인 교육과 모니터링이 우선적으로 필요합니다.",
+      "stats": [
+        { "label": "식단 점수", "value": "62점 (주의)" },
+        { "label": "체중 변화", "value": "+1.5kg (증가)" }
+      ]
+    },
+    "vitals": {
+      "bp": { "current": "132/85", "trend": "안정적", "trendUp": false, "data": [130, 132, 131, 134, 132] },
+      "sugar": { "current": "142", "status": "주의 (상승 추세)", "trendUp": true, "data": [115, 128, 145, 138, 142] },
+      "adherence": { "current": "95", "data": [100, 100, 90, 100, 100] }
+    },
+    "footerAction": "집중 모니터링 요청"
+  },
+  { 
+    "id": 4, 
+    "name": "최영희", 
+    "age": 81, 
+    "gender": "여", 
+    "time": "11:15", 
+    "status": "teal", 
+    "disease": "고혈압, 고지혈증",
+    "aiRecommendation": {
+      "title": "고령임에도 불구하고 매우 우수한",
+      "highlight": "건강 상태 유지 중",
+      "reasons": [
+        { "type": "check", "text": "혈압 및 맥박 <span class=\"font-bold text-slate-900\">최적 범위</span> 내 유지" },
+        { "type": "check", "text": "매일 5,000보 이상의 <span class=\"font-bold text-slate-900\">규칙적 운동</span> 수행" },
+        { "type": "check", "text": "복약 알람 순응도 100%" }
+      ],
+      "details": "80대 고령 환자임에도 불구하고 자가 관리 능력이 매우 탁월합니다. 모든 생체 지표가 연령 대비 최상위 수준이며, 규칙적인 운동과 식단을 잘 유지하고 있습니다. 현재 상태를 유지할 수 있도록 격려와 함께 비대면 상담을 통한 정기 체크를 권장합니다.",
+      "stats": [
+        { "label": "평균 걸음", "value": "5,400보 (양호)" },
+        { "label": "심박 변동성", "value": "안정적" }
+      ]
+    },
+    "vitals": {
+      "bp": { "current": "122/78", "trend": "매우 안정적", "trendUp": false, "data": [120, 124, 122, 121, 122] },
+      "sugar": { "current": "98", "status": "양호", "data": [102, 95, 99, 97, 98] },
+      "adherence": { "current": "100", "data": [100, 100, 100, 100, 100] }
+    },
+    "footerAction": "대면 진료 예약하기"
+  }
+]
