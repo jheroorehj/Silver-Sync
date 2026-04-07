@@ -25,32 +25,33 @@ const chartCode = `flowchart TD
     classDef aws fill:#FFF3E0,stroke:#FF9900,stroke-width:2px,color:#000
     classDef debate fill:#FFF9C4,stroke:#FBC02D,stroke-width:2px,color:#000
     classDef endpoint fill:#F3E5F5,stroke:#8E24AA,stroke-width:2px,color:#000
+    classDef mainrag fill:#FCE4EC,stroke:#C62828,stroke-width:2px,color:#000
 
     Start(["재진 트리거"]) --> Gate
 
     subgraph Stage1 ["Stage 1. Gate Agent"]
         Gate(("<div style='width:160px;height:54px;display:flex;align-items:center;justify-content:center;text-align:center;'>Gate Agent<br/>Gemma 4 26B A4B</div>")):::gemma
-        Tool_Stats[["Tool: 통계 연산기"]]:::rule
+        Tool_Stats[["Tool: 응답 신뢰도 체크"]]:::rule
 
         Gate -->|"Input: 타임스탬프, 설문 원본"| Tool_Stats
-        Tool_Stats -->|"Output: 분산값, 이상치 Flag"| Gate
+        Tool_Stats -->|"Output: 신뢰도 점수, 이상 패턴 유형"| Gate
     end
 
     Gate -->|"전처리된 신뢰도 JSON"| Reasoner
 
     subgraph Stage2 ["Stage 2. Reasoner & AgenticSimLaw"]
         Reasoner(("<div style='width:160px;height:54px;display:flex;align-items:center;justify-content:center;text-align:center;'>Reasoner Agent<br/>Gemma 4 26B A4B</div>")):::gemma
-        Tool_DUR[["Tool: DUR / 수열"]]:::rule
+        Tool_DUR[["Tool: DUR 상호작용 스캐너"]]:::rule
 
         Reasoner -->|"Input: 신규처방+기존처방"| Tool_DUR
-        Tool_DUR -->|"Output: NSAIDs-ACE 상호작용 매칭"| Reasoner
+        Tool_DUR -->|"Output: 상호작용 등급(A~X) + 위험 메커니즘"| Reasoner
 
         Reasoner -->|"추출된 쟁점 1~3개 전달"| Debate_Room
 
         subgraph Debate_Room ["재진 법정 공방"]
             Pros(("<div style='width:160px;height:54px;display:flex;align-items:center;justify-content:center;text-align:center;'>검사 Agent<br/>Gemma 4 31B</div>")):::gemma
             Def(("<div style='width:160px;height:54px;display:flex;align-items:center;justify-content:center;text-align:center;'>변호사 Agent<br/>Gemma 4 31B</div>")):::gemma
-            Tool_RAG[["Tool: 진료지침(고혈압/당뇨) RAG"]]:::rule
+            Tool_RAG[["Sub RAG:<br/>진료지침(고혈압/당뇨)"]]:::rule
 
             Pros -->|"Input: 쟁점 키워드"| Tool_RAG
             Def -->|"Input: 쟁점 키워드"| Tool_RAG
@@ -63,22 +64,33 @@ const chartCode = `flowchart TD
 
     subgraph Stage3 ["Stage 3. Judge Agent"]
         Judge(("<div style='width:160px;height:54px;display:flex;align-items:center;justify-content:center;text-align:center;'>Judge Agent<br/>AWS Kiro API</div>")):::aws
-        Tool_RedFlag[["Tool: 하드게이트"]]:::rule
+        Tool_RedFlag[["Tool: 임상 필수대면 기준 체크"]]:::rule
+        Tool_Registry[["Tool: 임상 금기 레지스터"]]:::rule
 
         Judge -->|"Input: 환자 프로파일 요약"| Tool_RedFlag
-        Tool_RedFlag -->|"Output: Red Flag 여부 (T/F)"| Judge
+        Tool_RedFlag -->|"Output: Red Flag T/F + 규칙 코드/사유"| Judge
+        Judge -->|"Input: 기저질환 + 처방 목록"| Tool_Registry
+        Tool_Registry -->|"Output: 금기 매칭 여부 + 금기 코드"| Judge
     end
 
     Judge -->|"대면/비대면 최종 라벨 + 결론/근거"| Orch
 
     subgraph Stage4 ["Stage 4. Orchestrator Agent"]
         Orch(("<div style='width:160px;height:54px;display:flex;align-items:center;justify-content:center;text-align:center;'>Orchestrator Agent<br/>Gemma 4 26B A4B</div>")):::gemma
-        Tool_Action[["Tool: GIS, 건강보험공단 전자처방전 API"]]:::rule
+        Tool_Action[["Tool: GIS, 건강보험공단<br/>전자처방전 API"]]:::rule
 
         Orch -->|"Input: 환자 위치, 조제 약물"| Tool_Action
         Tool_Action -->|"Output: 1순위 약국 매칭, 재고 상태"| Orch
         Orch -->|"최종 발송"| Out(["매칭 약국, 결론과 판단 근거 JSON"]):::endpoint
-    end`;
+    end
+
+    subgraph MainRAGZone ["Main RAG (공유 지식베이스)"]
+        RAG_Main[("의료 법령 참고자료<br/>환자 과거 이력<br/>기저질환 & 합병증 프로파일")]:::mainrag
+    end
+
+    Gate -.->|"환자 이력 / 기저질환 참조"| RAG_Main
+    Reasoner -.->|"처방이력 / 합병증 참조"| RAG_Main
+    RAG_Main -.->|"법령 / 합병증 기준 참조"| Judge`;
 
 export default function App() {
   const [svg, setSvg] = useState<{ html: string; width: number } | null>(null);
