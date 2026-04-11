@@ -73,15 +73,20 @@ const chartCode = `flowchart TD
         Tool_Registry -->|"Output: 금기 매칭 여부 + 금기 코드"| Judge
     end
 
-    Judge -->|"대면/비대면 최종 라벨 + 결론/근거"| Orch
+    Judge -->|"대면/비대면/애매 라벨 + 결론/근거"| Orch
 
     subgraph Stage4 ["Stage 4. Orchestrator Agent"]
         Orch(("<div style='width:160px;height:54px;display:flex;align-items:center;justify-content:center;text-align:center;'>Orchestrator Agent<br/>Gemma 4 26B A4B</div>")):::gemma
-        Tool_Action[["Tool: GIS, 건강보험공단<br/>전자처방전 API"]]:::rule
 
-        Orch -->|"Input: 환자 위치, 조제 약물"| Tool_Action
+        %% 비대면 / 주의 판정 경로 (공통 도구 사용)
+        Tool_Action[["Tool: GIS, 건강보험공단<br/>전자처방전 API"]]:::rule
+        Orch -->|"비대면 · 주의<br/>Input: 환자 위치, 조제 약물"| Tool_Action
         Tool_Action -->|"Output: 1순위 약국 매칭, 재고 상태"| Orch
-        Orch -->|"최종 발송"| Out(["매칭 약국, 결론과 판단 근거 JSON"]):::endpoint
+
+        %% 3-way 최종 출력 (같은 레벨)
+        Orch -->|"대면 판정"| Out_Direct(["결론 및 판단 근거 JSON"]):::endpoint
+        Orch -->|"비대면 최종 발송"| Out_Remote(["결론 및 판단 근거 JSON<br/>+ 약국 정보 및 예상 처방"]):::endpoint
+        Orch -->|"주의 최종 발송"| Out_Caution(["결론 및 판단 근거 JSON<br/>+ 약국 정보 및 예상 처방<br/>(대면 재검토 권고 포함)"]):::endpoint
     end
 
     subgraph MainRAGZone ["Main RAG (공유 지식베이스)"]
@@ -90,7 +95,11 @@ const chartCode = `flowchart TD
 
     Gate -.->|"환자 이력 / 기저질환 참조"| RAG_Main
     Reasoner -.->|"처방이력 / 합병증 참조"| RAG_Main
-    RAG_Main -.->|"법령 / 합병증 기준 참조"| Judge`;
+    RAG_Main -.->|"법령 / 합병증 기준 참조"| Judge
+
+    linkStyle 20 stroke:#00838F,stroke-width:2.5px,color:#00838F
+    linkStyle 21 stroke:#F57F17,stroke-width:2.5px,color:#F57F17
+    linkStyle 22 stroke:#E65100,stroke-width:2.5px,color:#E65100`;
 
 export default function App() {
   const [svg, setSvg] = useState<{ html: string; width: number } | null>(null);

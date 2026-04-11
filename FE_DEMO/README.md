@@ -1,20 +1,19 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# Silver-Sync FE Demo
 
-# Run and deploy your AI Studio app
+의사, 간호사, 환자 역할별 뷰를 포함한 Silver-Sync 프론트엔드 데모입니다.
 
-This contains everything you need to run your app locally.
+## 실행 방법
 
-View your app in AI Studio: https://ai.studio/apps/e1ff7a61-25d7-4f41-b6e7-24f3005f55ab
+**필수 조건:** Node.js
 
-## Run Locally
+1. 의존성 설치:
+   ```bash
+   npm install
+   ```
 
-**Prerequisites:**  Node.js
+2. 개발 서버 실행:
+   ```bash
+   npm run dev
+   ```
 
-
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+3. 브라우저에서 `http://localhost:3000` 접속

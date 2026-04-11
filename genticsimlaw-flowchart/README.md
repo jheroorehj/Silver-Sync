@@ -1,20 +1,19 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# Genetics Simlaw Flowchart
 
-# Run and deploy your AI Studio app
+유전 심폐소생술 법 관련 RAG 처리 흐름을 Mermaid 다이어그램으로 시각화한 앱입니다.
 
-This contains everything you need to run your app locally.
+## 실행 방법
 
-View your app in AI Studio: https://ai.studio/apps/999f5b6f-7588-4736-88b0-197191af43ce
+**필수 조건:** Node.js
 
-## Run Locally
+1. 의존성 설치:
+   ```bash
+   npm install
+   ```
 
-**Prerequisites:**  Node.js
+2. 개발 서버 실행:
+   ```bash
+   npm run dev
+   ```
 
-
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+3. 브라우저에서 `http://localhost:3000` 접속
