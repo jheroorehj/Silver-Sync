@@ -20,3 +20,50 @@ body {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+/* ── Print / PDF Export ──────────────────────────────────────────────── */
+@media print {
+  header, nav, .print\:hidden { display: none !important; }
+  .print\:block { display: block !important; }
+
+  body {
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+    font-size: 11pt;
+  }
+
+  #soap-print-area {
+    overflow: visible !important;
+    height: auto !important;
+    padding: 0 !important;
+  }
+
+  /* Flatten two-column layout to full width */
+  .lg\:w-1\/3,
+  .lg\:w-2\/3 {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* Drop shadows for cleaner print */
+  [class*="shadow"] { box-shadow: none !important; }
+
+  /* Force left-border accent colors to print */
+  .border-l-4 {
+    border-left-width: 4px !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* Prevent page breaks inside cards */
+  [class*="rounded-2xl"],
+  [class*="rounded-3xl"] {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  @page {
+    margin: 20mm 15mm;
+    size: A4;
+  }
+}

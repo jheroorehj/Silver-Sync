@@ -16,72 +16,23 @@ import {
   Info,
   AlertTriangle,
   Video,
-  Stethoscope
+  Stethoscope,
+  Printer,
+  Download,
+  MessageSquare,
+  ClipboardList,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { LineChart, Line, ResponsiveContainer, XAxis, YAxis, Tooltip } from 'recharts';
 import patientsData from '../data/patients.json';
+import { DAYS, STATUS_THEME_MAP } from '../constants';
+import { DocStatusBadge } from './ui/StatusBadge';
+import type { DocPatient, StatusTheme, SoapNote } from '../types';
 
-const patients = patientsData;
-const DAYS = ['월', '화', '수', '목', '금'];
+const patients = patientsData as DocPatient[];
 
-type StatusTheme = {
-  gradient: string;
-  border: string;
-  iconColor: string;
-  labelColor: string;
-  highlightColor: string;
-  detailsButtonColor: string;
-  detailBorder: string;
-  detailBg: string;
-  detailStatColor: string;
-  footerBtn1: string;
-  footerBtn2: string;
-};
+// ── Helpers ───────────────────────────────────────────────────────────────
 
-function getStatusTheme(status: string): StatusTheme {
-  if (status === 'orange') return {
-    gradient: 'from-orange-50 to-amber-50/30',
-    border: 'border-orange-100/50',
-    iconColor: 'text-orange-500',
-    labelColor: 'text-orange-600',
-    highlightColor: 'text-orange-500',
-    detailsButtonColor: 'text-orange-500 hover:text-orange-600',
-    detailBorder: 'border-orange-100',
-    detailBg: 'bg-orange-50/50',
-    detailStatColor: 'text-orange-600',
-    footerBtn1: 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50',
-    footerBtn2: 'bg-orange-500 text-white border-transparent shadow-lg shadow-orange-200/50 hover:bg-orange-600',
-  };
-  if (status === 'amber') return {
-    gradient: 'from-amber-50 to-yellow-50/30',
-    border: 'border-amber-100/50',
-    iconColor: 'text-amber-500',
-    labelColor: 'text-amber-600',
-    highlightColor: 'text-amber-500',
-    detailsButtonColor: 'text-amber-500 hover:text-amber-600',
-    detailBorder: 'border-amber-100',
-    detailBg: 'bg-amber-50/50',
-    detailStatColor: 'text-amber-600',
-    footerBtn1: 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50',
-    footerBtn2: 'bg-amber-500 text-white border-transparent shadow-lg shadow-amber-200/50 hover:bg-amber-600',
-  };
-  return {
-    gradient: 'from-teal-50 to-cyan-50/30',
-    border: 'border-teal-100/50',
-    iconColor: 'text-teal-500',
-    labelColor: 'text-teal-600',
-    highlightColor: 'text-teal-500',
-    detailsButtonColor: 'text-teal-500 hover:text-teal-600',
-    detailBorder: 'border-teal-100',
-    detailBg: 'bg-teal-50/50',
-    detailStatColor: 'text-teal-600',
-    footerBtn1: 'bg-teal-500 text-white border-transparent shadow-lg shadow-teal-200/50 hover:bg-teal-600',
-    footerBtn2: 'bg-white text-teal-600 border-teal-200 hover:bg-teal-50',
-  };
-}
-
-// Safely renders text that contains <span class="font-bold text-slate-900">...</span> markers
 function SafeText({ html }: { html: string }) {
   const parts = html.split(/(<span class="font-bold text-slate-900">.*?<\/span>)/g);
   return (
@@ -96,14 +47,31 @@ function SafeText({ html }: { html: string }) {
   );
 }
 
+function AnomalyHighlightedText({ text, anomalies }: { text: string; anomalies: string[] }) {
+  if (!anomalies || anomalies.length === 0) return <>{text}</>;
+  const parts = text.split(/([\d]+(?:\/[\d]+)?\s*(?:mmHg|mg\/dL))/g);
+  return (
+    <>
+      {parts.map((part, i) => {
+        const bpMatch = part.match(/^(\d+)\/(\d+)\s*mmHg$/);
+        const sugarMatch = part.match(/^(\d+)\s*mg\/dL$/);
+        if (bpMatch && anomalies.includes('bp') && Number(bpMatch[1]) >= 140) {
+          return <span key={i} className="font-bold text-orange-500">{part}</span>;
+        }
+        if (sugarMatch && anomalies.includes('sugar') && Number(sugarMatch[1]) >= 126) {
+          return <span key={i} className="font-bold text-orange-500">{part}</span>;
+        }
+        return <React.Fragment key={i}>{part}</React.Fragment>;
+      })}
+    </>
+  );
+}
+
+// ── VitalCard ─────────────────────────────────────────────────────────────
+
 function VitalCard({
-  isHovered,
-  onMouseEnter,
-  onMouseLeave,
-  chartLabel,
-  chartData,
-  yDomain,
-  children,
+  isHovered, onMouseEnter, onMouseLeave,
+  chartLabel, chartData, yDomain, children,
 }: {
   isHovered: boolean;
   onMouseEnter: () => void;
@@ -114,7 +82,6 @@ function VitalCard({
   children: React.ReactNode;
 }) {
   const chartDataFormatted = chartData.map((v, i) => ({ day: DAYS[i], val: v }));
-
   return (
     <div
       className="bg-sky-50/50 rounded-2xl p-5 border border-sky-100/50 relative overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-sky-100/30 h-40"
@@ -123,13 +90,7 @@ function VitalCard({
     >
       <AnimatePresence mode="wait">
         {isHovered ? (
-          <motion.div
-            key="chart"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            className="h-full flex flex-col"
-          >
+          <motion.div key="chart" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="h-full flex flex-col">
             <span className="text-xs font-bold text-sky-600 mb-2">{chartLabel}</span>
             <div className="flex-1 w-full">
               <ResponsiveContainer width="100%" height="100%">
@@ -143,12 +104,7 @@ function VitalCard({
             </div>
           </motion.div>
         ) : (
-          <motion.div
-            key="info"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-          >
+          <motion.div key="info" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}>
             {children}
           </motion.div>
         )}
@@ -157,83 +113,287 @@ function VitalCard({
   );
 }
 
+// ── SOAP Note View ────────────────────────────────────────────────────────
+
+function SoapNoteView({ patient, theme }: { patient: DocPatient; theme: StatusTheme }) {
+  const soap = patient.soapNote as SoapNote;
+
+  const SOAP_SECTIONS = [
+    {
+      key: 'S', label: 'Subjective', sublabel: '주관적 정보 (환자 호소)',
+      content: soap.subjective,
+      accent: 'border-sky-400', bg: 'bg-sky-50/40',
+      icon: <MessageSquare className="w-5 h-5 text-sky-500" />,
+    },
+    {
+      key: 'O', label: 'Objective', sublabel: '객관적 정보 (측정값)',
+      content: soap.objective,
+      accent: 'border-teal-400', bg: 'bg-teal-50/40',
+      icon: <Activity className="w-5 h-5 text-teal-500" />,
+      anomaly: true,
+    },
+    {
+      key: 'A', label: 'Assessment', sublabel: 'AI 평가',
+      content: soap.assessment,
+      accent: `border-${patient.status === 'orange' ? 'orange' : patient.status === 'amber' ? 'amber' : 'teal'}-400`,
+      bg: `bg-${patient.status === 'orange' ? 'orange' : patient.status === 'amber' ? 'amber' : 'teal'}-50/40`,
+      icon: <Sparkles className={`w-5 h-5 ${theme.iconColor}`} />,
+    },
+    {
+      key: 'P', label: 'Plan', sublabel: '처치 계획',
+      content: soap.plan,
+      accent: 'border-slate-400', bg: 'bg-slate-50/40',
+      icon: <ClipboardList className="w-5 h-5 text-slate-500" />,
+    },
+  ] as const;
+
+  return (
+    <div className="space-y-4">
+      {/* Print-only header */}
+      <div className="hidden print:block mb-6 pb-4 border-b border-slate-200">
+        <h1 className="text-2xl font-extrabold text-slate-900">Silver-Sync SOAP 노트</h1>
+        <p className="text-slate-500 mt-1">{patient.name} ({patient.gender} / {patient.age}세) — {patient.disease}</p>
+        <p className="text-xs text-slate-400 mt-1">출력일: {new Date().toLocaleDateString('ko-KR')}</p>
+      </div>
+
+      {SOAP_SECTIONS.map((section) => (
+        <div key={section.key} className={`rounded-2xl border-l-4 p-6 border border-slate-100/50 ${section.accent} ${section.bg}`}>
+          <div className="flex items-center gap-3 mb-3">
+            <div className="w-8 h-8 rounded-xl bg-white shadow-sm flex items-center justify-center font-extrabold text-slate-700 text-sm">
+              {section.key}
+            </div>
+            {section.icon}
+            <div>
+              <span className="font-extrabold text-slate-800">{section.label}</span>
+              <span className="text-slate-400 text-sm ml-2">{section.sublabel}</span>
+            </div>
+          </div>
+          <p className="text-slate-700 leading-relaxed text-sm">
+            {'anomaly' in section && section.anomaly
+              ? <AnomalyHighlightedText text={section.content} anomalies={soap.anomalies} />
+              : section.content
+            }
+          </p>
+        </div>
+      ))}
+
+      {/* Print/PDF buttons */}
+      <div className="flex gap-3 pt-2 print:hidden">
+        <button
+          onClick={() => window.print()}
+          className="flex items-center gap-2 px-5 py-3 bg-white border border-slate-200 rounded-2xl text-slate-700 font-bold hover:bg-slate-50 transition-colors shadow-sm"
+        >
+          <Printer className="w-4 h-4" strokeWidth={2} />
+          인쇄하기
+        </button>
+        <button
+          onClick={() => window.print()}
+          className="flex items-center gap-2 px-5 py-3 bg-sky-500 text-white rounded-2xl font-bold hover:bg-sky-600 transition-colors shadow-md shadow-sky-200/50"
+        >
+          <Download className="w-4 h-4" strokeWidth={2} />
+          PDF 저장
+        </button>
+      </div>
+    </div>
+  );
+}
+
+// ── AI Recommendation Section ──────────────────────────────────────────────
+
+function AIRecommendationSection({
+  patient, theme, showAiDetails, onToggleDetails,
+}: {
+  patient: DocPatient;
+  theme: StatusTheme;
+  showAiDetails: boolean;
+  onToggleDetails: () => void;
+}) {
+  return (
+    <div className={`rounded-3xl p-6 border relative overflow-hidden bg-gradient-to-br ${theme.gradient} ${theme.border}`}>
+      <div className="absolute top-0 right-0 p-6 opacity-10">
+        {patient.status === 'orange'
+          ? <Stethoscope className={`w-32 h-32 ${theme.iconColor}`} strokeWidth={1} />
+          : patient.status === 'amber'
+          ? <AlertTriangle className={`w-32 h-32 ${theme.iconColor}`} strokeWidth={1} />
+          : <Video className={`w-32 h-32 ${theme.iconColor}`} strokeWidth={1} />
+        }
+      </div>
+      <div className="relative z-10">
+        <div className="flex items-center gap-2 mb-4">
+          <Sparkles className={`w-5 h-5 ${theme.iconColor}`} strokeWidth={2} />
+          <span className={`font-bold tracking-wide ${theme.labelColor}`}>AI 분석 결과</span>
+        </div>
+        <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-4">
+          {patient.aiRecommendation.title}<br/>
+          <span className={theme.highlightColor}>{patient.aiRecommendation.highlight}</span>됩니다.
+        </h2>
+        <div className="space-y-4">
+          {patient.aiRecommendation.reasons.map((reason, idx) => (
+            <div key={idx} className="flex items-start gap-3">
+              <div className={`w-6 h-6 rounded-full flex items-center justify-center shrink-0 mt-0.5 ${reason.type === 'check' ? 'bg-teal-100' : 'bg-orange-100'}`}>
+                {reason.type === 'up'    && <ArrowUpRight className="w-3.5 h-3.5 text-orange-600" strokeWidth={2.5} />}
+                {reason.type === 'alert' && <AlertCircle  className="w-3.5 h-3.5 text-orange-600" strokeWidth={2.5} />}
+                {reason.type === 'check' && <CheckCircle2 className="w-3.5 h-3.5 text-teal-600"   strokeWidth={2.5} />}
+              </div>
+              <p className="text-slate-700 text-lg leading-relaxed"><SafeText html={reason.text} /></p>
+            </div>
+          ))}
+        </div>
+        <div className="mt-2">
+          <button
+            onClick={onToggleDetails}
+            className={`flex items-center gap-2 font-bold transition-colors ml-auto bg-transparent px-2 py-1 rounded-xl ${theme.detailsButtonColor}`}
+          >
+            {showAiDetails ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+            상세 보기
+          </button>
+          <AnimatePresence>
+            {showAiDetails && (
+              <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden">
+                <div className={`mt-6 p-6 bg-white/60 rounded-2xl border space-y-4 ${theme.detailBorder}`}>
+                  <div className="flex items-center gap-2 text-slate-800 font-bold">
+                    <Info className={`w-4 h-4 ${theme.iconColor}`} />
+                    <span>다변수 맥락 추론 상세</span>
+                  </div>
+                  <p className="text-slate-600 text-sm leading-relaxed">{patient.aiRecommendation.details}</p>
+                  <div className="grid grid-cols-2 gap-4 pt-2">
+                    {patient.aiRecommendation.stats.map((stat, idx) => (
+                      <div key={idx} className={`p-3 rounded-xl ${theme.detailBg}`}>
+                        <span className={`text-xs font-bold block mb-1 ${theme.detailStatColor}`}>{stat.label}</span>
+                        <span className="text-sm font-bold text-slate-800">{stat.value}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── Vitals Section ────────────────────────────────────────────────────────
+
+function VitalsSection({ patient, hoveredVital, onHover }: {
+  patient: DocPatient;
+  hoveredVital: string | null;
+  onHover: (key: string | null) => void;
+}) {
+  return (
+    <div>
+      <h3 className="text-lg font-bold text-slate-800 mb-4 px-1">최근 바이탈 요약</h3>
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <VitalCard isHovered={hoveredVital === 'bp'} onMouseEnter={() => onHover('bp')} onMouseLeave={() => onHover(null)} chartLabel="혈압 추이 (5일)" chartData={patient.vitals.bp.data} yDomain={['dataMin - 10', 'dataMax + 10']}>
+          <div className="flex items-center gap-2 mb-3 text-slate-500"><HeartPulse className="w-4 h-4" strokeWidth={2} /><span className="font-semibold text-sm">혈압 (mmHg)</span></div>
+          <div className="flex items-end gap-2">
+            <span className="text-3xl font-extrabold text-slate-900 tracking-tighter">
+              {patient.vitals.bp.current.split('/')[0]}
+              <span className="text-xl text-slate-400 font-medium">/{patient.vitals.bp.current.split('/')[1]}</span>
+            </span>
+          </div>
+          <p className={`text-sm font-medium mt-2 flex items-center ${patient.vitals.bp.trendUp ? 'text-orange-500' : 'text-teal-500'}`}>
+            {patient.vitals.bp.trendUp && <ArrowUpRight className="w-3 h-3 mr-1" strokeWidth={2.5} />}
+            {patient.vitals.bp.trend}
+          </p>
+        </VitalCard>
+
+        <VitalCard isHovered={hoveredVital === 'sugar'} onMouseEnter={() => onHover('sugar')} onMouseLeave={() => onHover(null)} chartLabel="혈당 추이 (5일)" chartData={patient.vitals.sugar.data} yDomain={['dataMin - 10', 'dataMax + 10']}>
+          <div className="flex items-center gap-2 mb-3 text-slate-500"><Activity className="w-4 h-4" strokeWidth={2} /><span className="font-semibold text-sm">공복혈당 (mg/dL)</span></div>
+          <div className="flex items-end gap-2"><span className="text-3xl font-extrabold text-slate-900 tracking-tighter">{patient.vitals.sugar.current}</span></div>
+          <p className={`text-sm font-medium mt-2 flex items-center ${patient.vitals.sugar.trendUp ? 'text-orange-500' : 'text-teal-500'}`}>
+            {patient.vitals.sugar.status}
+          </p>
+        </VitalCard>
+
+        <VitalCard isHovered={hoveredVital === 'adherence'} onMouseEnter={() => onHover('adherence')} onMouseLeave={() => onHover(null)} chartLabel="복약 순응도 (5일)" chartData={patient.vitals.adherence.data} yDomain={[0, 110]}>
+          <div className="flex items-center gap-2 mb-3 text-slate-500"><Pill className="w-4 h-4" strokeWidth={2} /><span className="font-semibold text-sm">복약 순응도</span></div>
+          <div className="flex items-end gap-2">
+            <span className="text-3xl font-extrabold text-slate-900 tracking-tighter">
+              {patient.vitals.adherence.current}
+              <span className="text-xl text-slate-400 font-medium">%</span>
+            </span>
+          </div>
+          <p className="text-sm text-slate-500 font-medium mt-2">최근 7일 기준</p>
+        </VitalCard>
+      </div>
+    </div>
+  );
+}
+
+// ── Patient List Panel ────────────────────────────────────────────────────
+
+function PatientListPanel({ selectedPatientId, onSelect }: {
+  selectedPatientId: number;
+  onSelect: (id: number) => void;
+}) {
+  return (
+    <div className="w-full lg:w-1/3 flex flex-col h-full">
+      <div className="flex items-center justify-between mb-6 px-2">
+        <h2 className="text-xl font-extrabold text-slate-800 tracking-tight">대기 환자</h2>
+        <span className="bg-cyan-100 text-cyan-700 px-3 py-1 rounded-full text-sm font-bold">총 {patients.length}명</span>
+      </div>
+      <div className="flex-1 overflow-y-auto pr-2 space-y-4 pb-8">
+        {patients.map((patient) => (
+          <button
+            key={patient.id}
+            onClick={() => onSelect(patient.id)}
+            className={`w-full text-left p-5 rounded-3xl transition-all duration-300 border ${
+              selectedPatientId === patient.id
+                ? 'bg-white border-sky-200 shadow-lg shadow-sky-100/60 ring-1 ring-sky-100'
+                : 'bg-white/40 border-transparent hover:bg-white/80 hover:shadow-md hover:shadow-sky-100/30'
+            }`}
+          >
+            <div className="flex justify-between items-start mb-3">
+              <div className="flex items-center gap-3">
+                <DocStatusBadge status={patient.status} />
+                <span className="text-lg font-bold text-slate-900">{patient.name}</span>
+                <span className="text-sm font-medium text-slate-500">{patient.gender}/{patient.age}</span>
+              </div>
+              <div className="flex items-center text-slate-400 text-sm font-medium">
+                <Clock className="w-3.5 h-3.5 mr-1" strokeWidth={2} />
+                {patient.time}
+              </div>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-sm text-slate-500 bg-slate-100/80 px-3 py-1 rounded-full">{patient.disease}</span>
+              {selectedPatientId === patient.id && <ChevronRight className="w-5 h-5 text-cyan-500" strokeWidth={2} />}
+            </div>
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ── Main Dashboard ─────────────────────────────────────────────────────────
+
 export default function DoctorDashboard() {
   const [selectedPatientId, setSelectedPatientId] = useState(1);
   const [showAiDetails, setShowAiDetails] = useState(false);
   const [hoveredVital, setHoveredVital] = useState<string | null>(null);
+  const [activePanel, setActivePanel] = useState<'ai' | 'soap'>('ai');
 
   const selectedPatient = patients.find(p => p.id === selectedPatientId) || patients[0];
-  const theme = getStatusTheme(selectedPatient.status);
+  const theme = STATUS_THEME_MAP[selectedPatient.status];
 
   useEffect(() => {
     setShowAiDetails(false);
+    setActivePanel('ai');
   }, [selectedPatientId]);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 h-[calc(100vh-5rem)] flex flex-col lg:flex-row gap-8">
 
-      {/* Left Column: Patient List */}
-      <div className="w-full lg:w-1/3 flex flex-col h-full">
-        <div className="flex items-center justify-between mb-6 px-2">
-          <h2 className="text-xl font-extrabold text-slate-800 tracking-tight">대기 환자</h2>
-          <span className="bg-cyan-100 text-cyan-700 px-3 py-1 rounded-full text-sm font-bold">총 {patients.length}명</span>
-        </div>
+      <PatientListPanel selectedPatientId={selectedPatientId} onSelect={setSelectedPatientId} />
 
-        <div className="flex-1 overflow-y-auto pr-2 space-y-4 pb-8">
-          {patients.map((patient) => (
-            <button
-              key={patient.id}
-              onClick={() => setSelectedPatientId(patient.id)}
-              className={`w-full text-left p-5 rounded-3xl transition-all duration-300 border ${
-                selectedPatientId === patient.id
-                  ? 'bg-white border-sky-200 shadow-lg shadow-sky-100/60 ring-1 ring-sky-100'
-                  : 'bg-white/40 border-transparent hover:bg-white/80 hover:shadow-md hover:shadow-sky-100/30'
-              }`}
-            >
-              <div className="flex justify-between items-start mb-3">
-                <div className="flex items-center gap-3">
-                  <div className={`flex items-center gap-1.5 px-2 py-0.5 rounded-full border ${
-                    patient.status === 'orange' ? 'bg-orange-50 border-orange-200 text-orange-600' :
-                    patient.status === 'amber' ? 'bg-amber-50 border-amber-200 text-amber-600' :
-                    'bg-teal-50 border-teal-200 text-teal-600'
-                  }`}>
-                    <div className={`w-1.5 h-1.5 rounded-full ${
-                      patient.status === 'orange' ? 'bg-orange-500' :
-                      patient.status === 'amber' ? 'bg-amber-500' :
-                      'bg-teal-500'
-                    }`} />
-                    <span className="text-[10px] font-bold whitespace-nowrap">
-                      {patient.status === 'orange' ? '대면권고' :
-                       patient.status === 'amber' ? '주의' : '비대면'}
-                    </span>
-                  </div>
-                  <span className="text-lg font-bold text-slate-900">{patient.name}</span>
-                  <span className="text-sm font-medium text-slate-500">{patient.gender}/{patient.age}</span>
-                </div>
-                <div className="flex items-center text-slate-400 text-sm font-medium">
-                  <Clock className="w-3.5 h-3.5 mr-1" strokeWidth={2} />
-                  {patient.time}
-                </div>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-slate-500 bg-slate-100/80 px-3 py-1 rounded-full">
-                  {patient.disease}
-                </span>
-                {selectedPatientId === patient.id && (
-                  <ChevronRight className="w-5 h-5 text-cyan-500" strokeWidth={2} />
-                )}
-              </div>
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Right Column: Main AI Card */}
+      {/* Right Column */}
       <div className="w-full lg:w-2/3 flex flex-col h-full">
         <div className="bg-white/70 backdrop-blur-2xl rounded-[32px] border border-white shadow-xl shadow-sky-100/50 flex-1 overflow-hidden flex flex-col">
 
           {/* Header */}
-          <div className="p-8 pb-6 border-b border-sky-50/50 flex justify-between items-center">
+          <div className="p-8 pb-6 border-b border-sky-50/50 flex justify-between items-center print:hidden">
             <div>
               <div className="flex items-center gap-3 mb-2">
                 <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">{selectedPatient.name}</h1>
@@ -255,170 +415,50 @@ export default function DoctorDashboard() {
             </div>
           </div>
 
-          <div className="flex-1 overflow-y-auto p-8 space-y-8">
+          {/* Tab Bar */}
+          <div className="px-8 pt-3 flex gap-1 border-b border-sky-50/50 print:hidden">
+            {([
+              { id: 'ai',   label: 'AI 분석',   icon: <Sparkles  className="w-4 h-4" /> },
+              { id: 'soap', label: 'SOAP 노트', icon: <FileText  className="w-4 h-4" /> },
+            ] as const).map(tab => (
+              <button
+                key={tab.id}
+                onClick={() => setActivePanel(tab.id)}
+                className={`px-5 py-2.5 rounded-t-2xl text-sm font-bold flex items-center gap-2 border-b-2 transition-all ${
+                  activePanel === tab.id
+                    ? 'text-sky-600 border-sky-400 bg-sky-50/50'
+                    : 'text-slate-400 border-transparent hover:text-slate-600'
+                }`}
+              >
+                {tab.icon}{tab.label}
+              </button>
+            ))}
+          </div>
 
-            {/* AI Recommendation Hero */}
-            <div className={`rounded-3xl p-6 border relative overflow-hidden bg-gradient-to-br ${theme.gradient} ${theme.border}`}>
-              <div className="absolute top-0 right-0 p-6 opacity-10">
-                {selectedPatient.status === 'orange' ? (
-                  <Stethoscope className={`w-32 h-32 ${theme.iconColor}`} strokeWidth={1} />
-                ) : selectedPatient.status === 'amber' ? (
-                  <AlertTriangle className={`w-32 h-32 ${theme.iconColor}`} strokeWidth={1} />
-                ) : (
-                  <Video className={`w-32 h-32 ${theme.iconColor}`} strokeWidth={1} />
-                )}
+          {/* Scrollable Content */}
+          <div id="soap-print-area" className="flex-1 overflow-y-auto p-8 space-y-8">
+            {activePanel === 'ai' ? (
+              <>
+                <AIRecommendationSection
+                  patient={selectedPatient}
+                  theme={theme}
+                  showAiDetails={showAiDetails}
+                  onToggleDetails={() => setShowAiDetails(v => !v)}
+                />
+                <VitalsSection patient={selectedPatient} hoveredVital={hoveredVital} onHover={setHoveredVital} />
+              </>
+            ) : selectedPatient.soapNote ? (
+              <SoapNoteView patient={selectedPatient} theme={theme} />
+            ) : (
+              <div className="flex flex-col items-center justify-center h-full text-slate-400 gap-3">
+                <ClipboardList className="w-12 h-12 opacity-30" />
+                <p className="font-bold">SOAP 노트 데이터가 없습니다.</p>
               </div>
-
-              <div className="relative z-10">
-                <div className="flex items-center gap-2 mb-4">
-                  <Sparkles className={`w-5 h-5 ${theme.iconColor}`} strokeWidth={2} />
-                  <span className={`font-bold tracking-wide ${theme.labelColor}`}>AI 분석 결과</span>
-                </div>
-                <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-4">
-                  {selectedPatient.aiRecommendation.title}<br/>
-                  <span className={theme.highlightColor}>
-                    {selectedPatient.aiRecommendation.highlight}
-                  </span>됩니다.
-                </h2>
-
-                <div className="space-y-4">
-                  {selectedPatient.aiRecommendation.reasons.map((reason, idx) => (
-                    <div key={idx} className="flex items-start gap-3">
-                      <div className={`w-6 h-6 rounded-full flex items-center justify-center shrink-0 mt-0.5 ${
-                        reason.type === 'check' ? 'bg-teal-100' : 'bg-orange-100'
-                      }`}>
-                        {reason.type === 'up' && <ArrowUpRight className="w-3.5 h-3.5 text-orange-600" strokeWidth={2.5} />}
-                        {reason.type === 'alert' && <AlertCircle className="w-3.5 h-3.5 text-orange-600" strokeWidth={2.5} />}
-                        {reason.type === 'check' && <CheckCircle2 className="w-3.5 h-3.5 text-teal-600" strokeWidth={2.5} />}
-                      </div>
-                      <p className="text-slate-700 text-lg leading-relaxed">
-                        <SafeText html={reason.text} />
-                      </p>
-                    </div>
-                  ))}
-                </div>
-
-                {/* AI Detail Section */}
-                <div className="mt-2">
-                  <button
-                    onClick={() => setShowAiDetails(!showAiDetails)}
-                    className={`flex items-center gap-2 font-bold transition-colors ml-auto bg-transparent px-2 py-1 rounded-xl ${theme.detailsButtonColor}`}
-                  >
-                    {showAiDetails ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-                    상세 보기
-                  </button>
-
-                  <AnimatePresence>
-                    {showAiDetails && (
-                      <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: 'auto', opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        className="overflow-hidden"
-                      >
-                        <div className={`mt-6 p-6 bg-white/60 rounded-2xl border space-y-4 ${theme.detailBorder}`}>
-                          <div className="flex items-center gap-2 text-slate-800 font-bold">
-                            <Info className={`w-4 h-4 ${theme.iconColor}`} />
-                            <span>다변수 맥락 추론 상세</span>
-                          </div>
-                          <p className="text-slate-600 text-sm leading-relaxed">
-                            {selectedPatient.aiRecommendation.details}
-                          </p>
-                          <div className="grid grid-cols-2 gap-4 pt-2">
-                            {selectedPatient.aiRecommendation.stats.map((stat, idx) => (
-                              <div key={idx} className={`p-3 rounded-xl ${theme.detailBg}`}>
-                                <span className={`text-xs font-bold block mb-1 ${theme.detailStatColor}`}>{stat.label}</span>
-                                <span className="text-sm font-bold text-slate-800">{stat.value}</span>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-              </div>
-            </div>
-
-            {/* Vitals Summary */}
-            <div>
-              <h3 className="text-lg font-bold text-slate-800 mb-4 px-1">최근 바이탈 요약</h3>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <VitalCard
-                  isHovered={hoveredVital === 'bp'}
-                  onMouseEnter={() => setHoveredVital('bp')}
-                  onMouseLeave={() => setHoveredVital(null)}
-                  chartLabel="혈압 추이 (5일)"
-                  chartData={selectedPatient.vitals.bp.data}
-                  yDomain={['dataMin - 10', 'dataMax + 10']}
-                >
-                  <div className="flex items-center gap-2 mb-3 text-slate-500">
-                    <HeartPulse className="w-4 h-4" strokeWidth={2} />
-                    <span className="font-semibold text-sm">혈압 (mmHg)</span>
-                  </div>
-                  <div className="flex items-end gap-2">
-                    <span className="text-3xl font-extrabold text-slate-900 tracking-tighter">
-                      {selectedPatient.vitals.bp.current.split('/')[0]}
-                      <span className="text-xl text-slate-400 font-medium">/{selectedPatient.vitals.bp.current.split('/')[1]}</span>
-                    </span>
-                  </div>
-                  <p className={`text-sm font-medium mt-2 flex items-center ${selectedPatient.vitals.bp.trendUp ? 'text-orange-500' : 'text-teal-500'}`}>
-                    {selectedPatient.vitals.bp.trendUp && <ArrowUpRight className="w-3 h-3 mr-1" strokeWidth={2.5} />}
-                    {selectedPatient.vitals.bp.trend}
-                  </p>
-                </VitalCard>
-
-                <VitalCard
-                  isHovered={hoveredVital === 'sugar'}
-                  onMouseEnter={() => setHoveredVital('sugar')}
-                  onMouseLeave={() => setHoveredVital(null)}
-                  chartLabel="혈당 추이 (5일)"
-                  chartData={selectedPatient.vitals.sugar.data}
-                  yDomain={['dataMin - 10', 'dataMax + 10']}
-                >
-                  <div className="flex items-center gap-2 mb-3 text-slate-500">
-                    <Activity className="w-4 h-4" strokeWidth={2} />
-                    <span className="font-semibold text-sm">공복혈당 (mg/dL)</span>
-                  </div>
-                  <div className="flex items-end gap-2">
-                    <span className="text-3xl font-extrabold text-slate-900 tracking-tighter">
-                      {selectedPatient.vitals.sugar.current}
-                    </span>
-                  </div>
-                  <p className={`text-sm font-medium mt-2 flex items-center ${selectedPatient.vitals.sugar.trendUp ? 'text-orange-500' : 'text-teal-500'}`}>
-                    {selectedPatient.vitals.sugar.status}
-                  </p>
-                </VitalCard>
-
-                <VitalCard
-                  isHovered={hoveredVital === 'adherence'}
-                  onMouseEnter={() => setHoveredVital('adherence')}
-                  onMouseLeave={() => setHoveredVital(null)}
-                  chartLabel="복약 순응도 (5일)"
-                  chartData={selectedPatient.vitals.adherence.data}
-                  yDomain={[0, 110]}
-                >
-                  <div className="flex items-center gap-2 mb-3 text-slate-500">
-                    <Pill className="w-4 h-4" strokeWidth={2} />
-                    <span className="font-semibold text-sm">복약 순응도</span>
-                  </div>
-                  <div className="flex items-end gap-2">
-                    <span className="text-3xl font-extrabold text-slate-900 tracking-tighter">
-                      {selectedPatient.vitals.adherence.current}
-                      <span className="text-xl text-slate-400 font-medium">%</span>
-                    </span>
-                  </div>
-                  <p className="text-sm text-slate-500 font-medium mt-2 flex items-center">
-                    최근 7일 기준
-                  </p>
-                </VitalCard>
-              </div>
-            </div>
-
+            )}
           </div>
 
           {/* Footer Actions */}
-          <div className="p-6 border-t border-sky-50/50 bg-white/50 flex gap-4">
+          <div className="p-6 border-t border-sky-50/50 bg-white/50 flex gap-4 print:hidden">
             <button className={`flex-1 font-bold py-4 rounded-2xl transition-all text-lg border ${theme.footerBtn1}`}>
               기존 처방 유지
             </button>

@@ -1,84 +1,78 @@
 import React, { useState, useEffect } from 'react';
 import {
-  HeartPulse, Activity, Pill, Check, Plus, Minus, User, Stethoscope,
+  HeartPulse, Activity, Pill, Check, Plus, Minus, Stethoscope,
   Sparkles, ClipboardEdit, CalendarSync, UserPlus, CheckCircle2, Clock,
-  ChevronLeft, ChevronRight, X
+  ChevronLeft, ChevronRight, X, MessageSquare,
 } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
+import patientsData from '../data/patients.json';
+import { OBSERVATION_CHIPS } from '../constants';
+import { NurseStatusAvatar } from './ui/StatusBadge';
+import NumberSpinner from './ui/NumberSpinner';
+import type { NursePatient, DocPatient, ConversationSummary } from '../types';
 
-// --- Types & Mock Data ---
-type Patient = {
-  id: string;
-  name: string;
-  age: number;
-  gender: string;
-  time: string;
-  status: 'pending' | 'completed';
-};
+const docPatients = patientsData as DocPatient[];
+
+// ── Types ─────────────────────────────────────────────────────────────────
 
 type ScheduleViewProps = {
-  patients: Patient[];
+  patients: NursePatient[];
   onLoadSchedule: () => void;
-  onStartChecklist: (patient: Patient) => void;
+  onStartChecklist: (patient: NursePatient) => void;
   onOpenAddModal: () => void;
   isLoading: boolean;
 };
 
 type AddPatientModalProps = {
   onClose: () => void;
-  onAdd: (patient: Omit<Patient, 'id' | 'status'>) => void;
+  onAdd: (patient: Omit<NursePatient, 'id' | 'status'>) => void;
 };
 
-const INITIAL_PATIENTS: Patient[] = [
+// ── Mock Data ─────────────────────────────────────────────────────────────
+
+const INITIAL_PATIENTS: NursePatient[] = [
   { id: '1', name: '김덕배', age: 72, gender: '남', time: '09:30', status: 'completed' },
   { id: '2', name: '이순자', age: 68, gender: '여', time: '11:00', status: 'pending' },
   { id: '3', name: '박상철', age: 75, gender: '남', time: '13:30', status: 'pending' },
 ];
 
-const OBSERVATION_CHIPS = [
-  '안색 양호', '부종 관찰', '인지 저하 의심', '거동 불편',
-  '식욕 부진', '수면 장애', '어지러움 호소', '호흡 가쁨', '피부 건조'
-];
+// ── Main Container ────────────────────────────────────────────────────────
 
-// --- Main Container Component ---
 export default function NurseMain() {
   const [view, setView] = useState<'schedule' | 'checklist'>('schedule');
-  const [patients, setPatients] = useState<Patient[]>([]);
-  const [selectedPatient, setSelectedPatient] = useState<Patient | null>(null);
+  const [patients, setPatients] = useState<NursePatient[]>([]);
+  const [selectedPatient, setSelectedPatient] = useState<NursePatient | null>(null);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    loadSchedule();
-  }, []);
+  useEffect(() => { loadSchedule(); }, []);
 
   const loadSchedule = () => {
     setIsLoading(true);
-    setTimeout(() => {
-      setPatients(INITIAL_PATIENTS);
-      setIsLoading(false);
-    }, 600);
+    setTimeout(() => { setPatients(INITIAL_PATIENTS); setIsLoading(false); }, 600);
   };
 
-  const handleStartChecklist = (patient: Patient) => {
+  const handleStartChecklist = (patient: NursePatient) => {
     setSelectedPatient(patient);
     setView('checklist');
   };
 
   const handleCompleteChecklist = () => {
     if (selectedPatient) {
-      setPatients(prev => prev.map(p =>
-        p.id === selectedPatient.id ? { ...p, status: 'completed' } : p
-      ));
+      setPatients(prev => prev.map(p => p.id === selectedPatient.id ? { ...p, status: 'completed' } : p));
     }
     setView('schedule');
     setSelectedPatient(null);
   };
 
-  const handleAddPatient = (newPatient: Omit<Patient, 'id' | 'status'>) => {
-    const patient: Patient = {
+  const handleAddPatient = (newPatient: Omit<NursePatient, 'id' | 'status'>) => {
+    const now = new Date();
+    const timeString = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+    const patient: NursePatient = {
       ...newPatient,
+      time: `현장추가 (${timeString})`,
       id: Math.random().toString(36).substring(2, 11),
-      status: 'pending'
+      status: 'pending',
     };
     setPatients(prev => [...prev, patient]);
     setIsAddModalOpen(false);
@@ -95,24 +89,17 @@ export default function NurseMain() {
           isLoading={isLoading}
         />
       ) : (
-        <ChecklistForm
-          patient={selectedPatient!}
-          onBack={() => setView('schedule')}
-          onComplete={handleCompleteChecklist}
-        />
+        <ChecklistForm patient={selectedPatient!} onBack={() => setView('schedule')} onComplete={handleCompleteChecklist} />
       )}
-
       {isAddModalOpen && (
-        <AddPatientModal
-          onClose={() => setIsAddModalOpen(false)}
-          onAdd={handleAddPatient}
-        />
+        <AddPatientModal onClose={() => setIsAddModalOpen(false)} onAdd={handleAddPatient} />
       )}
     </div>
   );
 }
 
-// --- Schedule View Component ---
+// ── Schedule View ─────────────────────────────────────────────────────────
+
 function ScheduleView({ patients, onLoadSchedule, onStartChecklist, onOpenAddModal, isLoading }: ScheduleViewProps) {
   const completedCount = patients.filter(p => p.status === 'completed').length;
   const totalCount = patients.length;
@@ -120,7 +107,6 @@ function ScheduleView({ patients, onLoadSchedule, onStartChecklist, onOpenAddMod
 
   return (
     <div className="pb-24">
-      {/* Header */}
       <div className="bg-white px-4 sm:px-8 pt-8 pb-6 rounded-b-[40px] shadow-sm shadow-sky-100/50 mb-6 sticky top-0 z-30">
         <div className="max-w-3xl mx-auto">
           <div className="flex justify-between items-end mb-6">
@@ -138,19 +124,12 @@ function ScheduleView({ patients, onLoadSchedule, onStartChecklist, onOpenAddMod
               <span className="absolute text-sm font-bold text-slate-700">{Math.round(progress)}%</span>
             </div>
           </div>
-
           <div className="flex gap-3">
-            <button
-              onClick={onLoadSchedule}
-              className="flex-1 bg-sky-50 hover:bg-sky-100 text-sky-700 h-14 rounded-2xl font-bold flex items-center justify-center gap-2 transition-colors"
-            >
+            <button onClick={onLoadSchedule} className="flex-1 bg-sky-50 hover:bg-sky-100 text-sky-700 h-14 rounded-2xl font-bold flex items-center justify-center gap-2 transition-colors">
               <CalendarSync className={`w-5 h-5 ${isLoading ? 'animate-spin' : ''}`} strokeWidth={2.5} />
               일정 동기화
             </button>
-            <button
-              onClick={onOpenAddModal}
-              className="flex-1 bg-white border-2 border-sky-200 hover:border-sky-300 text-sky-600 h-14 rounded-2xl font-bold flex items-center justify-center gap-2 transition-colors shadow-sm"
-            >
+            <button onClick={onOpenAddModal} className="flex-1 bg-white border-2 border-sky-200 hover:border-sky-300 text-sky-600 h-14 rounded-2xl font-bold flex items-center justify-center gap-2 transition-colors shadow-sm">
               <UserPlus className="w-5 h-5" strokeWidth={2.5} />
               현장 추가
             </button>
@@ -158,7 +137,6 @@ function ScheduleView({ patients, onLoadSchedule, onStartChecklist, onOpenAddMod
         </div>
       </div>
 
-      {/* Patient List */}
       <div className="max-w-3xl mx-auto px-4 sm:px-6 space-y-4">
         {patients.map((patient) => (
           <button
@@ -171,20 +149,11 @@ function ScheduleView({ patients, onLoadSchedule, onStartChecklist, onOpenAddMod
             }`}
           >
             <div className="flex items-center gap-5">
-              <div className={`w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 ${
-                patient.status === 'completed' ? 'bg-teal-100 text-teal-600' : 'bg-sky-100 text-sky-600'
-              }`}>
-                {patient.status === 'completed'
-                  ? <CheckCircle2 className="w-7 h-7" strokeWidth={2.5} />
-                  : <User className="w-7 h-7" strokeWidth={2.5} />
-                }
-              </div>
+              <NurseStatusAvatar status={patient.status} />
               <div>
                 <div className="flex items-center gap-3 mb-1">
                   <span className="text-2xl font-extrabold text-slate-900">{patient.name}</span>
-                  <span className="text-slate-500 font-semibold bg-slate-100 px-2 py-0.5 rounded-lg text-sm">
-                    {patient.gender}/{patient.age}
-                  </span>
+                  <span className="text-slate-500 font-semibold bg-slate-100 px-2 py-0.5 rounded-lg text-sm">{patient.gender}/{patient.age}</span>
                 </div>
                 <div className="flex items-center text-slate-500 font-medium">
                   <Clock className="w-4 h-4 mr-1.5" strokeWidth={2} />
@@ -192,10 +161,7 @@ function ScheduleView({ patients, onLoadSchedule, onStartChecklist, onOpenAddMod
                 </div>
               </div>
             </div>
-
-            <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
-              patient.status === 'completed' ? 'bg-slate-200/50 text-slate-500' : 'bg-sky-50 text-sky-500'
-            }`}>
+            <div className={`w-12 h-12 rounded-full flex items-center justify-center ${patient.status === 'completed' ? 'bg-slate-200/50 text-slate-500' : 'bg-sky-50 text-sky-500'}`}>
               <ChevronRight className="w-6 h-6" strokeWidth={3} />
             </div>
           </button>
@@ -205,7 +171,8 @@ function ScheduleView({ patients, onLoadSchedule, onStartChecklist, onOpenAddMod
   );
 }
 
-// --- Add Patient Modal ---
+// ── Add Patient Modal ─────────────────────────────────────────────────────
+
 function AddPatientModal({ onClose, onAdd }: AddPatientModalProps) {
   const [name, setName] = useState('');
   const [age, setAge] = useState('');
@@ -214,11 +181,7 @@ function AddPatientModal({ onClose, onAdd }: AddPatientModalProps) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!name || !age) return;
-
-    const now = new Date();
-    const timeString = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
-
-    onAdd({ name, age: Number(age), gender, time: `현장추가 (${timeString})` });
+    onAdd({ name, age: Number(age), gender });
   };
 
   return (
@@ -230,30 +193,17 @@ function AddPatientModal({ onClose, onAdd }: AddPatientModalProps) {
             <X className="w-6 h-6" strokeWidth={2.5} />
           </button>
         </div>
-
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <label className="block text-slate-700 font-bold mb-2">환자 성함</label>
-            <input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="예: 홍길동"
-              className="w-full h-16 bg-sky-50/50 border border-sky-100 rounded-2xl px-6 text-xl font-bold text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:bg-white transition-all"
-              autoFocus
-            />
+            <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="예: 홍길동"
+              className="w-full h-16 bg-sky-50/50 border border-sky-100 rounded-2xl px-6 text-xl font-bold text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:bg-white transition-all" autoFocus />
           </div>
-
           <div className="flex gap-4">
             <div className="flex-1">
               <label className="block text-slate-700 font-bold mb-2">연령</label>
-              <input
-                type="number"
-                value={age}
-                onChange={(e) => setAge(e.target.value)}
-                placeholder="예: 75"
-                className="w-full h-16 bg-sky-50/50 border border-sky-100 rounded-2xl px-6 text-xl font-bold text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:bg-white transition-all"
-              />
+              <input type="number" value={age} onChange={(e) => setAge(e.target.value)} placeholder="예: 75"
+                className="w-full h-16 bg-sky-50/50 border border-sky-100 rounded-2xl px-6 text-xl font-bold text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:bg-white transition-all" />
             </div>
             <div className="flex-1">
               <label className="block text-slate-700 font-bold mb-2">성별</label>
@@ -263,12 +213,8 @@ function AddPatientModal({ onClose, onAdd }: AddPatientModalProps) {
               </div>
             </div>
           </div>
-
-          <button
-            type="submit"
-            disabled={!name || !age}
-            className="w-full h-16 mt-4 bg-sky-500 hover:bg-sky-600 disabled:bg-slate-200 disabled:text-slate-400 text-white rounded-2xl text-xl font-extrabold shadow-lg shadow-sky-200/50 transition-all"
-          >
+          <button type="submit" disabled={!name || !age}
+            className="w-full h-16 mt-4 bg-sky-500 hover:bg-sky-600 disabled:bg-slate-200 disabled:text-slate-400 text-white rounded-2xl text-xl font-extrabold shadow-lg shadow-sky-200/50 transition-all">
             추가하기
           </button>
         </form>
@@ -277,8 +223,217 @@ function AddPatientModal({ onClose, onAdd }: AddPatientModalProps) {
   );
 }
 
-// --- Checklist Form Component ---
-function ChecklistForm({ patient, onBack, onComplete }: { patient: Patient; onBack: () => void; onComplete: () => void }) {
+// ── Checklist Sections ────────────────────────────────────────────────────
+
+function SectionHeader({ icon, title }: { icon: React.ReactNode; title: string }) {
+  return (
+    <div className="flex items-center gap-3 mb-6">
+      <div className="p-2.5 bg-sky-50 rounded-2xl">{icon}</div>
+      <h2 className="text-xl font-extrabold text-slate-900">{title}</h2>
+    </div>
+  );
+}
+
+function VitalsSection({ systolic, setSystolic, diastolic, setDiastolic, bloodSugar, setBloodSugar }: {
+  systolic: number | ''; setSystolic: (v: number | '') => void;
+  diastolic: number | ''; setDiastolic: (v: number | '') => void;
+  bloodSugar: number | ''; setBloodSugar: (v: number | '') => void;
+}) {
+  return (
+    <section className="bg-white rounded-[32px] p-6 sm:p-8 shadow-sm shadow-sky-100/40 border border-sky-100">
+      <SectionHeader icon={<HeartPulse className="w-6 h-6 text-sky-500" strokeWidth={2.5} />} title="바이탈 사인" />
+      <div className="space-y-8">
+        <div>
+          <label className="block text-slate-500 font-bold mb-4 text-lg">혈압 (mmHg)</label>
+          <div className="flex flex-col sm:flex-row gap-4 sm:gap-8">
+            <NumberSpinner label="수축기" value={systolic} onChange={setSystolic} step={5} />
+            <NumberSpinner label="이완기" value={diastolic} onChange={setDiastolic} step={5} />
+          </div>
+        </div>
+        <div>
+          <label className="block text-slate-500 font-bold mb-4 text-lg">공복 혈당 (mg/dL)</label>
+          <div className="max-w-sm">
+            <NumberSpinner label="" value={bloodSugar} onChange={setBloodSugar} step={5} />
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function MedicationSection({ medicationStatus, setMedicationStatus }: {
+  medicationStatus: 'well' | 'missed' | null;
+  setMedicationStatus: (v: 'well' | 'missed') => void;
+}) {
+  return (
+    <section className="bg-white rounded-[32px] p-6 sm:p-8 shadow-sm shadow-sky-100/40 border border-sky-100">
+      <SectionHeader icon={<Pill className="w-6 h-6 text-sky-500" strokeWidth={2.5} />} title="복약 확인" />
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <button onClick={() => setMedicationStatus('well')}
+          className={`h-20 rounded-3xl text-xl font-bold transition-all duration-300 flex items-center justify-center gap-3 border-2 ${medicationStatus === 'well' ? 'bg-sky-500 border-sky-500 text-white shadow-lg shadow-sky-200/50' : 'bg-white border-sky-100 text-slate-500 hover:border-sky-300 hover:bg-sky-50'}`}>
+          {medicationStatus === 'well' && <Check className="w-6 h-6" strokeWidth={3} />} 잘 드시고 계심
+        </button>
+        <button onClick={() => setMedicationStatus('missed')}
+          className={`h-20 rounded-3xl text-xl font-bold transition-all duration-300 flex items-center justify-center gap-3 border-2 ${medicationStatus === 'missed' ? 'bg-orange-500 border-orange-500 text-white shadow-lg shadow-orange-200/50' : 'bg-white border-sky-100 text-slate-500 hover:border-orange-200 hover:bg-orange-50'}`}>
+          거르신 적 있음
+        </button>
+      </div>
+    </section>
+  );
+}
+
+function ObservationsSection({ observations, onToggle }: {
+  observations: string[];
+  onToggle: (chip: string) => void;
+}) {
+  return (
+    <section className="bg-white rounded-[32px] p-6 sm:p-8 shadow-sm shadow-sky-100/40 border border-sky-100">
+      <SectionHeader icon={<Stethoscope className="w-6 h-6 text-sky-500" strokeWidth={2.5} />} title="관찰 소견 (다중 선택)" />
+      <div className="flex flex-wrap gap-3">
+        {OBSERVATION_CHIPS.map((chip) => (
+          <button key={chip} onClick={() => onToggle(chip)}
+            className={`h-14 px-6 rounded-full text-lg font-bold transition-all duration-300 border-2 ${observations.includes(chip) ? 'bg-sky-500 border-sky-500 text-white shadow-md shadow-sky-200/50' : 'bg-white border-sky-100 text-slate-600 hover:border-sky-300 hover:bg-sky-50'}`}>
+            {chip}
+          </button>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function NotesSection({ notes, setNotes }: { notes: string; setNotes: (v: string) => void }) {
+  return (
+    <section className="bg-white rounded-[32px] p-6 sm:p-8 shadow-sm shadow-sky-100/40 border border-sky-100">
+      <SectionHeader icon={<ClipboardEdit className="w-6 h-6 text-sky-500" strokeWidth={2.5} />} title="특이사항 (선택)" />
+      <textarea value={notes} onChange={(e) => setNotes(e.target.value)}
+        placeholder="환자의 호소 증상이나 특이사항을 자유롭게 입력하세요."
+        className="w-full h-32 bg-sky-50/50 border border-sky-100 rounded-3xl p-6 text-lg text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:bg-white transition-all resize-none" />
+    </section>
+  );
+}
+
+// ── Conversation Summary Result ───────────────────────────────────────────
+
+function ConversationSummaryResult({
+  patient, conversationSummary, onBack, onFinalize,
+}: {
+  patient: NursePatient;
+  conversationSummary: ConversationSummary;
+  onBack: () => void;
+  onFinalize: () => void;
+}) {
+  const [transcriptExpanded, setTranscriptExpanded] = useState(false);
+
+  return (
+    <div className="pb-36">
+      {/* Sticky Header */}
+      <div className="bg-white px-4 sm:px-8 py-6 rounded-b-[40px] shadow-sm shadow-sky-100/50 mb-6 sticky top-0 z-40">
+        <div className="max-w-3xl mx-auto flex items-center gap-4">
+          <button onClick={onBack} className="w-12 h-12 bg-slate-50 hover:bg-slate-100 rounded-2xl flex items-center justify-center text-slate-600 transition-colors">
+            <ChevronLeft className="w-7 h-7" strokeWidth={2.5} />
+          </button>
+          <div className="flex-1 flex items-center justify-between">
+            <div>
+              <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">AI 분석 결과</h1>
+              <p className="text-sky-600 font-semibold text-sm mt-0.5">{patient.name} 환자 · 대화 요약</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 space-y-6">
+        {/* Success Banner */}
+        <div className="bg-gradient-to-r from-cyan-500 to-sky-500 rounded-[32px] p-6 text-white shadow-xl shadow-cyan-200/40">
+          <div className="flex items-center gap-3 mb-2">
+            <Sparkles className="w-6 h-6" strokeWidth={2.5} />
+            <span className="font-extrabold text-lg">AI 대화 요약 완료</span>
+          </div>
+          <p className="text-cyan-100 font-medium">환자와의 대화 내용이 분석되었습니다.</p>
+        </div>
+
+        {/* Summary Card */}
+        <section className="bg-white rounded-[32px] p-6 sm:p-8 shadow-sm shadow-sky-100/40 border border-sky-100">
+          <div className="flex items-center justify-between mb-5">
+            <div className="flex items-center gap-3">
+              <div className="p-2.5 bg-sky-50 rounded-2xl">
+                <MessageSquare className="w-6 h-6 text-sky-500" strokeWidth={2.5} />
+              </div>
+              <h2 className="text-xl font-extrabold text-slate-900">대화 요약</h2>
+            </div>
+            <button
+              onClick={() => setTranscriptExpanded(v => !v)}
+              className="flex items-center gap-1.5 text-sky-600 font-bold text-sm hover:text-sky-700 transition-colors px-3 py-1.5 bg-sky-50 rounded-xl"
+            >
+              {transcriptExpanded ? <ChevronLeft className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
+              {transcriptExpanded ? '접기' : '전체 대화 보기'}
+            </button>
+          </div>
+
+          {/* Summary Text */}
+          <p
+            className="text-slate-700 leading-relaxed text-base [&_strong]:font-extrabold [&_strong]:text-sky-700"
+            dangerouslySetInnerHTML={{ __html: conversationSummary.summary }}
+          />
+
+          {/* Transcript */}
+          <AnimatePresence>
+            {transcriptExpanded && (
+              <motion.div
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: 'auto', opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.3, ease: 'easeInOut' }}
+                className="overflow-hidden"
+              >
+                <div className="mt-6 pt-6 border-t border-sky-100 space-y-4">
+                  {conversationSummary.transcript.map((utterance, idx) => {
+                    const isNurse = utterance.speaker === '간호사';
+                    return (
+                      <div key={idx} className={`flex items-end gap-3 ${isNurse ? 'flex-row-reverse' : 'flex-row'}`}>
+                        <div className="shrink-0">
+                          <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${isNurse ? 'bg-sky-500 text-white' : 'bg-slate-200 text-slate-600'}`}>
+                            {isNurse ? '간' : '환'}
+                          </div>
+                        </div>
+                        <div className={`max-w-[75%] px-4 py-3 text-sm font-medium leading-relaxed ${
+                          isNurse
+                            ? 'bg-sky-500 text-white rounded-3xl rounded-tr-sm shadow-md shadow-sky-200/50'
+                            : 'bg-slate-100 text-slate-800 rounded-3xl rounded-tl-sm'
+                        }`}>
+                          {utterance.text}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </section>
+      </div>
+
+      {/* Fixed Bottom FAB */}
+      <div className="fixed bottom-0 left-0 right-0 p-4 sm:p-6 bg-white/80 backdrop-blur-xl border-t border-sky-100/50 z-50">
+        <div className="max-w-3xl mx-auto">
+          <button onClick={onFinalize}
+            className="w-full h-16 sm:h-20 bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-600 hover:to-cyan-600 text-white rounded-[28px] text-xl sm:text-2xl font-extrabold shadow-xl shadow-teal-200/50 flex items-center justify-center gap-3 transition-all transform active:scale-[0.98]">
+            <CheckCircle2 className="w-7 h-7" strokeWidth={2.5} />
+            기록 완료 및 의사 전달
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── Checklist Form ────────────────────────────────────────────────────────
+
+function ChecklistForm({ patient, onBack, onComplete }: {
+  patient: NursePatient;
+  onBack: () => void;
+  onComplete: () => void;
+}) {
+  const [formStep, setFormStep] = useState<'form' | 'result'>('form');
   const [systolic, setSystolic] = useState<number | ''>(120);
   const [diastolic, setDiastolic] = useState<number | ''>(80);
   const [bloodSugar, setBloodSugar] = useState<number | ''>(100);
@@ -290,14 +445,24 @@ function ChecklistForm({ patient, onBack, onComplete }: { patient: Patient; onBa
     setObservations(prev => prev.includes(chip) ? prev.filter(c => c !== chip) : [...prev, chip]);
   };
 
-  const adjustValue = (setter: React.Dispatch<React.SetStateAction<number | ''>>, current: number | '', amount: number) => {
-    const val = current === '' ? 0 : current;
-    setter(Math.max(0, val + amount));
-  };
+  // Look up conversation summary from mock data by patient name
+  const docPatient = docPatients.find(p => p.name === patient.name);
+  const conversationSummary = docPatient?.conversationSummary ?? null;
+
+  if (formStep === 'result' && conversationSummary) {
+    return (
+      <ConversationSummaryResult
+        patient={patient}
+        conversationSummary={conversationSummary}
+        onBack={() => setFormStep('form')}
+        onFinalize={onComplete}
+      />
+    );
+  }
 
   return (
     <div className="pb-36">
-      {/* Header with Back Button */}
+      {/* Header */}
       <div className="bg-white px-4 sm:px-8 py-6 rounded-b-[40px] shadow-sm shadow-sky-100/50 mb-6 sticky top-0 z-40">
         <div className="max-w-3xl mx-auto flex items-center gap-4">
           <button onClick={onBack} className="w-12 h-12 bg-slate-50 hover:bg-slate-100 rounded-2xl flex items-center justify-center text-slate-600 transition-colors">
@@ -306,7 +471,7 @@ function ChecklistForm({ patient, onBack, onComplete }: { patient: Patient; onBa
           <div className="flex-1 flex items-center justify-between">
             <div className="flex items-center gap-4">
               <div className="w-14 h-14 bg-sky-100 rounded-full flex items-center justify-center">
-                <User className="w-7 h-7 text-sky-600" strokeWidth={2} />
+                <NurseStatusAvatar status="pending" />
               </div>
               <div>
                 <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">{patient.name} 환자</h1>
@@ -321,100 +486,22 @@ function ChecklistForm({ patient, onBack, onComplete }: { patient: Patient; onBa
       </div>
 
       <div className="max-w-3xl mx-auto px-4 sm:px-6 space-y-6">
-        {/* Section 1: Vitals */}
-        <section className="bg-white rounded-[32px] p-6 sm:p-8 shadow-sm shadow-sky-100/40 border border-sky-100">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="p-2.5 bg-sky-50 rounded-2xl">
-              <HeartPulse className="w-6 h-6 text-sky-500" strokeWidth={2.5} />
-            </div>
-            <h2 className="text-xl font-extrabold text-slate-900">바이탈 사인</h2>
-          </div>
-
-          <div className="space-y-8">
-            <div>
-              <label className="block text-slate-500 font-bold mb-4 text-lg">혈압 (mmHg)</label>
-              <div className="flex flex-col sm:flex-row gap-4 sm:gap-8">
-                <div className="flex-1 bg-sky-50/50 rounded-3xl p-4 border border-sky-100 flex items-center justify-between">
-                  <button onClick={() => adjustValue(setSystolic, systolic, -5)} className="w-14 h-14 rounded-2xl bg-white border border-sky-200 flex items-center justify-center text-sky-600 hover:bg-sky-50 active:bg-sky-100 transition-colors shadow-sm"><Minus className="w-6 h-6" strokeWidth={2.5} /></button>
-                  <div className="flex flex-col items-center">
-                    <input type="number" value={systolic} onChange={(e) => setSystolic(e.target.value === '' ? '' : Number(e.target.value))} className="w-24 text-center text-4xl font-extrabold text-slate-900 bg-transparent outline-none focus:ring-0 p-0" />
-                    <span className="text-sky-600 font-bold text-sm">수축기</span>
-                  </div>
-                  <button onClick={() => adjustValue(setSystolic, systolic, 5)} className="w-14 h-14 rounded-2xl bg-white border border-sky-200 flex items-center justify-center text-sky-600 hover:bg-sky-50 active:bg-sky-100 transition-colors shadow-sm"><Plus className="w-6 h-6" strokeWidth={2.5} /></button>
-                </div>
-                <div className="flex-1 bg-sky-50/50 rounded-3xl p-4 border border-sky-100 flex items-center justify-between">
-                  <button onClick={() => adjustValue(setDiastolic, diastolic, -5)} className="w-14 h-14 rounded-2xl bg-white border border-sky-200 flex items-center justify-center text-sky-600 hover:bg-sky-50 active:bg-sky-100 transition-colors shadow-sm"><Minus className="w-6 h-6" strokeWidth={2.5} /></button>
-                  <div className="flex flex-col items-center">
-                    <input type="number" value={diastolic} onChange={(e) => setDiastolic(e.target.value === '' ? '' : Number(e.target.value))} className="w-24 text-center text-4xl font-extrabold text-slate-900 bg-transparent outline-none focus:ring-0 p-0" />
-                    <span className="text-sky-600 font-bold text-sm">이완기</span>
-                  </div>
-                  <button onClick={() => adjustValue(setDiastolic, diastolic, 5)} className="w-14 h-14 rounded-2xl bg-white border border-sky-200 flex items-center justify-center text-sky-600 hover:bg-sky-50 active:bg-sky-100 transition-colors shadow-sm"><Plus className="w-6 h-6" strokeWidth={2.5} /></button>
-                </div>
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-slate-500 font-bold mb-4 text-lg">공복 혈당 (mg/dL)</label>
-              <div className="bg-sky-50/50 rounded-3xl p-4 border border-sky-100 flex items-center justify-between max-w-sm">
-                <button onClick={() => adjustValue(setBloodSugar, bloodSugar, -5)} className="w-14 h-14 rounded-2xl bg-white border border-sky-200 flex items-center justify-center text-sky-600 hover:bg-sky-50 active:bg-sky-100 transition-colors shadow-sm"><Minus className="w-6 h-6" strokeWidth={2.5} /></button>
-                <input type="number" value={bloodSugar} onChange={(e) => setBloodSugar(e.target.value === '' ? '' : Number(e.target.value))} className="w-28 text-center text-4xl font-extrabold text-slate-900 bg-transparent outline-none focus:ring-0 p-0" />
-                <button onClick={() => adjustValue(setBloodSugar, bloodSugar, 5)} className="w-14 h-14 rounded-2xl bg-white border border-sky-200 flex items-center justify-center text-sky-600 hover:bg-sky-50 active:bg-sky-100 transition-colors shadow-sm"><Plus className="w-6 h-6" strokeWidth={2.5} /></button>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Section 2: Medication */}
-        <section className="bg-white rounded-[32px] p-6 sm:p-8 shadow-sm shadow-sky-100/40 border border-sky-100">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="p-2.5 bg-sky-50 rounded-2xl">
-              <Pill className="w-6 h-6 text-sky-500" strokeWidth={2.5} />
-            </div>
-            <h2 className="text-xl font-extrabold text-slate-900">복약 확인</h2>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <button onClick={() => setMedicationStatus('well')} className={`h-20 rounded-3xl text-xl font-bold transition-all duration-300 flex items-center justify-center gap-3 border-2 ${medicationStatus === 'well' ? 'bg-sky-500 border-sky-500 text-white shadow-lg shadow-sky-200/50' : 'bg-white border-sky-100 text-slate-500 hover:border-sky-300 hover:bg-sky-50'}`}>
-              {medicationStatus === 'well' && <Check className="w-6 h-6" strokeWidth={3} />} 잘 드시고 계심
-            </button>
-            <button onClick={() => setMedicationStatus('missed')} className={`h-20 rounded-3xl text-xl font-bold transition-all duration-300 flex items-center justify-center gap-3 border-2 ${medicationStatus === 'missed' ? 'bg-orange-500 border-orange-500 text-white shadow-lg shadow-orange-200/50' : 'bg-white border-sky-100 text-slate-500 hover:border-orange-200 hover:bg-orange-50'}`}>
-              거르신 적 있음
-            </button>
-          </div>
-        </section>
-
-        {/* Section 3: Observations */}
-        <section className="bg-white rounded-[32px] p-6 sm:p-8 shadow-sm shadow-sky-100/40 border border-sky-100">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="p-2.5 bg-sky-50 rounded-2xl">
-              <Stethoscope className="w-6 h-6 text-sky-500" strokeWidth={2.5} />
-            </div>
-            <h2 className="text-xl font-extrabold text-slate-900">관찰 소견 (다중 선택)</h2>
-          </div>
-          <div className="flex flex-wrap gap-3">
-            {OBSERVATION_CHIPS.map((chip) => (
-              <button key={chip} onClick={() => toggleObservation(chip)} className={`h-14 px-6 rounded-full text-lg font-bold transition-all duration-300 border-2 ${observations.includes(chip) ? 'bg-sky-500 border-sky-500 text-white shadow-md shadow-sky-200/50' : 'bg-white border-sky-100 text-slate-600 hover:border-sky-300 hover:bg-sky-50'}`}>
-                {chip}
-              </button>
-            ))}
-          </div>
-        </section>
-
-        {/* Section 4: Notes */}
-        <section className="bg-white rounded-[32px] p-6 sm:p-8 shadow-sm shadow-sky-100/40 border border-sky-100">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="p-2.5 bg-sky-50 rounded-2xl">
-              <ClipboardEdit className="w-6 h-6 text-sky-500" strokeWidth={2.5} />
-            </div>
-            <h2 className="text-xl font-extrabold text-slate-900">특이사항 (선택)</h2>
-          </div>
-          <textarea value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="환자의 호소 증상이나 특이사항을 자유롭게 입력하세요." className="w-full h-32 bg-sky-50/50 border border-sky-100 rounded-3xl p-6 text-lg text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:bg-white transition-all resize-none" />
-        </section>
+        <VitalsSection
+          systolic={systolic} setSystolic={setSystolic}
+          diastolic={diastolic} setDiastolic={setDiastolic}
+          bloodSugar={bloodSugar} setBloodSugar={setBloodSugar}
+        />
+        <MedicationSection medicationStatus={medicationStatus} setMedicationStatus={setMedicationStatus} />
+        <ObservationsSection observations={observations} onToggle={toggleObservation} />
+        <NotesSection notes={notes} setNotes={setNotes} />
       </div>
 
       {/* Fixed Bottom FAB */}
       <div className="fixed bottom-0 left-0 right-0 p-4 sm:p-6 bg-white/80 backdrop-blur-xl border-t border-sky-100/50 z-50">
         <div className="max-w-3xl mx-auto">
-          <button onClick={onComplete} className="w-full h-16 sm:h-20 bg-gradient-to-r from-cyan-500 to-sky-500 hover:from-cyan-600 hover:to-sky-600 text-white rounded-[28px] text-xl sm:text-2xl font-extrabold shadow-xl shadow-cyan-200/50 flex items-center justify-center gap-3 transition-all transform active:scale-[0.98]">
+          <button
+            onClick={() => conversationSummary ? setFormStep('result') : onComplete()}
+            className="w-full h-16 sm:h-20 bg-gradient-to-r from-cyan-500 to-sky-500 hover:from-cyan-600 hover:to-sky-600 text-white rounded-[28px] text-xl sm:text-2xl font-extrabold shadow-xl shadow-cyan-200/50 flex items-center justify-center gap-3 transition-all transform active:scale-[0.98]">
             <Sparkles className="w-7 h-7" strokeWidth={2.5} />
             기록 완료 및 AI 분석 요청
           </button>
