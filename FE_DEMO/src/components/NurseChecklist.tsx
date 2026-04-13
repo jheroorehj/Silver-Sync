@@ -1,17 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import {
-  HeartPulse, Activity, Pill, Check, Plus, Minus, Stethoscope,
+  HeartPulse, Pill, Check, Stethoscope,
   Sparkles, ClipboardEdit, CalendarSync, UserPlus, CheckCircle2, Clock,
-  ChevronLeft, ChevronRight, X, MessageSquare,
+  ChevronLeft, ChevronRight, X, MessageSquare, AlertTriangle,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import patientsData from '../data/patients.json';
+import { getNursePatientById } from '../adapters/patientAdapter';
 import { OBSERVATION_CHIPS } from '../constants';
 import { NurseStatusAvatar } from './ui/StatusBadge';
 import NumberSpinner from './ui/NumberSpinner';
-import type { NursePatient, DocPatient, ConversationSummary } from '../types';
-
-const docPatients = patientsData as DocPatient[];
+import type { NursePatient, ConversationSummary } from '../types';
 
 // ── Types ─────────────────────────────────────────────────────────────────
 
@@ -25,7 +23,7 @@ type ScheduleViewProps = {
 
 type AddPatientModalProps = {
   onClose: () => void;
-  onAdd: (patient: Omit<NursePatient, 'id' | 'status'>) => void;
+  onAdd: (patient: Omit<NursePatient, 'id' | 'status' | 'time'>) => void;
 };
 
 // ── Mock Data ─────────────────────────────────────────────────────────────
@@ -35,6 +33,20 @@ const INITIAL_PATIENTS: NursePatient[] = [
   { id: '2', name: '이순자', age: 68, gender: '여', time: '11:00', status: 'pending' },
   { id: '3', name: '박상철', age: 75, gender: '남', time: '13:30', status: 'pending' },
 ];
+
+// ── AI 면책 배너 ──────────────────────────────────────────────────────────
+
+function AiDisclaimerBanner() {
+  return (
+    <div
+      role="note"
+      className="flex items-start gap-2 bg-amber-50 border border-amber-200 rounded-2xl px-4 py-3 text-xs text-amber-700 font-medium"
+    >
+      <AlertTriangle className="w-4 h-4 shrink-0 mt-0.5 text-amber-500" />
+      본 내용은 AI 에이전트가 생성한 참고 자료이며, 최종 임상 판단은 담당 의료진의 책임입니다.
+    </div>
+  );
+}
 
 // ── Main Container ────────────────────────────────────────────────────────
 
@@ -65,7 +77,7 @@ export default function NurseMain() {
     setSelectedPatient(null);
   };
 
-  const handleAddPatient = (newPatient: Omit<NursePatient, 'id' | 'status'>) => {
+  const handleAddPatient = (newPatient: Omit<NursePatient, 'id' | 'status' | 'time'>) => {
     const now = new Date();
     const timeString = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
     const patient: NursePatient = {
@@ -329,7 +341,11 @@ function ConversationSummaryResult({
       {/* Sticky Header */}
       <div className="bg-white px-4 sm:px-8 py-6 rounded-b-[40px] shadow-sm shadow-sky-100/50 mb-6 sticky top-0 z-40">
         <div className="max-w-3xl mx-auto flex items-center gap-4">
-          <button onClick={onBack} className="w-12 h-12 bg-slate-50 hover:bg-slate-100 rounded-2xl flex items-center justify-center text-slate-600 transition-colors">
+          <button
+            onClick={onBack}
+            aria-label="이전 화면으로 돌아가기"
+            className="w-12 h-12 bg-slate-50 hover:bg-slate-100 rounded-2xl flex items-center justify-center text-slate-600 transition-colors"
+          >
             <ChevronLeft className="w-7 h-7" strokeWidth={2.5} />
           </button>
           <div className="flex-1 flex items-center justify-between">
@@ -351,6 +367,9 @@ function ConversationSummaryResult({
           <p className="text-cyan-100 font-medium">환자와의 대화 내용이 분석되었습니다.</p>
         </div>
 
+        {/* AI 면책 배너 */}
+        <AiDisclaimerBanner />
+
         {/* Summary Card */}
         <section className="bg-white rounded-[32px] p-6 sm:p-8 shadow-sm shadow-sky-100/40 border border-sky-100">
           <div className="flex items-center justify-between mb-5">
@@ -362,6 +381,8 @@ function ConversationSummaryResult({
             </div>
             <button
               onClick={() => setTranscriptExpanded(v => !v)}
+              aria-expanded={transcriptExpanded}
+              aria-controls="transcript-content"
               className="flex items-center gap-1.5 text-sky-600 font-bold text-sm hover:text-sky-700 transition-colors px-3 py-1.5 bg-sky-50 rounded-xl"
             >
               {transcriptExpanded ? <ChevronLeft className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
@@ -379,6 +400,8 @@ function ConversationSummaryResult({
           <AnimatePresence>
             {transcriptExpanded && (
               <motion.div
+                id="transcript-content"
+                key="transcript"
                 initial={{ height: 0, opacity: 0 }}
                 animate={{ height: 'auto', opacity: 1 }}
                 exit={{ height: 0, opacity: 0 }}
@@ -415,8 +438,11 @@ function ConversationSummaryResult({
       {/* Fixed Bottom FAB */}
       <div className="fixed bottom-0 left-0 right-0 p-4 sm:p-6 bg-white/80 backdrop-blur-xl border-t border-sky-100/50 z-50">
         <div className="max-w-3xl mx-auto">
-          <button onClick={onFinalize}
-            className="w-full h-16 sm:h-20 bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-600 hover:to-cyan-600 text-white rounded-[28px] text-xl sm:text-2xl font-extrabold shadow-xl shadow-teal-200/50 flex items-center justify-center gap-3 transition-all transform active:scale-[0.98]">
+          <button
+            onClick={onFinalize}
+            aria-label="기록 완료 및 의사 전달"
+            className="w-full h-16 sm:h-20 bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-600 hover:to-cyan-600 text-white rounded-[28px] text-xl sm:text-2xl font-extrabold shadow-xl shadow-teal-200/50 flex items-center justify-center gap-3 transition-all transform active:scale-[0.98]"
+          >
             <CheckCircle2 className="w-7 h-7" strokeWidth={2.5} />
             기록 완료 및 의사 전달
           </button>
@@ -445,8 +471,7 @@ function ChecklistForm({ patient, onBack, onComplete }: {
     setObservations(prev => prev.includes(chip) ? prev.filter(c => c !== chip) : [...prev, chip]);
   };
 
-  // Look up conversation summary from mock data by patient name
-  const docPatient = docPatients.find(p => p.name === patient.name);
+  const docPatient = getNursePatientById(patient.name);
   const conversationSummary = docPatient?.conversationSummary ?? null;
 
   if (formStep === 'result' && conversationSummary) {
@@ -465,7 +490,11 @@ function ChecklistForm({ patient, onBack, onComplete }: {
       {/* Header */}
       <div className="bg-white px-4 sm:px-8 py-6 rounded-b-[40px] shadow-sm shadow-sky-100/50 mb-6 sticky top-0 z-40">
         <div className="max-w-3xl mx-auto flex items-center gap-4">
-          <button onClick={onBack} className="w-12 h-12 bg-slate-50 hover:bg-slate-100 rounded-2xl flex items-center justify-center text-slate-600 transition-colors">
+          <button
+            onClick={onBack}
+            aria-label="이전 화면으로 돌아가기"
+            className="w-12 h-12 bg-slate-50 hover:bg-slate-100 rounded-2xl flex items-center justify-center text-slate-600 transition-colors"
+          >
             <ChevronLeft className="w-7 h-7" strokeWidth={2.5} />
           </button>
           <div className="flex-1 flex items-center justify-between">
@@ -501,7 +530,8 @@ function ChecklistForm({ patient, onBack, onComplete }: {
         <div className="max-w-3xl mx-auto">
           <button
             onClick={() => conversationSummary ? setFormStep('result') : onComplete()}
-            className="w-full h-16 sm:h-20 bg-gradient-to-r from-cyan-500 to-sky-500 hover:from-cyan-600 hover:to-sky-600 text-white rounded-[28px] text-xl sm:text-2xl font-extrabold shadow-xl shadow-cyan-200/50 flex items-center justify-center gap-3 transition-all transform active:scale-[0.98]">
+            className="w-full h-16 sm:h-20 bg-gradient-to-r from-cyan-500 to-sky-500 hover:from-cyan-600 hover:to-sky-600 text-white rounded-[28px] text-xl sm:text-2xl font-extrabold shadow-xl shadow-cyan-200/50 flex items-center justify-center gap-3 transition-all transform active:scale-[0.98]"
+          >
             <Sparkles className="w-7 h-7" strokeWidth={2.5} />
             기록 완료 및 AI 분석 요청
           </button>
@@ -510,3 +540,4 @@ function ChecklistForm({ patient, onBack, onComplete }: {
     </div>
   );
 }
+

@@ -23,13 +23,24 @@ import {
   ClipboardList,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import { LineChart, Line, ResponsiveContainer, XAxis, YAxis, Tooltip } from 'recharts';
-import patientsData from '../data/patients.json';
+import {
+  LineChart,
+  Line,
+  ResponsiveContainer,
+  XAxis,
+  YAxis,
+  Tooltip,
+  AreaChart,
+  Area,
+  ReferenceLine,
+} from 'recharts';
+import { getDocPatients } from '../adapters/patientAdapter';
+import { maskPatientId } from '../lib/utils';
 import { DAYS, STATUS_THEME_MAP } from '../constants';
 import { DocStatusBadge } from './ui/StatusBadge';
 import type { DocPatient, StatusTheme, SoapNote } from '../types';
 
-const patients = patientsData as DocPatient[];
+const patients = getDocPatients();
 
 // ── Helpers ───────────────────────────────────────────────────────────────
 
@@ -64,6 +75,155 @@ function AnomalyHighlightedText({ text, anomalies }: { text: string; anomalies: 
         return <React.Fragment key={i}>{part}</React.Fragment>;
       })}
     </>
+  );
+}
+
+// ── AI 면책 배너 ──────────────────────────────────────────────────────────
+
+function AiDisclaimerBanner() {
+  return (
+    <div
+      role="note"
+      className="flex items-start gap-2 bg-amber-50 border border-amber-200 rounded-2xl px-4 py-3 text-xs text-amber-700 font-medium"
+    >
+      <AlertTriangle className="w-4 h-4 shrink-0 mt-0.5 text-amber-500" />
+      본 내용은 AI 에이전트가 생성한 참고 자료이며, 최종 임상 판단은 담당 의료진의 책임입니다.
+    </div>
+  );
+}
+
+// ── 에이전트 메타데이터 패널 ──────────────────────────────────────────────
+
+function AgentMetaPanel({ agentMeta }: { agentMeta: NonNullable<DocPatient['agentMeta']> }) {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <div className="rounded-2xl border border-slate-100 overflow-hidden">
+      <button
+        onClick={() => setOpen(v => !v)}
+        aria-expanded={open}
+        aria-controls="agent-meta-content"
+        className={`w-full flex items-center justify-between px-5 py-4 text-sm font-bold transition-colors ${
+          agentMeta.dissensionFlag
+            ? 'bg-orange-50 text-orange-700 hover:bg-orange-100'
+            : 'bg-slate-50 text-slate-600 hover:bg-slate-100'
+        }`}
+      >
+        <span className="flex items-center gap-2">
+          {agentMeta.dissensionFlag && <AlertTriangle className="w-4 h-4" />}
+          {agentMeta.dissensionFlag ? '⚠ 에이전트 의견 불일치' : '에이전트 판단 근거'}
+          <span className="font-medium text-xs opacity-70">(신뢰도 {agentMeta.confidenceScore}%)</span>
+        </span>
+        {open ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+      </button>
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            id="agent-meta-content"
+            key="agent-meta-body"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.25, ease: 'easeInOut' }}
+            className="overflow-hidden"
+          >
+            <div className="px-5 py-4 space-y-2 bg-white border-t border-slate-100">
+              {agentMeta.debateLog.map((entry, i) => (
+                <p key={i} className="text-sm text-slate-600 leading-relaxed">{entry}</p>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
+// ── CGM 차트 ──────────────────────────────────────────────────────────────
+
+function CgmChart({
+  data,
+  referenceMin,
+  referenceMax,
+}: {
+  data: { time: string; value: number }[];
+  referenceMin: number;
+  referenceMax: number;
+}) {
+  return (
+    <div className="mt-4 pt-4 border-t border-slate-100">
+      <div className="flex items-center justify-between mb-3">
+        <span className="text-xs font-bold text-teal-600">CGM 인트라데이 혈당 (mg/dL)</span>
+        <span className="text-xs text-slate-400 font-medium">
+          참고 범위 {referenceMin}–{referenceMax} mg/dL
+        </span>
+      </div>
+      <ResponsiveContainer width="100%" height={160}>
+        <AreaChart data={data} margin={{ top: 8, right: 16, left: -24, bottom: 0 }}>
+          <defs>
+            <linearGradient id="cgmGradient" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="5%" stopColor="#14b8a6" stopOpacity={0.3} />
+              <stop offset="95%" stopColor="#14b8a6" stopOpacity={0.0} />
+            </linearGradient>
+          </defs>
+          <XAxis
+            dataKey="time"
+            tick={{ fontSize: 9 }}
+            interval={3}
+            tickLine={false}
+          />
+          <YAxis
+            domain={[60, 180]}
+            tick={{ fontSize: 9 }}
+            tickLine={false}
+            axisLine={false}
+          />
+          <Tooltip
+            contentStyle={{
+              borderRadius: '12px',
+              border: 'none',
+              boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+              fontSize: '12px',
+            }}
+            formatter={(v: number) => [`${v} mg/dL`, '혈당']}
+          />
+          <ReferenceLine
+            y={referenceMax}
+            stroke="#f97316"
+            strokeDasharray="4 4"
+            strokeWidth={1.5}
+          />
+          <ReferenceLine
+            y={referenceMin}
+            stroke="#f97316"
+            strokeDasharray="4 4"
+            strokeWidth={1.5}
+          />
+          <Area
+            type="monotone"
+            dataKey="value"
+            stroke="#14b8a6"
+            strokeWidth={2}
+            fill="url(#cgmGradient)"
+            dot={(props: { cx: number; cy: number; payload: { time: string; value: number } }) => {
+              const { cx, cy, payload } = props;
+              const isOut = payload.value > referenceMax || payload.value < referenceMin;
+              return (
+                <circle
+                  key={`cgm-dot-${payload.time}`}
+                  cx={cx}
+                  cy={cy}
+                  r={isOut ? 4 : 2.5}
+                  fill={isOut ? '#f97316' : '#14b8a6'}
+                  stroke="white"
+                  strokeWidth={1.5}
+                />
+              );
+            }}
+          />
+        </AreaChart>
+      </ResponsiveContainer>
+    </div>
   );
 }
 
@@ -149,6 +309,9 @@ function SoapNoteView({ patient, theme }: { patient: DocPatient; theme: StatusTh
 
   return (
     <div className="space-y-4">
+      {/* AI 면책 배너 */}
+      <AiDisclaimerBanner />
+
       {/* Print-only header */}
       <div className="hidden print:block mb-6 pb-4 border-b border-slate-200">
         <h1 className="text-2xl font-extrabold text-slate-900">Silver-Sync SOAP 노트</h1>
@@ -174,8 +337,21 @@ function SoapNoteView({ patient, theme }: { patient: DocPatient; theme: StatusTh
               : section.content
             }
           </p>
+          {/* CGM 차트 — Objective 섹션에만 표시 */}
+          {section.key === 'O' && patient.vitals.sugar.timeSeries && (
+            <CgmChart
+              data={patient.vitals.sugar.timeSeries}
+              referenceMin={70}
+              referenceMax={140}
+            />
+          )}
         </div>
       ))}
+
+      {/* 에이전트 메타데이터 패널 */}
+      {patient.agentMeta && (
+        <AgentMetaPanel agentMeta={patient.agentMeta} />
+      )}
 
       {/* Print/PDF buttons */}
       <div className="flex gap-3 pt-2 print:hidden">
@@ -209,65 +385,86 @@ function AIRecommendationSection({
   onToggleDetails: () => void;
 }) {
   return (
-    <div className={`rounded-3xl p-6 border relative overflow-hidden bg-gradient-to-br ${theme.gradient} ${theme.border}`}>
-      <div className="absolute top-0 right-0 p-6 opacity-10">
-        {patient.status === 'orange'
-          ? <Stethoscope className={`w-32 h-32 ${theme.iconColor}`} strokeWidth={1} />
-          : patient.status === 'amber'
-          ? <AlertTriangle className={`w-32 h-32 ${theme.iconColor}`} strokeWidth={1} />
-          : <Video className={`w-32 h-32 ${theme.iconColor}`} strokeWidth={1} />
-        }
-      </div>
-      <div className="relative z-10">
-        <div className="flex items-center gap-2 mb-4">
-          <Sparkles className={`w-5 h-5 ${theme.iconColor}`} strokeWidth={2} />
-          <span className={`font-bold tracking-wide ${theme.labelColor}`}>AI 분석 결과</span>
+    <div className="space-y-3">
+      {/* AI 면책 배너 */}
+      <AiDisclaimerBanner />
+
+      {/* 에이전트 의견 불일치 인라인 경고 */}
+      {patient.agentMeta?.dissensionFlag && (
+        <div className="flex items-center gap-2 bg-orange-50 border border-orange-200 rounded-2xl px-4 py-2.5 text-sm text-orange-700 font-bold">
+          <AlertTriangle className="w-4 h-4 shrink-0 text-orange-500" />
+          에이전트 간 의견 불일치가 감지되었습니다. SOAP 탭의 판단 근거 패널을 참고하세요.
         </div>
-        <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-4">
-          {patient.aiRecommendation.title}<br/>
-          <span className={theme.highlightColor}>{patient.aiRecommendation.highlight}</span>됩니다.
-        </h2>
-        <div className="space-y-4">
-          {patient.aiRecommendation.reasons.map((reason, idx) => (
-            <div key={idx} className="flex items-start gap-3">
-              <div className={`w-6 h-6 rounded-full flex items-center justify-center shrink-0 mt-0.5 ${reason.type === 'check' ? 'bg-teal-100' : 'bg-orange-100'}`}>
-                {reason.type === 'up'    && <ArrowUpRight className="w-3.5 h-3.5 text-orange-600" strokeWidth={2.5} />}
-                {reason.type === 'alert' && <AlertCircle  className="w-3.5 h-3.5 text-orange-600" strokeWidth={2.5} />}
-                {reason.type === 'check' && <CheckCircle2 className="w-3.5 h-3.5 text-teal-600"   strokeWidth={2.5} />}
-              </div>
-              <p className="text-slate-700 text-lg leading-relaxed"><SafeText html={reason.text} /></p>
-            </div>
-          ))}
+      )}
+
+      <div className={`rounded-3xl p-6 border relative overflow-hidden bg-gradient-to-br ${theme.gradient} ${theme.border}`}>
+        <div className="absolute top-0 right-0 p-6 opacity-10">
+          {patient.status === 'orange'
+            ? <Stethoscope className={`w-32 h-32 ${theme.iconColor}`} strokeWidth={1} />
+            : patient.status === 'amber'
+            ? <AlertTriangle className={`w-32 h-32 ${theme.iconColor}`} strokeWidth={1} />
+            : <Video className={`w-32 h-32 ${theme.iconColor}`} strokeWidth={1} />
+          }
         </div>
-        <div className="mt-2">
-          <button
-            onClick={onToggleDetails}
-            className={`flex items-center gap-2 font-bold transition-colors ml-auto bg-transparent px-2 py-1 rounded-xl ${theme.detailsButtonColor}`}
-          >
-            {showAiDetails ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-            상세 보기
-          </button>
-          <AnimatePresence>
-            {showAiDetails && (
-              <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden">
-                <div className={`mt-6 p-6 bg-white/60 rounded-2xl border space-y-4 ${theme.detailBorder}`}>
-                  <div className="flex items-center gap-2 text-slate-800 font-bold">
-                    <Info className={`w-4 h-4 ${theme.iconColor}`} />
-                    <span>다변수 맥락 추론 상세</span>
-                  </div>
-                  <p className="text-slate-600 text-sm leading-relaxed">{patient.aiRecommendation.details}</p>
-                  <div className="grid grid-cols-2 gap-4 pt-2">
-                    {patient.aiRecommendation.stats.map((stat, idx) => (
-                      <div key={idx} className={`p-3 rounded-xl ${theme.detailBg}`}>
-                        <span className={`text-xs font-bold block mb-1 ${theme.detailStatColor}`}>{stat.label}</span>
-                        <span className="text-sm font-bold text-slate-800">{stat.value}</span>
-                      </div>
-                    ))}
-                  </div>
+        <div className="relative z-10">
+          <div className="flex items-center gap-2 mb-4">
+            <Sparkles className={`w-5 h-5 ${theme.iconColor}`} strokeWidth={2} />
+            <span className={`font-bold tracking-wide ${theme.labelColor}`}>AI 분석 결과</span>
+          </div>
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-4">
+            {patient.aiRecommendation.title}<br/>
+            <span className={theme.highlightColor}>{patient.aiRecommendation.highlight}</span>됩니다.
+          </h2>
+          <div className="space-y-4">
+            {patient.aiRecommendation.reasons.map((reason, idx) => (
+              <div key={idx} className="flex items-start gap-3">
+                <div className={`w-6 h-6 rounded-full flex items-center justify-center shrink-0 mt-0.5 ${reason.type === 'check' ? 'bg-teal-100' : 'bg-orange-100'}`}>
+                  {reason.type === 'up'    && <ArrowUpRight className="w-3.5 h-3.5 text-orange-600" strokeWidth={2.5} />}
+                  {reason.type === 'alert' && <AlertCircle  className="w-3.5 h-3.5 text-orange-600" strokeWidth={2.5} />}
+                  {reason.type === 'check' && <CheckCircle2 className="w-3.5 h-3.5 text-teal-600"   strokeWidth={2.5} />}
                 </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
+                <p className="text-slate-700 text-lg leading-relaxed"><SafeText html={reason.text} /></p>
+              </div>
+            ))}
+          </div>
+          <div className="mt-2">
+            <button
+              onClick={onToggleDetails}
+              aria-expanded={showAiDetails}
+              aria-controls="ai-details"
+              className={`flex items-center gap-2 font-bold transition-colors ml-auto bg-transparent px-2 py-1 rounded-xl ${theme.detailsButtonColor}`}
+            >
+              {showAiDetails ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+              상세 보기
+            </button>
+            <AnimatePresence>
+              {showAiDetails && (
+                <motion.div
+                  id="ai-details"
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: 'auto', opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  className="overflow-hidden"
+                >
+                  <div className={`mt-6 p-6 bg-white/60 rounded-2xl border space-y-4 ${theme.detailBorder}`}>
+                    <div className="flex items-center gap-2 text-slate-800 font-bold">
+                      <Info className={`w-4 h-4 ${theme.iconColor}`} />
+                      <span>다변수 맥락 추론 상세</span>
+                    </div>
+                    <p className="text-slate-600 text-sm leading-relaxed">{patient.aiRecommendation.details}</p>
+                    <div className="grid grid-cols-2 gap-4 pt-2">
+                      {patient.aiRecommendation.stats.map((stat, idx) => (
+                        <div key={idx} className={`p-3 rounded-xl ${theme.detailBg}`}>
+                          <span className={`text-xs font-bold block mb-1 ${theme.detailStatColor}`}>{stat.label}</span>
+                          <span className="text-sm font-bold text-slate-800">{stat.value}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
         </div>
       </div>
     </div>
@@ -395,10 +592,15 @@ export default function DoctorDashboard() {
           {/* Header */}
           <div className="p-8 pb-6 border-b border-sky-50/50 flex justify-between items-center print:hidden">
             <div>
-              <div className="flex items-center gap-3 mb-2">
+              <div className="flex items-center gap-3 mb-1">
                 <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">{selectedPatient.name}</h1>
                 <span className="text-lg text-slate-500 font-medium">{selectedPatient.gender} / {selectedPatient.age}세</span>
               </div>
+              {selectedPatient.patientNo && (
+                <span className="text-xs text-slate-400 font-mono block mb-2">
+                  {maskPatientId(selectedPatient.patientNo)}
+                </span>
+              )}
               <div className="flex gap-2">
                 {selectedPatient.disease.split(', ').map(d => (
                   <span key={d} className="px-3 py-1 bg-sky-50 text-sky-600 rounded-full text-sm font-bold">{d}</span>
@@ -406,23 +608,31 @@ export default function DoctorDashboard() {
               </div>
             </div>
             <div className="flex gap-3">
-              <button className="p-3 bg-slate-50 hover:bg-slate-100 text-slate-600 rounded-2xl transition-colors">
+              <button
+                aria-label="진료 기록 열기"
+                className="p-3 bg-slate-50 hover:bg-slate-100 text-slate-600 rounded-2xl transition-colors"
+              >
                 <FileText className="w-5 h-5" strokeWidth={1.5} />
               </button>
-              <button className="p-3 bg-slate-50 hover:bg-slate-100 text-slate-600 rounded-2xl transition-colors">
+              <button
+                aria-label="환자에게 전화하기"
+                className="p-3 bg-slate-50 hover:bg-slate-100 text-slate-600 rounded-2xl transition-colors"
+              >
                 <Phone className="w-5 h-5" strokeWidth={1.5} />
               </button>
             </div>
           </div>
 
           {/* Tab Bar */}
-          <div className="px-8 pt-3 flex gap-1 border-b border-sky-50/50 print:hidden">
+          <div role="tablist" className="px-8 pt-3 flex gap-1 border-b border-sky-50/50 print:hidden">
             {([
               { id: 'ai',   label: 'AI 분석',   icon: <Sparkles  className="w-4 h-4" /> },
               { id: 'soap', label: 'SOAP 노트', icon: <FileText  className="w-4 h-4" /> },
             ] as const).map(tab => (
               <button
                 key={tab.id}
+                role="tab"
+                aria-selected={activePanel === tab.id}
                 onClick={() => setActivePanel(tab.id)}
                 className={`px-5 py-2.5 rounded-t-2xl text-sm font-bold flex items-center gap-2 border-b-2 transition-all ${
                   activePanel === tab.id

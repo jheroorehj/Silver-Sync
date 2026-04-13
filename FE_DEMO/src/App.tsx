@@ -8,9 +8,21 @@ import { Stethoscope, ClipboardList, Smartphone } from 'lucide-react';
 import DoctorDashboard from './components/DoctorDashboard';
 import NurseChecklist from './components/NurseChecklist';
 import PatientApp from './components/PatientApp';
+import { SessionTimeoutModal } from './components/SessionTimeoutModal';
+import { useSessionTimeout } from './hooks/useSessionTimeout';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<'doctor' | 'nurse' | 'patient'>('doctor');
+  const [showTimeoutWarn, setShowTimeoutWarn] = useState(false);
+  const [isLocked, setIsLocked] = useState(false);
+
+  useSessionTimeout({
+    onWarn: () => setShowTimeoutWarn(true),
+    onLogout: () => {
+      setShowTimeoutWarn(false);
+      setIsLocked(true);
+    },
+  });
 
   return (
     <div className="min-h-screen bg-sky-50 flex flex-col font-sans selection:bg-cyan-100 selection:text-cyan-900">
@@ -23,11 +35,12 @@ export default function App() {
               </div>
               <span className="text-2xl font-extrabold text-slate-800 tracking-tight">Silver-Sync</span>
             </div>
-            
+
             {/* Airy Segmented Control Navigation */}
             <nav className="flex p-1.5 space-x-2 bg-sky-100/50 rounded-full border border-white/60 shadow-inner">
               <button
                 onClick={() => setActiveTab('doctor')}
+                aria-current={activeTab === 'doctor' ? 'page' : undefined}
                 className={`flex items-center px-5 py-2.5 rounded-full text-[15px] font-bold transition-all duration-300 ${
                   activeTab === 'doctor'
                     ? 'bg-white text-cyan-600 shadow-sm shadow-sky-200/50'
@@ -39,6 +52,7 @@ export default function App() {
               </button>
               <button
                 onClick={() => setActiveTab('nurse')}
+                aria-current={activeTab === 'nurse' ? 'page' : undefined}
                 className={`flex items-center px-5 py-2.5 rounded-full text-[15px] font-bold transition-all duration-300 ${
                   activeTab === 'nurse'
                     ? 'bg-white text-cyan-600 shadow-sm shadow-sky-200/50'
@@ -50,6 +64,7 @@ export default function App() {
               </button>
               <button
                 onClick={() => setActiveTab('patient')}
+                aria-current={activeTab === 'patient' ? 'page' : undefined}
                 className={`flex items-center px-5 py-2.5 rounded-full text-[15px] font-bold transition-all duration-300 ${
                   activeTab === 'patient'
                     ? 'bg-white text-cyan-600 shadow-sm shadow-sky-200/50'
@@ -69,6 +84,14 @@ export default function App() {
         {activeTab === 'nurse' && <NurseChecklist />}
         {activeTab === 'patient' && <PatientApp />}
       </main>
+
+      {(showTimeoutWarn || isLocked) && (
+        <SessionTimeoutModal
+          isLocked={isLocked}
+          onContinue={() => setShowTimeoutWarn(false)}
+          onUnlock={() => setIsLocked(false)}
+        />
+      )}
     </div>
   );
 }

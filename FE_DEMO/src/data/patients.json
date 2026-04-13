@@ -7,6 +7,14 @@
     "time": "10:30",
     "status": "orange",
     "disease": "고혈압, 당뇨",
+    "patientNo": "720315-1234567",
+    "agentMeta": {
+      "confidenceScore": 72,
+      "dissensionFlag": false,
+      "debateLog": [
+        "전 에이전트 합의: 수축기 혈압 145mmHg 및 두통·뒷목 뻐근함 신규 증상 동반으로 즉각적인 대면 진료 권고. 이견 없음."
+      ]
+    },
     "aiRecommendation": {
       "title": "혈압 상승 추세 및 두통 호소로",
       "highlight": "대면 진료가 권고",
@@ -56,6 +64,14 @@
     "time": "10:45",
     "status": "teal",
     "disease": "고혈압",
+    "patientNo": "680902-2234567",
+    "agentMeta": {
+      "confidenceScore": 95,
+      "dissensionFlag": false,
+      "debateLog": [
+        "전 에이전트 합의: 모든 지표 정상 범위 내 유지로 비대면 상담 유지 권고. 현재 처방 변경 불필요."
+      ]
+    },
     "aiRecommendation": {
       "title": "모든 수치가 안정적이며 특이사항 없어",
       "highlight": "비대면 진료가 가능",
@@ -105,6 +121,15 @@
     "time": "11:00",
     "status": "amber",
     "disease": "당뇨",
+    "patientNo": "750610-1234567",
+    "agentMeta": {
+      "confidenceScore": 81,
+      "dissensionFlag": true,
+      "debateLog": [
+        "에이전트 A는 생활습관 교정 우선(야식 제한·운동 재개) 후 2주 관찰을 권고함 (공복혈당 142mg/dL, 상승 추세이나 약물 증량 기준 미달).",
+        "에이전트 B는 공복혈당이 목표치를 2회 초과하였으므로 당뇨약 용량 조절을 즉시 검토해야 한다고 주장. 두 에이전트 간 합의 미달로 신뢰도 81%에 그침."
+      ]
+    },
     "aiRecommendation": {
       "title": "공복 혈당 변동성 증가로 인한",
       "highlight": "집중 모니터링 및 주의",
@@ -121,7 +146,38 @@
     },
     "vitals": {
       "bp": { "current": "132/85", "trend": "안정적", "trendUp": false, "data": [130, 132, 131, 134, 132] },
-      "sugar": { "current": "142", "status": "주의 (상승 추세)", "trendUp": true, "data": [115, 128, 145, 138, 142] },
+      "sugar": {
+        "current": "142",
+        "status": "주의 (상승 추세)",
+        "trendUp": true,
+        "data": [115, 128, 145, 138, 142],
+        "timeSeries": [
+          { "time": "00:00", "value": 118 },
+          { "time": "01:00", "value": 112 },
+          { "time": "02:00", "value": 108 },
+          { "time": "03:00", "value": 105 },
+          { "time": "04:00", "value": 109 },
+          { "time": "05:00", "value": 115 },
+          { "time": "06:00", "value": 122 },
+          { "time": "07:00", "value": 130 },
+          { "time": "08:00", "value": 142 },
+          { "time": "09:00", "value": 155 },
+          { "time": "10:00", "value": 148 },
+          { "time": "11:00", "value": 138 },
+          { "time": "12:00", "value": 133 },
+          { "time": "13:00", "value": 158 },
+          { "time": "14:00", "value": 162 },
+          { "time": "15:00", "value": 145 },
+          { "time": "16:00", "value": 132 },
+          { "time": "17:00", "value": 125 },
+          { "time": "18:00", "value": 130 },
+          { "time": "19:00", "value": 152 },
+          { "time": "20:00", "value": 148 },
+          { "time": "21:00", "value": 138 },
+          { "time": "22:00", "value": 128 },
+          { "time": "23:00", "value": 120 }
+        ]
+      },
       "adherence": { "current": "95", "data": [100, 100, 90, 100, 100] }
     },
     "footerAction": "집중 모니터링 요청",
@@ -154,6 +210,14 @@
     "time": "11:15",
     "status": "teal",
     "disease": "고혈압, 고지혈증",
+    "patientNo": "430221-2234567",
+    "agentMeta": {
+      "confidenceScore": 97,
+      "dissensionFlag": false,
+      "debateLog": [
+        "전 에이전트 합의: 현재 처방 및 생활 습관 유지만으로 충분한 최적 상태. 고령임에도 모든 지표 최상위 수준 유지 중."
+      ]
+    },
     "aiRecommendation": {
       "title": "고령임에도 불구하고 매우 우수한",
       "highlight": "건강 상태 유지 중",

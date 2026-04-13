@@ -24,6 +24,7 @@ export type VitalSeries = {
   trendUp?: boolean;
   status?: string;
   data: number[];
+  timeSeries?: { time: string; value: number }[];
 };
 
 // ── Conversation & SOAP (Phase 2) ─────────────────────────────────────────
@@ -49,6 +50,12 @@ export type DocPatient = {
   time: string;
   status: DocPatientStatus;
   disease: string;
+  patientNo?: string;
+  agentMeta?: {
+    confidenceScore: number;
+    dissensionFlag: boolean;
+    debateLog: string[];
+  };
   aiRecommendation: {
     title: string;
     highlight: string;
