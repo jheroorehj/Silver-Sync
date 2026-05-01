@@ -10,6 +10,7 @@ import { OBSERVATION_CHIPS } from '../constants';
 import { NurseStatusAvatar } from './ui/StatusBadge';
 import NumberSpinner from './ui/NumberSpinner';
 import type { NursePatient, DocPatient, ConversationSummary } from '../types';
+import { post } from 'aws-amplify/api';
 
 const docPatients = patientsData as DocPatient[];
 
@@ -441,6 +442,39 @@ function ChecklistForm({ patient, onBack, onComplete }: {
   const [observations, setObservations] = useState<string[]>([]);
   const [notes, setNotes] = useState('');
 
+  const saveToAWS = async () => {
+    try {
+      const restOperation = post({
+        apiName: 'SilverSyncAPI',
+        path: '/vitals',
+        options: {
+          body: {
+            patientCode: patient.id, 
+            timestamp: Date.now(),
+            systolic: Number(systolic),
+            diastolic: Number(diastolic),
+            bloodSugar: Number(bloodSugar),
+            // 관찰 소견(배열)과 특이사항을 합쳐서 전달
+            note: `[관찰] ${observations.join(', ')} | [메모] ${notes}`
+          }
+        }
+      });
+
+      const { body } = await restOperation.response;
+      console.log('AWS 저장 성공:', await body.json());
+    } catch (error) {
+      console.error('AWS 저장 실패:', error);
+    }
+  };
+  const handleFinalSubmit = async () => {
+    saveToAWS(); // 데이터 전송 시작
+
+    if (conversationSummary) {
+      setFormStep('result');
+    } else {
+      onComplete();
+    }
+  };
   const toggleObservation = (chip: string) => {
     setObservations(prev => prev.includes(chip) ? prev.filter(c => c !== chip) : [...prev, chip]);
   };
@@ -500,8 +534,9 @@ function ChecklistForm({ patient, onBack, onComplete }: {
       <div className="fixed bottom-0 left-0 right-0 p-4 sm:p-6 bg-white/80 backdrop-blur-xl border-t border-sky-100/50 z-50">
         <div className="max-w-3xl mx-auto">
           <button
-            onClick={() => conversationSummary ? setFormStep('result') : onComplete()}
-            className="w-full h-16 sm:h-20 bg-gradient-to-r from-cyan-500 to-sky-500 hover:from-cyan-600 hover:to-sky-600 text-white rounded-[28px] text-xl sm:text-2xl font-extrabold shadow-xl shadow-cyan-200/50 flex items-center justify-center gap-3 transition-all transform active:scale-[0.98]">
+            onClick={handleFinalSubmit} 
+            className="w-full h-16 sm:h-20 bg-gradient-to-r from-cyan-500 ..."
+          >
             <Sparkles className="w-7 h-7" strokeWidth={2.5} />
             기록 완료 및 AI 분석 요청
           </button>
