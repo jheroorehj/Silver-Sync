@@ -31,28 +31,92 @@ type AddPatientModalProps = {
 
 // ── Mock Data ─────────────────────────────────────────────────────────────
 
-const INITIAL_PATIENTS: NursePatient[] = [
-  { id: '1', name: '김덕배', age: 72, gender: '남', time: '09:30', status: 'completed' },
-  { id: '2', name: '이순자', age: 68, gender: '여', time: '11:00', status: 'pending' },
-  { id: '3', name: '박상철', age: 75, gender: '남', time: '13:30', status: 'pending' },
-];
+// const INITIAL_PATIENTS: NursePatient[] = [
+//   { id: '1', name: '김덕배', age: 72, gender: '남', time: '09:30', status: 'completed' },
+//   { id: '2', name: '이순자', age: 68, gender: '여', time: '11:00', status: 'pending' },
+//   { id: '3', name: '박상철', age: 75, gender: '남', time: '13:30', status: 'pending' },
+// ];
+
 
 // ── Main Container ────────────────────────────────────────────────────────
 
 export default function NurseMain() {
   const [view, setView] = useState<'schedule' | 'checklist'>('schedule');
-  const [patients, setPatients] = useState<NursePatient[]>([]);
+  const [patients, setPatients] = useState<NursePatient[]>([]); // 한 번만 선언
   const [selectedPatient, setSelectedPatient] = useState<NursePatient | null>(null);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => { loadSchedule(); }, []);
+  // ── 데이터 불러오는 함수 ──
+  const fetchPatients = async () => {
+  setIsLoading(true);
+  try {
+    const API_URL = "https://ky1y2zdh68.execute-api.ap-northeast-2.amazonaws.com/dev/patients";
+    
+    const stepFunctionsInput = {
+      stateMachineArn: "arn:aws:states:ap-northeast-2:379995600109:stateMachine:SilverSync1",
+      input: JSON.stringify({
+        path: "/patients",
+        method: "GET"
+      })
+    };
+
+    const response = await fetch(API_URL, {
+      method: 'POST', 
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(stepFunctionsInput)
+    });
+
+    const executionResult = await response.json();
+    console.log("1. Step Functions 전체 응답:", executionResult);
+
+    // 응답 매핑 템플릿 설정에 따라 executionResult 자체가 람다의 출력일 수 있습니다.
+    // 만약 executionResult.output이 있으면 그것을 사용하고, 없으면 executionResult 자체를 사용합니다.
+    const rootData = executionResult.output ? 
+      (typeof executionResult.output === 'string' ? JSON.parse(executionResult.output) : executionResult.output) 
+      : executionResult;
+
+    console.log("2. 루트 데이터 파싱 완료:", rootData);
+
+    // 람다 출력 결과(infohandler)를 보면 데이터가 rootData.body 안에 문자열로 들어있습니다.
+    if (rootData && rootData.body) {
+      const bodyObj = typeof rootData.body === 'string' 
+        ? JSON.parse(rootData.body) 
+        : rootData.body;
+      
+      const patientList = bodyObj.data || [];
+      console.log("3. 최종 추출된 환자 리스트:", patientList);
+
+      const formatted = patientList.map((p: any) => ({
+        id: p.patientCode || Math.random().toString(),
+        name: p.name || "이름 없음",
+        age: p.age || 75,
+        gender: p.gender || '남',
+        time: p.createdAt 
+          ? new Date(parseInt(p.createdAt) * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) 
+          : "방문 예정",
+        status: 'pending' as const
+      }));
+
+      setPatients(formatted);
+    }
+  } catch (error) {
+    console.error("데이터 로딩 실패:", error);
+  } finally {
+    setIsLoading(false);
+  }
+};
+
+  // ── 초기 로드 및 동기화 ──
+  useEffect(() => {
+    fetchPatients();
+  }, []);
 
   const loadSchedule = () => {
-    setIsLoading(true);
-    setTimeout(() => { setPatients(INITIAL_PATIENTS); setIsLoading(false); }, 600);
+    fetchPatients(); // 기존 Mock 로직 대신 DB 호출로 변경
   };
 
+  // ── 환자 관리 로직 ──
   const handleStartChecklist = (patient: NursePatient) => {
     setSelectedPatient(patient);
     setView('checklist');
@@ -66,18 +130,55 @@ export default function NurseMain() {
     setSelectedPatient(null);
   };
 
-  const handleAddPatient = (newPatient: Omit<NursePatient, 'id' | 'status'>) => {
+  const handleAddPatient = async (newPatient: Omit<NursePatient, 'id' | 'status'>) => {
     const now = new Date();
     const timeString = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
-    const patient: NursePatient = {
+    const newId = Math.random().toString(36).substring(2, 11);
+    
+    // UI 선반영
+    const tempPatient: NursePatient = {
       ...newPatient,
       time: `현장추가 (${timeString})`,
-      id: Math.random().toString(36).substring(2, 11),
+      id: newId,
       status: 'pending',
     };
-    setPatients(prev => [...prev, patient]);
-    setIsAddModalOpen(false);
-  };
+
+    try {
+    const API_URL = "https://ky1y2zdh68.execute-api.ap-northeast-2.amazonaws.com/dev/patients";
+    
+    // Step Functions(Express)를 깨우기 위한 데이터 포맷
+    const stepFunctionsInput = {
+      stateMachineArn: "arn:aws:states:ap-northeast-2:379995600109:stateMachine:SilverSync1", // 준서님의 새 익스프레스 ARN
+      input: JSON.stringify({
+        path: "/patients",
+        method: "POST",
+        data: {
+          patientCode: newId,
+          name: newPatient.name,
+          age: newPatient.age,
+          gender: newPatient.gender,
+          
+          timestamp: Math.floor(now.getTime() / 1000)
+        }
+      })
+    };
+
+    const response = await fetch(API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(stepFunctionsInput)
+    });
+
+    if (response.ok) {
+      console.log("서버 저장 성공!");
+      fetchPatients(); // 목록 새로고침
+    }
+  } catch (error) {
+    console.error("추가 에러:", error);
+  }
+};
+
+  // 이 아래부터 return (...) 부분은 동일하게 유지하면 됩니다.
 
   return (
     <div className="min-h-screen bg-sky-50 font-sans selection:bg-cyan-100">
@@ -442,30 +543,33 @@ function ChecklistForm({ patient, onBack, onComplete }: {
   const [observations, setObservations] = useState<string[]>([]);
   const [notes, setNotes] = useState('');
 
-  const saveToAWS = async () => {
-    try {
-      const restOperation = post({
-        apiName: 'SilverSyncAPI',
-        path: '/vitals',
-        options: {
-          body: {
-            patientCode: patient.id, 
-            timestamp: Date.now(),
-            systolic: Number(systolic),
-            diastolic: Number(diastolic),
-            bloodSugar: Number(bloodSugar),
-            // 관찰 소견(배열)과 특이사항을 합쳐서 전달
-            note: `[관찰] ${observations.join(', ')} | [메모] ${notes}`
-          }
-        }
-      });
-
-      const { body } = await restOperation.response;
-      console.log('AWS 저장 성공:', await body.json());
-    } catch (error) {
-      console.error('AWS 저장 실패:', error);
-    }
+  // NurseChecklist.tsx 내의 saveToAWS 함수 수정
+const saveToAWS = async () => {
+  const API_URL = "https://ky1y2zdh68.execute-api.ap-northeast-2.amazonaws.com/dev/patients";
+  
+  // Step Functions API 규격에 맞게 상자를 씌웁니다.
+  const stepFunctionsInput = {
+    stateMachineArn: "arn:aws:states:ap-northeast-2:379995600109:stateMachine:SilverSync1",
+    input: JSON.stringify({
+      path: "/vitals",
+      method: "POST",
+      data: {
+        patientCode: patient.id,
+        systolic: Number(systolic),
+        diastolic: Number(diastolic),
+        bloodSugar: Number(bloodSugar),
+        note: notes,
+        timestamp: Math.floor(Date.now() / 1000)
+      }
+    })
   };
+
+  await fetch(API_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' }, // 헤더 필수!
+    body: JSON.stringify(stepFunctionsInput)
+  });
+};
   const handleFinalSubmit = async () => {
     saveToAWS(); // 데이터 전송 시작
 

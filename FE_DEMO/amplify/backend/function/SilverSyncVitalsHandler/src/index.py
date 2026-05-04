@@ -23,14 +23,15 @@ def handler(event, context):
         item = {
             'patientCode': body['patientCode'],   # Partition Key
             'timestamp': body['timestamp'],       # Sort Key
-            'systolic': body['systolic'],
-            'diastolic': body['diastolic'],
-            'bloodSugar': body.get('bloodSugar', 0),
-            'note': body.get('note', '')
+            'systolic': body['systolic'],   # 수축기 ( 가장 높은 압력)
+            'diastolic': body['diastolic'], # 이완기 ( 가장 낮은 압력))
+            'bloodSugar': body.get('bloodSugar', 0), # 입력없을시 0으로 입력
+            'note': body.get('note', '') 
         }
         
         # 4. DynamoDB에 저장
         table.put_item(Item=item)
+        
         
         return {
             'statusCode': 200,
