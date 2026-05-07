@@ -70,8 +70,7 @@ export default function NurseMain() {
     const executionResult = await response.json();
     console.log("1. Step Functions 전체 응답:", executionResult);
 
-    // 응답 매핑 템플릿 설정에 따라 executionResult 자체가 람다의 출력일 수 있습니다.
-    // 만약 executionResult.output이 있으면 그것을 사용하고, 없으면 executionResult 자체를 사용합니다.
+
     const rootData = executionResult.output ? 
       (typeof executionResult.output === 'string' ? JSON.parse(executionResult.output) : executionResult.output) 
       : executionResult;
@@ -90,7 +89,7 @@ export default function NurseMain() {
       const formatted = patientList.map((p: any) => ({
         id: p.patientCode || Math.random().toString(),
         name: p.name || "이름 없음",
-        age: p.age || 75,
+        age: p.age || (p.birthDate ? (2026 - parseInt(p.birthDate.split('-')[0])) : 75),
         gender: p.gender || '남',
         time: p.createdAt 
           ? new Date(parseInt(p.createdAt) * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) 
@@ -130,34 +129,28 @@ export default function NurseMain() {
     setSelectedPatient(null);
   };
 
-  const handleAddPatient = async (newPatient: Omit<NursePatient, 'id' | 'status'>) => {
-    const now = new Date();
-    const timeString = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
-    const newId = Math.random().toString(36).substring(2, 11);
-    
-    // UI 선반영
-    const tempPatient: NursePatient = {
-      ...newPatient,
-      time: `현장추가 (${timeString})`,
-      id: newId,
-      status: 'pending',
-    };
+  const handleAddPatient = async (newPatientData: { name: string, birthdate: string, gender: string }) => {
+  const now = new Date();
+  const newId = Math.random().toString(36).substring(2, 11);
+  
+  // 2026년 기준 나이 계산
+  const birthYear = parseInt(newPatientData.birthdate.split('-')[0]);
+  const calculatedAge = 2026 - birthYear;
 
-    try {
+  try {
     const API_URL = "https://ky1y2zdh68.execute-api.ap-northeast-2.amazonaws.com/dev/patients";
     
-    // Step Functions(Express)를 깨우기 위한 데이터 포맷
     const stepFunctionsInput = {
-      stateMachineArn: "arn:aws:states:ap-northeast-2:379995600109:stateMachine:SilverSync1", // 준서님의 새 익스프레스 ARN
+      stateMachineArn: "arn:aws:states:ap-northeast-2:379995600109:stateMachine:SilverSync1",
       input: JSON.stringify({
         path: "/patients",
         method: "POST",
         data: {
           patientCode: newId,
-          name: newPatient.name,
-          age: newPatient.age,
-          gender: newPatient.gender,
-          
+          name: newPatientData.name,
+          age: calculatedAge, 
+          birthDate: newPatientData.birthdate, 
+          gender: newPatientData.gender,
           timestamp: Math.floor(now.getTime() / 1000)
         }
       })
@@ -170,15 +163,16 @@ export default function NurseMain() {
     });
 
     if (response.ok) {
-      console.log("서버 저장 성공!");
-      fetchPatients(); // 목록 새로고침
+      console.log("데이터 저장 성공!");
+      fetchPatients(); 
+      setIsAddModalOpen(false);
     }
   } catch (error) {
     console.error("추가 에러:", error);
   }
 };
 
-  // 이 아래부터 return (...) 부분은 동일하게 유지하면 됩니다.
+
 
   return (
     <div className="min-h-screen bg-sky-50 font-sans selection:bg-cyan-100">
@@ -277,13 +271,16 @@ function ScheduleView({ patients, onLoadSchedule, onStartChecklist, onOpenAddMod
 
 function AddPatientModal({ onClose, onAdd }: AddPatientModalProps) {
   const [name, setName] = useState('');
-  const [age, setAge] = useState('');
+  const [birthdate, setBirthdate] = useState(''); // age 대신 birthdate 사용
   const [gender, setGender] = useState('남');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name || !age) return;
-    onAdd({ name, age: Number(age), gender });
+    if (!name || birthdate.length !== 8) return; // 8자리 체크
+    
+    // YYYYMMDD -> YYYY-MM-DD 형식 변환
+    const formattedDate = `${birthdate.slice(0, 4)}-${birthdate.slice(4, 6)}-${birthdate.slice(6, 8)}`;
+    onAdd({ name, birthdate: formattedDate, gender });
   };
 
   return (
@@ -299,24 +296,26 @@ function AddPatientModal({ onClose, onAdd }: AddPatientModalProps) {
           <div>
             <label className="block text-slate-700 font-bold mb-2">환자 성함</label>
             <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="예: 홍길동"
-              className="w-full h-16 bg-sky-50/50 border border-sky-100 rounded-2xl px-6 text-xl font-bold text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:bg-white transition-all" autoFocus />
+              className="w-full h-16 bg-sky-50/50 border border-sky-100 rounded-2xl px-6 text-xl font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-sky-400 transition-all" autoFocus />
           </div>
           <div className="flex gap-4">
-            <div className="flex-1">
-              <label className="block text-slate-700 font-bold mb-2">연령</label>
-              <input type="number" value={age} onChange={(e) => setAge(e.target.value)} placeholder="예: 75"
-                className="w-full h-16 bg-sky-50/50 border border-sky-100 rounded-2xl px-6 text-xl font-bold text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:bg-white transition-all" />
+            <div className="flex-[1.5]">
+              <label className="block text-slate-700 font-bold mb-2">생년월일</label>
+              <input type="number" value={birthdate} 
+                onChange={(e) => setBirthdate(e.target.value.slice(0, 8))} // 8자리 제한
+                placeholder="19500101"
+                className="w-full h-16 bg-sky-50/50 border border-sky-100 rounded-2xl px-6 text-xl font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-sky-400 transition-all" />
             </div>
             <div className="flex-1">
               <label className="block text-slate-700 font-bold mb-2">성별</label>
               <div className="flex bg-sky-50/50 border border-sky-100 rounded-2xl p-1.5 h-16">
-                <button type="button" onClick={() => setGender('남')} className={`flex-1 rounded-xl font-bold text-lg transition-all ${gender === '남' ? 'bg-white text-sky-600 shadow-sm' : 'text-slate-500'}`}>남</button>
-                <button type="button" onClick={() => setGender('여')} className={`flex-1 rounded-xl font-bold text-lg transition-all ${gender === '여' ? 'bg-white text-sky-600 shadow-sm' : 'text-slate-500'}`}>여</button>
+                <button type="button" onClick={() => setGender('남')} className={`flex-1 rounded-xl font-bold ${gender === '남' ? 'bg-white text-sky-600 shadow-sm' : 'text-slate-500'}`}>남</button>
+                <button type="button" onClick={() => setGender('여')} className={`flex-1 rounded-xl font-bold ${gender === '여' ? 'bg-white text-sky-600 shadow-sm' : 'text-slate-500'}`}>여</button>
               </div>
             </div>
           </div>
-          <button type="submit" disabled={!name || !age}
-            className="w-full h-16 mt-4 bg-sky-500 hover:bg-sky-600 disabled:bg-slate-200 disabled:text-slate-400 text-white rounded-2xl text-xl font-extrabold shadow-lg shadow-sky-200/50 transition-all">
+          <button type="submit" disabled={!name || birthdate.length !== 8}
+            className="w-full h-16 mt-4 bg-sky-500 hover:bg-sky-600 disabled:bg-slate-200 text-white rounded-2xl text-xl font-extrabold transition-all">
             추가하기
           </button>
         </form>
@@ -566,12 +565,12 @@ const saveToAWS = async () => {
 
   await fetch(API_URL, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' }, // 헤더 필수!
+    headers: { 'Content-Type': 'application/json' }, 
     body: JSON.stringify(stepFunctionsInput)
   });
 };
   const handleFinalSubmit = async () => {
-    saveToAWS(); // 데이터 전송 시작
+    saveToAWS(); 
 
     if (conversationSummary) {
       setFormStep('result');
