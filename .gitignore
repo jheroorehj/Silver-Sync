@@ -1,0 +1,12 @@
+.env
+.venv/
+.idea/
+__pycache__/
+*.pdf
+*.csv
+*.tar.gz
+*.zip
+data/
+data_csv/
+data_except/
+data_plus/
