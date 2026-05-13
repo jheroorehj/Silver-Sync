@@ -6,23 +6,39 @@ build/
 dist/
 coverage/
 
-# Environment variables
+# Secrets / Environment variables
 .env
 .env.local
 .env.*.local
 .env*
 !.env.example
+*.pem
+*.key
+*credentials*
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual envs
+.venv/
+venv/
+env/
+ENV/
 
 # OS
 .DS_Store
 Thumbs.db
 
-# Logs
+# Logs (build/runtime - keep agent/log/ which is meaningful run output)
 *.log
 
-# Editor
+# IDE
 .idea/
 .vscode/
 
-# Claude Code memory
+# Claude Code
 .claude/
