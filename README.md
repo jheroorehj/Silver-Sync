@@ -2,15 +2,9 @@
 
 `ss_service_2.py`는 SilverSync 프로젝트의 핵심 백엔드 로직으로, **검색 증강 생성(RAG, Retrieval-Augmented Generation)** 파이프라인을 구현한 엔진입니다. 
 
-강원대학교 컴퓨터공학부 4학년 졸업 프로젝트의 일환으로 개발되었으며, Supabase의 벡터 검색 역량과 Gemma 4b 모델의 자연어 처리 능력을 결합합니다.
-
 ---
 
 ## 🏗 System Architecture
-
-이 서비스는 다음과 같은 고도화된 RAG 프로세스를 거쳐 사용자에게 의학적 근거가 명확한 응답을 제공합니다.
-
-
 
 1. **Query Embedding**: 사용자의 자연어 질문을 `SentenceTransformer`를 통해 768차원의 고밀도 벡터로 변환합니다.
 2. **Vector Retrieval**: Supabase의 `pgvector` 기반 RPC 함수(`match_knowledge_emergency`)를 호출하여 `HNSW` 인덱스로 최적화된 고속 유사도 검색을 수행합니다.
