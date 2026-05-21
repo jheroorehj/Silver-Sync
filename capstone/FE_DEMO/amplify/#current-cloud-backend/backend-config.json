@@ -1,0 +1,49 @@
+{
+  "api": {
+    "SilverSyncAPI": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "SilverSyncVitalsHandler"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "API Gateway"
+    }
+  },
+  "function": {
+    "SilverSyncVitalsHandler": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
+  },
+  "parameters": {
+    "AMPLIFY_function_SilverSyncVitalsHandler_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "SilverSyncVitalsHandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_SilverSyncVitalsHandler_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "SilverSyncVitalsHandler"
+        }
+      ]
+    }
+  },
+  "storage": {
+    "PatientVitals": {
+      "providerPlugin": "awscloudformation",
+      "service": "DynamoDB"
+    }
+  }
+}
