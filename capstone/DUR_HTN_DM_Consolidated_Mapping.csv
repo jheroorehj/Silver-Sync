@@ -1,0 +1,13 @@
+﻿질환군,약물군,성분명,DUR_병용금기_및_제한,지침_주의사항,합병증_특이사항
+당뇨병,Biguanide,Metformin,"eGFR < 30 시 금기, Iodinated Contrast(조영제) 병용 시 일시 중단","유산산증 위험, 위장관 부작용",2025 지침: 금기/부작용 없는 한 우선 사용 원칙 유지하나 환자 특성 고려
+당뇨병,SGLT2 억제제,"Dapagliflozin, Empagliflozin, Enavogliflozin","eGFR < 30 시작 금기, 탈수/저혈압 주의","생식기 감염, 정상혈당 케토산증 주의",심부전(HFrEF/HFpEF) 및 당뇨병 신장질환(CKD) 우선 권고
+당뇨병,GLP-1 RA,"Dulaglutide, Semaglutide, Liraglutide","갑상선 수질암 가족력 시 금기, 췌장염 주의","심한 위장관계 부작용(오심, 구토)",죽상경화성 심혈관질환(ASCVD) 동반 시 강력 권고
+당뇨병,TZD,"Pioglitazone, Lobeglitazone",심부전(NYHA III/IV) 환자 금기,"부종, 체중 증가, 골절 위험 증가",인슐린 저항성 개선 및 지방간 개선 효과
+당뇨병,DPP-4 억제제,"Sitagliptin, Linagliptin, Vildagliptin",Saxagliptin 등 일부 성분 심부전 주의,신장 기능에 따른 용량 조절(Linagliptin 제외),저혈당 위험 적고 대사 중립적
+당뇨병,Sulfonylurea,"Glimepiride, Gliclazide",중증 간/신기능 장애 시 주의,"저혈당 위험(노인 주의), 체중 증가",신기능 저하 시 Gliclazide 선호
+고혈압,ACE 억제제,"Enalapril, Ramipril, Lisinopril","임부 금기(1등급), ARB와 병용 금기, Aliskiren 병용 금기(당뇨환자)","마른 기침 부작용, 고칼륨혈증 주의",당뇨병 신장질환(알부민뇨) 환자 1차 약제
+고혈압,ARB,"Losartan, Valsartan, Telmisartan","임부 금기(1등급), ACEI와 병용 금기, Aliskiren 병용 금기(당뇨환자)",고칼륨혈증 모니터링 필요,ACEI 부작용(기침) 시 대안 및 신장 보호 효과
+고혈압,CCB,"Amlodipine, Nifedipine, Diltiazem",Diltiazem/Verapamil은 서맥성 부정맥 주의,"하지 부종, 안면 홍조, 잇몸 증식",대사 중립성으로 당뇨 환자에게 안전함
+고혈압,Beta-blocker,"Atenolol, Bisoprolol, Carvedilol","천식/중증 COPD 금기, 서맥성 부정맥 금기","당대사 악화 가능성(비선택성), 저혈당 은폐 주의","심부전, 협심증, 심근경색 후 필수 약제"
+고혈압,Diuretics,"Hydrochlorothiazide, Chlorthalidone","무뇨증 환자 금기, 설폰아미드 과민증 주의","저나트륨/저칼륨혈증, 요산 상승(통풍 주의)",노인성 고혈압 및 염분 민감 고혈압에 효과적
+상호작용,NSAID + HTN Meds,"Ibuprofen, Naproxen 등 + ACEI/ARB",병용 주의(신장 독성 증가),혈압 강하 효과 감소 및 급성 신손상 위험,노인 및 탈수 환자에서 신기능 급격한 악화 위험

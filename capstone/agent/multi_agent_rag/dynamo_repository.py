@@ -1,9 +1,11 @@
 from __future__ import annotations
 
-import os
 from typing import Any
-
+import json
+import numpy as np
 import boto3
+from boto3.dynamodb.conditions import Attr
+import os
 
 from .config import SETTINGS
 from .schemas import GuidelineEvidence, PatientSnapshot, VisitRecord
@@ -11,30 +13,22 @@ from .utils import to_float
 
 
 class DynamoRepository:
-    """
-    클라우드 환경을 위한 리포지토리입니다.
-    - 환자 데이터: AWS DynamoDB
-    - RAG (가이드라인, DUR): Supabase
-    """
-
     def __init__(self):
-        # DynamoDB 클라이언트
-        self.dynamodb = boto3.resource(
-            "dynamodb",
-            region_name=os.environ.get("BEDROCK_REGION", "ap-northeast-2")
-        )
+        self.aws_region = os.environ.get("BEDROCK_REGION", "ap-northeast-2")
+        self.dynamodb = boto3.resource("dynamodb", region_name=self.aws_region)
+        self.dynamodb_client = boto3.client("dynamodb", region_name=self.aws_region)
+        self.bedrock_client = boto3.client("bedrock-runtime", region_name=self.aws_region)
+
         self.table_name = os.environ.get("DYNAMODB_TABLE_NAME", "SilverSyncPatients")
         self.table = self.dynamodb.Table(self.table_name)
 
-        # Supabase 클라이언트
-        self._supabase = None
-        self._embedding = None
+        self.guidelines_table_name = os.environ.get("DYNAMODB_GUIDELINES_TABLE_NAME", "SilverSyncGuidelines")
+        self.guidelines_table = self.dynamodb.Table(self.guidelines_table_name)
 
     def load_patient_snapshot(self, patient_id: str) -> PatientSnapshot:
         if not patient_id:
             raise ValueError("DynamoDB에서 조회할 patient_id가 필요합니다.")
 
-        print(f"Fetching patient '{patient_id}' from DynamoDB table '{self.table_name}'...")
         try:
             response = self.table.get_item(Key={"patient_id": patient_id})
         except Exception as e:
@@ -47,8 +41,6 @@ class DynamoRepository:
         return self._snapshot_from_db(item)
 
     def _snapshot_from_db(self, item: dict[str, Any]) -> PatientSnapshot:
-        """DynamoDB의 dict 데이터를 PatientSnapshot 객체로 변환"""
-        # records 내의 각 dict를 VisitRecord 객체로 변환
         raw_records = item.get("records", [])
         converted_records = [
             VisitRecord(
@@ -76,23 +68,51 @@ class DynamoRepository:
 
     def retrieve_guidelines(self, query: str, top_k: int | None = None) -> list[GuidelineEvidence]:
         try:
-            query_embedding = self.embedding.embed_query(query)
-            response = self.supabase.rpc(
-                SETTINGS.supabase_match_fn,
-                {
-                    "query_embedding": query_embedding,
-                    "match_count": top_k or SETTINGS.guideline_top_k,
-                },
-            ).execute()
-            rows = response.data or []
+            query_embedding = self._get_bedrock_embedding(query)
+            
+            # 카테고리 필터링 스캔으로 탐색 효율 유지
+            response = self.guidelines_table.scan(
+                FilterExpression=Attr('category').is_in(['CLINICAL_GUIDELINE', 'DUR_CONTRAINDICATION', 'ELDERLY_CAUTION']),
+                ProjectionExpression="item_id,content, embedding, metadata"
+            )   
+            items = response.get("Items", [])   
+
+            scored_items = []
+            for item in items:
+                if "embedding" in item and "content" in item:
+                    try:
+                        stored_embedding_raw = item["embedding"]
+                        
+                        if isinstance(stored_embedding_raw, str):
+                            stored_embedding = json.loads(stored_embedding_raw)
+                        elif isinstance(stored_embedding_raw, list):
+                            # Decimal 데이터 포맷을 순수 float 리스트로 완벽 강제 다운캐스팅 처리
+                            stored_embedding = [float(x) for x in stored_embedding_raw]
+                        else:
+                            continue
+                        
+                        similarity = self._cosine_similarity(query_embedding, stored_embedding)
+                        scored_items.append((similarity, item))
+                    except Exception as inner_e:
+                        print(f"        [RAG Debug] 임베딩 파싱/유사도 계산 중 오류: {inner_e}, 항목: {item.get('guideline_id', 'N/A')}")
+                        continue
+                else:
+                    print(f"        [RAG Debug] 항목에 'embedding' 또는 'content' 필드 누락: {item.keys()} for item: {item.get('item_id', 'N/A')}")
+
+            
+            scored_items.sort(key=lambda x: x[0], reverse=True)
+            top_k_limit = top_k or SETTINGS.guideline_top_k
+            top_k_items = scored_items[:top_k_limit]
+            rows = [item for similarity, item in top_k_items]
+            
         except Exception as e:
-            print(f"Supabase RAG 검색 중 오류가 발생했습니다: {e}")
+            print(f"DynamoDB RAG 검색 실패: {e}")
             return []
 
         evidence: list[GuidelineEvidence] = []
         for row in rows:
             metadata = row.get("metadata") if isinstance(row.get("metadata"), dict) else {}
-            source = metadata.get("source_path") or metadata.get("source") or "supabase_knowledge_base"
+            source = metadata.get("source_path") or metadata.get("source") or "dynamodb_guidelines"
             evidence.append(
                 GuidelineEvidence(
                     source=str(source),
@@ -105,41 +125,64 @@ class DynamoRepository:
         alerts: list[str] = []
         if len(medications) < 2:
             return alerts
+
         try:
+            response = self.guidelines_table.scan(
+                FilterExpression=Attr('category').is_in(['DUR_CONTRAINDICATION', 'ELDERLY_CAUTION']),
+                ProjectionExpression="content, ingredient, metadata"
+            )
+            dur_items = response.get("Items", [])
+
             for med in medications:
-                if not med or len(med) < 2:
-                    continue
-                response = (
-                    self.supabase.table(SETTINGS.supabase_table)
-                    .select("content, metadata")
-                    .ilike("content", f"%{med}%")
-                    .limit(3)
-                    .execute()
-                )
-                for row in response.data or []:
-                    metadata = row.get("metadata") if isinstance(row.get("metadata"), dict) else {}
-                    source = str(metadata.get("source", ""))
-                    if "병용금기" in source or "DUR" in source or "drug" in source.lower():
-                        alerts.append(str(row.get("content", ""))[:500])
+                if not med or len(med) < 2: continue
+                
+                for item in dur_items:
+                    content_str = str(item.get("content", ""))
+                    ing_str = str(item.get("ingredient", ""))
+                    
+                    if med.lower() in content_str.lower() or med.lower() in ing_str.lower():
+                        metadata = item.get("metadata") if isinstance(item.get("metadata"), dict) else {}
+                        source = str(metadata.get("source", ""))
+                        alerts.append(f"[{source or 'DUR_ALERT'}] {content_str[:500]}")
+                        
         except Exception as e:
-            print(f"Supabase DUR 검색 중 오류가 발생했습니다: {e}")
+            print(f"DynamoDB DUR 검색 오류: {e}")
             return alerts
+            
         return list(dict.fromkeys(alerts))
+    
+    def _cosine_similarity(self, vec1: list[float] | np.ndarray, vec2: list[float] | np.ndarray) -> float:
+        # 데이터 정밀도 형변환 예외 차단 (float 타입 강제)
+        v1 = np.array(vec1, dtype=float)
+        v2 = np.array(vec2, dtype=float)
+        dot_product = np.dot(v1, v2)
+        norm_a = np.linalg.norm(v1)
+        norm_b = np.linalg.norm(v2)
+        if norm_a == 0 or norm_b == 0:
+            return 0.0
+        return float(dot_product / (norm_a * norm_b))
 
-    @property
-    def supabase(self):
-        if self._supabase is None:
-            if not SETTINGS.supabase_url or not SETTINGS.supabase_key:
-                raise RuntimeError("SUPABASE_URL 또는 SUPABASE_KEY가 설정되어 있지 않습니다.")
-            from supabase import create_client
+    def _get_bedrock_embedding(self, text: str) -> list[float]:
+        input_text = text.strip() if text and text.strip() else "Empty query"
+        body = json.dumps({
+            "inputText": input_text,
+            "dimensions": 1024
+        }).encode("utf-8")
+        
+        # config.py에 설정된 모델 ID(예: amazon.titan-embed-text-v2:0)를 사용하여 호출
+        response = self.bedrock_client.invoke_model(
+            body=body,
+            modelId=SETTINGS.embedding_model,
+            accept="application/json",
+            contentType="application/json"
+        )
+        
+        response_body = json.loads(response.get("body").read())
 
-            self._supabase = create_client(SETTINGS.supabase_url, SETTINGS.supabase_key)
-        return self._supabase
+        # Titan 임베딩 모델 토큰 사용량 추출 및 즉시 출력
+        input_tokens = response_body.get("inputTextTokenCount", 0)
+        if input_tokens > 0:
+            print(f"    └── [Titan 임베딩 토큰] 입력: {input_tokens:,}", flush=True)
 
-    @property
-    def embedding(self):
-        if self._embedding is None:
-            from langchain_huggingface import HuggingFaceEmbeddings
-
-            self._embedding = HuggingFaceEmbeddings(model_name=SETTINGS.embedding_model)
-        return self._embedding
+        embedding = response_body.get("embedding")
+        return [float(x) for x in embedding]

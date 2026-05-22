@@ -17,10 +17,8 @@ class LLMClient:
         enabled: bool | None = None,
         provider: str | None = None,
     ):
-        self.provider = (provider or SETTINGS.llm_provider).lower()
-        self.model = model or (
-            SETTINGS.bedrock_model_id if self.provider == "bedrock" else SETTINGS.ollama_model
-        )
+        self.provider = "bedrock"
+        self.model = model or SETTINGS.bedrock_model_id
         self.enabled = SETTINGS.use_llm if enabled is None else enabled
         self._llm = None
         self._bedrock = None
@@ -38,7 +36,6 @@ class LLMClient:
         model = model or self.model
         if provider == self.provider and model == self.model:
             return
-        self.provider = provider
         self.model = model
         self._llm = None
         self._bedrock = None
@@ -48,26 +45,14 @@ class LLMClient:
         if not self.enabled:
             self.last_error = "USE_LLM=0으로 모델 호출이 비활성화되어 있습니다."
             return None
+            
         try:
-            if self.provider == "bedrock":
-                return self._invoke_bedrock(prompt)
-            if self.provider == "ollama":
-                return self._invoke_ollama(prompt)
-            if self.provider == "gemma4":
-                return self._invoke_gemma4(prompt)
-            raise ValueError(f"지원하지 않는 LLM_PROVIDER입니다: {self.provider}")
+            return self._invoke_bedrock(prompt)
         except Exception as exc:
             self.last_error = f"{type(exc).__name__}: {exc}"
             if SETTINGS.require_llm:
                 raise RuntimeError(f"LLM 호출 실패 ({self.model}): {self.last_error}") from exc
             return None
-
-    def _invoke_ollama(self, prompt: str) -> str:
-        if self._llm is None:
-            from langchain_ollama import OllamaLLM
-
-            self._llm = OllamaLLM(model=self.model, temperature=0)
-        return self._llm.invoke(prompt)
 
     def _invoke_bedrock(self, prompt: str) -> str:
         if self._bedrock is None:
@@ -91,10 +76,30 @@ class LLMClient:
             },
         )
         
-        # Bedrock에서 반환한 토큰 사용량 추출 및 출력
-        usage = response.get("usage", {})
-        if usage:
-            print(f"    └── [토큰 소모] 입력: {usage.get('inputTokens', 0):,} / 출력: {usage.get('outputTokens', 0):,}")
+        # 🎯 [Converse API 정석 파싱] 2026 AWS Bedrock 공식 규격 적용
+        # 최신 converse API는 response 최상단이나 메타데이터에 'usage' 오브젝트를 품고 반환합니다.
+        input_tok = 0
+        output_tok = 0
+        
+        # 1. 최상단 'usage' 맵 서치
+        if "usage" in response:
+            usage = response["usage"]
+            input_tok = usage.get("inputTokens", 0)
+            output_tok = usage.get("outputTokens", 0)
+            
+        # 2. 크로스 리전(apac) 경로나 하위 메타데이터 맵 서치 (교차 방어)
+        elif "metrics" in response:
+            input_tok = response["metrics"].get("inputTokenCount", 0)
+            output_tok = response["metrics"].get("outputTokenCount", 0)
+
+        total_tok = input_tok + output_tok
+        
+        # 📊 확보된 토큰 정보 터미널에 강력하게 고정 인쇄
+        if total_tok > 0:
+            print(f"    └── [Haiku 토큰 소모] 입력: {input_tok:,} | 출력: {output_tok:,} | 총 소모: {total_tok:,}")
+        else:
+            # 최종 디버깅: 어떤 구조로 응답 데이터가 반환되는지 키값들만 추려내어 강제 출력
+            print(f"    ⚠️ [토큰 디버그] 키 배열: {list(response.keys())}")
 
         content = response.get("output", {}).get("message", {}).get("content", [])
         texts = [block.get("text", "") for block in content if isinstance(block, dict)]

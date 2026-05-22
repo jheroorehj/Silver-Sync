@@ -34,7 +34,7 @@ class MultiAgentRevisitPipeline:
         patient_search: str | None = None,
     ) -> PipelineResult:
         print("\n[에이전트 진행 상황] 🔍 DataCurator: 환자 데이터 수집 및 품질 검사 중...")
-        curated = self.data_curator.run(patient_search)
+        curated = self.data_curator.run(patient_search) # use_sample 파라미터 제거
         print("[에이전트 진행 상황] 🧠 ClinicalReasoner: 1차 임상 추론 중...")
         reasoning = self.clinical_reasoner.run(curated)
 
@@ -79,11 +79,11 @@ class MultiAgentRevisitPipeline:
         )
 
     def _use_full_debate_models(self) -> None:
-        self.guardian.llm.set_backend(SETTINGS.llm_provider, SETTINGS.worker_model)
-        self.judge.llm.set_backend(SETTINGS.llm_provider, SETTINGS.judge_model)
-        self.action_orchestrator.llm.set_backend(SETTINGS.llm_provider, SETTINGS.worker_model)
+        self.guardian.llm.set_backend("bedrock", SETTINGS.worker_model)
+        self.judge.llm.set_backend("bedrock", SETTINGS.judge_model)
+        self.action_orchestrator.llm.set_backend("bedrock", SETTINGS.worker_model)
 
     def _use_simple_route_models(self) -> None:
-        self.guardian.llm.set_backend(SETTINGS.simple_route_provider, SETTINGS.simple_route_model)
-        self.judge.llm.set_backend(SETTINGS.simple_route_provider, SETTINGS.simple_route_model)
-        self.action_orchestrator.llm.set_backend(SETTINGS.simple_route_provider, SETTINGS.simple_route_model)
+        self.guardian.llm.set_backend("bedrock", SETTINGS.simple_route_model)
+        self.judge.llm.set_backend("bedrock", SETTINGS.simple_route_model)
+        self.action_orchestrator.llm.set_backend("bedrock", SETTINGS.simple_route_model)

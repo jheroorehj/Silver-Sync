@@ -10,7 +10,6 @@ tiktoken
 tqdm
 boto3
 langchain
-supabase
 pydantic
 python-dotenv
 httpx
