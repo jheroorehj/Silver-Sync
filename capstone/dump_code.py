@@ -4,7 +4,7 @@ import os
 target_extensions = ['.py'] # 검검받고 싶은 확장자
 exclude_dirs = ['.git', '__pycache__', 'venv', '.venv', 'build', 'dist']
 
-with open('project_dump3.txt', 'w', encoding='utf-8') as outfile:
+with open('project_dump4.txt', 'w', encoding='utf-8') as outfile:
     for root, dirs, files in os.walk('.'):
         # 제외할 디렉토리 필터링
         dirs[:] = [d for d in dirs if d not in exclude_dirs]
