@@ -58,7 +58,25 @@ class Judge:
 
         remote_strength = remote_argument.total_strength if remote_argument else 0
         in_person_strength = in_person_argument.total_strength if in_person_argument else 50
-        risk_score = clamp(reasoning.debate_necessity_score + in_person_strength * 0.45 - remote_strength * 0.25)
+        max_in_person_issue = (
+            max(in_person_argument.issue_scores.values(), default=0)
+            if in_person_argument and in_person_argument.issue_scores
+            else 0
+        )
+
+        # 안전 우선(비대칭) 집계: 대면 측이 실재 우려(미해결 고위험)를 제기하면
+        # '비대면 가능' 강도가 그 위험을 수치로 상쇄하지 못하게 한다.
+        # 비대면 강도는 대면 우려가 없을 때만 위험도를 낮춘다.
+        SAFETY_CONCERN_STRENGTH = 50
+        SAFETY_CONCERN_ISSUE = 60
+        has_safety_concern = (
+            in_person_strength >= SAFETY_CONCERN_STRENGTH
+            or max_in_person_issue >= SAFETY_CONCERN_ISSUE
+        )
+        risk_score = reasoning.debate_necessity_score + in_person_strength * 0.45
+        if not has_safety_concern:
+            risk_score -= remote_strength * 0.25
+        risk_score = clamp(risk_score)
 
         level, consultation = self._level_from_risk(risk_score)
 

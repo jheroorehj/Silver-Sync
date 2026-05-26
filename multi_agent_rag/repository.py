@@ -7,7 +7,7 @@ import certifi
 
 from .config import PACKAGE_DIR, SETTINGS
 from .schemas import GuidelineEvidence, PatientSnapshot, VisitRecord
-from .utils import normalize_date, to_float
+from .utils import _to_int, normalize_date, to_float
 
 
 class MongoRepository:
@@ -70,6 +70,9 @@ class MongoRepository:
             medications=list(patient.get("medications", [])),
             records=records,
             overrides=list(patient.get("overrides", patient.get("disagreement_events", []))),
+            diagnoses=list(patient.get("diagnoses", [])),
+            medication_adherence_days=patient.get("medication_adherence_days"),
+            regular_care=patient.get("regular_care"),
             raw=patient,
         )
 
@@ -170,6 +173,9 @@ class MongoRepository:
             medications=list(patient.get("medications", [])),
             records=records,
             overrides=list(patient.get("overrides", [])),
+            diagnoses=list(patient.get("diagnoses", [])),
+            medication_adherence_days=patient.get("medication_adherence_days"),
+            regular_care=patient.get("regular_care"),
             raw=patient,
         )
 
@@ -254,13 +260,30 @@ class MongoRepository:
 
     def _record_from_mongo(self, row: dict[str, Any]) -> VisitRecord:
         vitals = row.get("vital_signs", {}) or {}
+
+        def pick(key: str) -> Any:
+            return vitals.get(key) if vitals.get(key) is not None else row.get(key)
+
+        fasting = to_float(pick("fasting_glucose"))
+        postprandial = to_float(pick("postprandial_glucose"))
+        blood_sugar = to_float(pick("blood_sugar"))
         return VisitRecord(
             visit_date=normalize_date(row.get("visit_date")),
             chief_complaint=str(row.get("chief_complaint", "")),
             blood_pressure=vitals.get("blood_pressure") or row.get("blood_pressure"),
-            blood_sugar=to_float(vitals.get("blood_sugar") or row.get("blood_sugar")),
+            blood_sugar=blood_sugar if blood_sugar is not None else fasting,
             hba1c=to_float(vitals.get("hba1c") or vitals.get("HbA1c") or row.get("hba1c")),
             notes=str(row.get("notes", "")),
+            pulse=_to_int(pick("pulse")),
+            fasting_glucose=fasting,
+            postprandial_glucose=postprandial,
+            bmi=to_float(pick("bmi")),
+            waist_circumference=to_float(pick("waist_circumference")),
+            total_cholesterol=to_float(pick("total_cholesterol")),
+            triglyceride=to_float(pick("triglyceride")),
+            hdl=to_float(pick("hdl")),
+            ldl=to_float(pick("ldl")),
+            symptoms=list(row.get("symptoms", vitals.get("symptoms", [])) or []),
             raw=row,
         )
 

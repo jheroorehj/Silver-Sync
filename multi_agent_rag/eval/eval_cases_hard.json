@@ -1,0 +1,4387 @@
+[
+  {
+    "patient_id": "HARD-H2-0001",
+    "name": "임복순",
+    "age": 82,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "페린도프릴",
+      "칼슘제",
+      "칸데사르탄",
+      "암로디핀",
+      "로수바스타틴",
+      "메트포르민"
+    ],
+    "medication_adherence_days": 24,
+    "regular_care": false,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-05-04",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "123/69",
+          "fasting_glucose": 93,
+          "blood_sugar": 93,
+          "postprandial_glucose": 173,
+          "hba1c": 7.3,
+          "pulse": 82
+        },
+        "notes": "지난달 독감 예방접종 완료, 금연 6개월째 유지.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-04-04",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "120/65",
+          "fasting_glucose": 120,
+          "blood_sugar": 120,
+          "postprandial_glucose": 180,
+          "pulse": 81
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-02",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "113/74",
+          "fasting_glucose": 117,
+          "blood_sugar": 117,
+          "postprandial_glucose": 149,
+          "pulse": 81
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "H2_drug_buried",
+      "difficulty": "hard",
+      "decisive_factor": "긴 약물목록 속 ACEi+ARB 병용(금기 미표기 — 계열 인지 필요)",
+      "factor_source": "당뇨병지침 2025 §15 Rec.8",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD-H2-0002",
+    "name": "최금자",
+    "age": 73,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "에포니디핀",
+      "로사르탄",
+      "란소프라졸",
+      "메트포르민",
+      "라미프릴",
+      "아스피린"
+    ],
+    "medication_adherence_days": 25,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-05",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "117/74",
+          "fasting_glucose": 105,
+          "blood_sugar": 105,
+          "postprandial_glucose": 154,
+          "hba1c": 6.9,
+          "pulse": 80
+        },
+        "notes": "자가 혈압측정 꾸준히 기록, 대체로 안정적이라 함.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-17",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "115/70",
+          "fasting_glucose": 104,
+          "blood_sugar": 104,
+          "postprandial_glucose": 177,
+          "pulse": 73
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-17",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "122/72",
+          "fasting_glucose": 106,
+          "blood_sugar": 106,
+          "postprandial_glucose": 146,
+          "pulse": 62
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "H2_drug_buried",
+      "difficulty": "hard",
+      "decisive_factor": "긴 약물목록 속 ACEi+ARB 병용(금기 미표기 — 계열 인지 필요)",
+      "factor_source": "당뇨병지침 2025 §15 Rec.8",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD-H2-0003",
+    "name": "박금자",
+    "age": 77,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "에포니디핀",
+      "에날라프릴",
+      "메트포르민",
+      "란소프라졸",
+      "로수바스타틴",
+      "로사르탄"
+    ],
+    "medication_adherence_days": 28,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-12",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "110/78",
+          "fasting_glucose": 115,
+          "blood_sugar": 115,
+          "postprandial_glucose": 155,
+          "pulse": 78
+        },
+        "notes": "혈압약 잘 챙겨 드시고 식사도 규칙적이라고 함.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-09",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "110/64",
+          "fasting_glucose": 116,
+          "blood_sugar": 116,
+          "postprandial_glucose": 167,
+          "pulse": 74
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-03",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "112/64",
+          "fasting_glucose": 119,
+          "blood_sugar": 119,
+          "postprandial_glucose": 139,
+          "pulse": 81
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "H2_drug_buried",
+      "difficulty": "hard",
+      "decisive_factor": "긴 약물목록 속 ACEi+ARB 병용(금기 미표기 — 계열 인지 필요)",
+      "factor_source": "당뇨병지침 2025 §15 Rec.8",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD-H2-0004",
+    "name": "장복순",
+    "age": 76,
+    "gender": "M",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "로수바스타틴",
+      "칸데사르탄",
+      "메트포르민",
+      "칼슘제",
+      "라미프릴",
+      "암로디핀"
+    ],
+    "medication_adherence_days": 26,
+    "regular_care": false,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-11",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "124/67",
+          "fasting_glucose": 102,
+          "blood_sugar": 102,
+          "postprandial_glucose": 158,
+          "hba1c": 6.5,
+          "pulse": 63
+        },
+        "notes": "자가 혈압측정 꾸준히 기록, 대체로 안정적이라 함.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-20",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "114/66",
+          "fasting_glucose": 104,
+          "blood_sugar": 104,
+          "postprandial_glucose": 145,
+          "pulse": 82
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-22",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "116/74",
+          "fasting_glucose": 102,
+          "blood_sugar": 102,
+          "postprandial_glucose": 159,
+          "pulse": 67
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "H2_drug_buried",
+      "difficulty": "hard",
+      "decisive_factor": "긴 약물목록 속 ACEi+ARB 병용(금기 미표기 — 계열 인지 필요)",
+      "factor_source": "당뇨병지침 2025 §15 Rec.8",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD-H2-0005",
+    "name": "오경자",
+    "age": 78,
+    "gender": "M",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "로수바스타틴",
+      "암로디핀",
+      "페린도프릴",
+      "메트포르민",
+      "심바스타틴",
+      "텔미사르탄"
+    ],
+    "medication_adherence_days": 27,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-17",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "109/68",
+          "fasting_glucose": 118,
+          "blood_sugar": 118,
+          "postprandial_glucose": 168,
+          "hba1c": 7.1,
+          "pulse": 70
+        },
+        "notes": "손주 돌보느라 바쁘지만 컨디션은 괜찮다고 진술.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-20",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "117/74",
+          "fasting_glucose": 122,
+          "blood_sugar": 122,
+          "postprandial_glucose": 172,
+          "pulse": 72
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-28",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "108/75",
+          "fasting_glucose": 93,
+          "blood_sugar": 93,
+          "postprandial_glucose": 149,
+          "pulse": 66
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "H2_drug_buried",
+      "difficulty": "hard",
+      "decisive_factor": "긴 약물목록 속 ACEi+ARB 병용(금기 미표기 — 계열 인지 필요)",
+      "factor_source": "당뇨병지침 2025 §15 Rec.8",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD-H2-0006",
+    "name": "이순자",
+    "age": 67,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "란소프라졸",
+      "페린도프릴",
+      "칸데사르탄",
+      "메트포르민",
+      "에포니디핀",
+      "심바스타틴"
+    ],
+    "medication_adherence_days": 22,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-21",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "126/66",
+          "fasting_glucose": 98,
+          "blood_sugar": 98,
+          "postprandial_glucose": 158,
+          "hba1c": 6.9,
+          "pulse": 81
+        },
+        "notes": "산책을 매일 30분씩 한다고 자랑스럽게 말함.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-31",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "123/66",
+          "fasting_glucose": 96,
+          "blood_sugar": 96,
+          "postprandial_glucose": 135,
+          "pulse": 69
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-25",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "112/71",
+          "fasting_glucose": 95,
+          "blood_sugar": 95,
+          "postprandial_glucose": 139,
+          "pulse": 82
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "H2_drug_buried",
+      "difficulty": "hard",
+      "decisive_factor": "긴 약물목록 속 ACEi+ARB 병용(금기 미표기 — 계열 인지 필요)",
+      "factor_source": "당뇨병지침 2025 §15 Rec.8",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD-H2-0007",
+    "name": "안재훈",
+    "age": 81,
+    "gender": "M",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "심바스타틴",
+      "에날라프릴",
+      "발사르탄",
+      "에포니디핀",
+      "아토르바스타틴",
+      "메트포르민"
+    ],
+    "medication_adherence_days": 25,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-05-10",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "109/78",
+          "fasting_glucose": 116,
+          "blood_sugar": 116,
+          "postprandial_glucose": 141,
+          "hba1c": 6.5,
+          "pulse": 62
+        },
+        "notes": "혈압약 잘 챙겨 드시고 식사도 규칙적이라고 함.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-04-21",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "127/72",
+          "fasting_glucose": 113,
+          "blood_sugar": 113,
+          "postprandial_glucose": 147,
+          "pulse": 66
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-04-02",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "121/67",
+          "fasting_glucose": 108,
+          "blood_sugar": 108,
+          "postprandial_glucose": 173,
+          "pulse": 82
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "H2_drug_buried",
+      "difficulty": "hard",
+      "decisive_factor": "긴 약물목록 속 ACEi+ARB 병용(금기 미표기 — 계열 인지 필요)",
+      "factor_source": "당뇨병지침 2025 §15 Rec.8",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD-H2-0008",
+    "name": "김철수",
+    "age": 79,
+    "gender": "M",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "텔미사르탄",
+      "페린도프릴",
+      "란소프라졸",
+      "아스피린",
+      "암로디핀",
+      "메트포르민"
+    ],
+    "medication_adherence_days": 29,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-03-30",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "111/69",
+          "fasting_glucose": 120,
+          "blood_sugar": 120,
+          "postprandial_glucose": 182,
+          "hba1c": 7.0,
+          "pulse": 70
+        },
+        "notes": "혈압약 잘 챙겨 드시고 식사도 규칙적이라고 함.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-26",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "109/68",
+          "fasting_glucose": 112,
+          "blood_sugar": 112,
+          "postprandial_glucose": 170,
+          "pulse": 75
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-03",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "124/68",
+          "fasting_glucose": 101,
+          "blood_sugar": 101,
+          "postprandial_glucose": 176,
+          "pulse": 68
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "H2_drug_buried",
+      "difficulty": "hard",
+      "decisive_factor": "긴 약물목록 속 ACEi+ARB 병용(금기 미표기 — 계열 인지 필요)",
+      "factor_source": "당뇨병지침 2025 §15 Rec.8",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD-H2-0010",
+    "name": "김영희",
+    "age": 70,
+    "gender": "M",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "암로디핀",
+      "칼슘제",
+      "발사르탄",
+      "라미프릴",
+      "아토르바스타틴",
+      "메트포르민"
+    ],
+    "medication_adherence_days": 22,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-03-24",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "125/78",
+          "fasting_glucose": 113,
+          "blood_sugar": 113,
+          "postprandial_glucose": 139,
+          "hba1c": 7.3,
+          "pulse": 74
+        },
+        "notes": "지난달 독감 예방접종 완료, 금연 6개월째 유지.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-05",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "111/67",
+          "fasting_glucose": 98,
+          "blood_sugar": 98,
+          "postprandial_glucose": 148,
+          "pulse": 65
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-13",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "109/64",
+          "fasting_glucose": 122,
+          "blood_sugar": 122,
+          "postprandial_glucose": 186,
+          "pulse": 82
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "H2_drug_buried",
+      "difficulty": "hard",
+      "decisive_factor": "긴 약물목록 속 ACEi+ARB 병용(금기 미표기 — 계열 인지 필요)",
+      "factor_source": "당뇨병지침 2025 §15 Rec.8",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD-H2-0011",
+    "name": "김춘자",
+    "age": 74,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "심바스타틴",
+      "로사르탄",
+      "로수바스타틴",
+      "암로디핀",
+      "에날라프릴",
+      "메트포르민"
+    ],
+    "medication_adherence_days": 26,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-03-23",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "108/76",
+          "fasting_glucose": 105,
+          "blood_sugar": 105,
+          "postprandial_glucose": 136,
+          "hba1c": 6.5,
+          "pulse": 75
+        },
+        "notes": "산책을 매일 30분씩 한다고 자랑스럽게 말함.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-22",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "124/76",
+          "fasting_glucose": 95,
+          "blood_sugar": 95,
+          "postprandial_glucose": 157,
+          "pulse": 77
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-01-25",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "109/72",
+          "fasting_glucose": 110,
+          "blood_sugar": 110,
+          "postprandial_glucose": 148,
+          "pulse": 64
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "H2_drug_buried",
+      "difficulty": "hard",
+      "decisive_factor": "긴 약물목록 속 ACEi+ARB 병용(금기 미표기 — 계열 인지 필요)",
+      "factor_source": "당뇨병지침 2025 §15 Rec.8",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD-H2-0012",
+    "name": "최동석",
+    "age": 71,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "심바스타틴",
+      "발사르탄",
+      "메트포르민",
+      "에포니디핀",
+      "라미프릴",
+      "란소프라졸"
+    ],
+    "medication_adherence_days": 29,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-08",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "115/71",
+          "fasting_glucose": 97,
+          "blood_sugar": 97,
+          "postprandial_glucose": 142,
+          "pulse": 82
+        },
+        "notes": "지난달 독감 예방접종 완료, 금연 6개월째 유지.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-13",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "110/71",
+          "fasting_glucose": 117,
+          "blood_sugar": 117,
+          "postprandial_glucose": 179,
+          "pulse": 79
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-05",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "111/74",
+          "fasting_glucose": 102,
+          "blood_sugar": 102,
+          "postprandial_glucose": 157,
+          "pulse": 65
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "H2_drug_buried",
+      "difficulty": "hard",
+      "decisive_factor": "긴 약물목록 속 ACEi+ARB 병용(금기 미표기 — 계열 인지 필요)",
+      "factor_source": "당뇨병지침 2025 §15 Rec.8",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD-H2-0013",
+    "name": "송대호",
+    "age": 71,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "칸데사르탄",
+      "페린도프릴",
+      "아스피린",
+      "암로디핀",
+      "메트포르민",
+      "칼슘제"
+    ],
+    "medication_adherence_days": 28,
+    "regular_care": false,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-03-31",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "127/74",
+          "fasting_glucose": 93,
+          "blood_sugar": 93,
+          "postprandial_glucose": 157,
+          "hba1c": 7.0,
+          "pulse": 80
+        },
+        "notes": "산책을 매일 30분씩 한다고 자랑스럽게 말함.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-06",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "118/72",
+          "fasting_glucose": 96,
+          "blood_sugar": 96,
+          "postprandial_glucose": 188,
+          "pulse": 76
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-02",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "125/75",
+          "fasting_glucose": 102,
+          "blood_sugar": 102,
+          "postprandial_glucose": 145,
+          "pulse": 76
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "H2_drug_buried",
+      "difficulty": "hard",
+      "decisive_factor": "긴 약물목록 속 ACEi+ARB 병용(금기 미표기 — 계열 인지 필요)",
+      "factor_source": "당뇨병지침 2025 §15 Rec.8",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD-H2-0014",
+    "name": "홍금자",
+    "age": 70,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "아스피린",
+      "메트포르민",
+      "심바스타틴",
+      "페린도프릴",
+      "로사르탄",
+      "암로디핀"
+    ],
+    "medication_adherence_days": 25,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-02",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "111/66",
+          "fasting_glucose": 122,
+          "blood_sugar": 122,
+          "postprandial_glucose": 177,
+          "hba1c": 6.4,
+          "pulse": 65
+        },
+        "notes": "손주 돌보느라 바쁘지만 컨디션은 괜찮다고 진술.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-27",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "114/70",
+          "fasting_glucose": 96,
+          "blood_sugar": 96,
+          "postprandial_glucose": 144,
+          "pulse": 71
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-01-29",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "117/70",
+          "fasting_glucose": 100,
+          "blood_sugar": 100,
+          "postprandial_glucose": 147,
+          "pulse": 65
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "H2_drug_buried",
+      "difficulty": "hard",
+      "decisive_factor": "긴 약물목록 속 ACEi+ARB 병용(금기 미표기 — 계열 인지 필요)",
+      "factor_source": "당뇨병지침 2025 §15 Rec.8",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD-H2-0015",
+    "name": "안병철",
+    "age": 75,
+    "gender": "M",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "로수바스타틴",
+      "암로디핀",
+      "에날라프릴",
+      "칼슘제",
+      "메트포르민",
+      "칸데사르탄"
+    ],
+    "medication_adherence_days": 29,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-24",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "121/75",
+          "fasting_glucose": 110,
+          "blood_sugar": 110,
+          "postprandial_glucose": 172,
+          "pulse": 82
+        },
+        "notes": "손주 돌보느라 바쁘지만 컨디션은 괜찮다고 진술.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-18",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "121/77",
+          "fasting_glucose": 99,
+          "blood_sugar": 99,
+          "postprandial_glucose": 177,
+          "pulse": 82
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-16",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "126/77",
+          "fasting_glucose": 99,
+          "blood_sugar": 99,
+          "postprandial_glucose": 178,
+          "pulse": 67
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "H2_drug_buried",
+      "difficulty": "hard",
+      "decisive_factor": "긴 약물목록 속 ACEi+ARB 병용(금기 미표기 — 계열 인지 필요)",
+      "factor_source": "당뇨병지침 2025 §15 Rec.8",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD-H2-0016",
+    "name": "강경자",
+    "age": 79,
+    "gender": "M",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "로수바스타틴",
+      "에날라프릴",
+      "칼슘제",
+      "텔미사르탄",
+      "메트포르민",
+      "에포니디핀"
+    ],
+    "medication_adherence_days": 29,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-01",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "120/77",
+          "fasting_glucose": 107,
+          "blood_sugar": 107,
+          "postprandial_glucose": 141,
+          "pulse": 63
+        },
+        "notes": "지난달 독감 예방접종 완료, 금연 6개월째 유지.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-01",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "116/72",
+          "fasting_glucose": 98,
+          "blood_sugar": 98,
+          "postprandial_glucose": 145,
+          "pulse": 68
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-01-26",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "124/69",
+          "fasting_glucose": 95,
+          "blood_sugar": 95,
+          "postprandial_glucose": 171,
+          "pulse": 76
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "H2_drug_buried",
+      "difficulty": "hard",
+      "decisive_factor": "긴 약물목록 속 ACEi+ARB 병용(금기 미표기 — 계열 인지 필요)",
+      "factor_source": "당뇨병지침 2025 §15 Rec.8",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD-H2-0017",
+    "name": "강철수",
+    "age": 82,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "메트포르민",
+      "발사르탄",
+      "페린도프릴",
+      "란소프라졸",
+      "에포니디핀",
+      "아토르바스타틴"
+    ],
+    "medication_adherence_days": 23,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-01",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "108/65",
+          "fasting_glucose": 105,
+          "blood_sugar": 105,
+          "postprandial_glucose": 161,
+          "hba1c": 6.7,
+          "pulse": 82
+        },
+        "notes": "지난달 독감 예방접종 완료, 금연 6개월째 유지.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-03",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "119/73",
+          "fasting_glucose": 100,
+          "blood_sugar": 100,
+          "postprandial_glucose": 141,
+          "pulse": 69
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-01-24",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "117/75",
+          "fasting_glucose": 104,
+          "blood_sugar": 104,
+          "postprandial_glucose": 168,
+          "pulse": 69
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "H2_drug_buried",
+      "difficulty": "hard",
+      "decisive_factor": "긴 약물목록 속 ACEi+ARB 병용(금기 미표기 — 계열 인지 필요)",
+      "factor_source": "당뇨병지침 2025 §15 Rec.8",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD-H2-0018",
+    "name": "정춘자",
+    "age": 86,
+    "gender": "M",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "아스피린",
+      "칼슘제",
+      "암로디핀",
+      "로사르탄",
+      "라미프릴",
+      "메트포르민"
+    ],
+    "medication_adherence_days": 28,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-22",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "116/75",
+          "fasting_glucose": 104,
+          "blood_sugar": 104,
+          "postprandial_glucose": 178,
+          "hba1c": 7.2,
+          "pulse": 70
+        },
+        "notes": "자가 혈압측정 꾸준히 기록, 대체로 안정적이라 함.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-18",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "121/74",
+          "fasting_glucose": 97,
+          "blood_sugar": 97,
+          "postprandial_glucose": 165,
+          "pulse": 62
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-08",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "116/69",
+          "fasting_glucose": 99,
+          "blood_sugar": 99,
+          "postprandial_glucose": 176,
+          "pulse": 71
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "H2_drug_buried",
+      "difficulty": "hard",
+      "decisive_factor": "긴 약물목록 속 ACEi+ARB 병용(금기 미표기 — 계열 인지 필요)",
+      "factor_source": "당뇨병지침 2025 §15 Rec.8",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD-H2-0019",
+    "name": "류화자",
+    "age": 70,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "메트포르민",
+      "심바스타틴",
+      "발사르탄",
+      "에날라프릴",
+      "에포니디핀",
+      "아스피린"
+    ],
+    "medication_adherence_days": 30,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-03-31",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "117/68",
+          "fasting_glucose": 111,
+          "blood_sugar": 111,
+          "postprandial_glucose": 141,
+          "pulse": 80
+        },
+        "notes": "손주 돌보느라 바쁘지만 컨디션은 괜찮다고 진술.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-23",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "112/77",
+          "fasting_glucose": 99,
+          "blood_sugar": 99,
+          "postprandial_glucose": 146,
+          "pulse": 76
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-05",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "119/76",
+          "fasting_glucose": 96,
+          "blood_sugar": 96,
+          "postprandial_glucose": 148,
+          "pulse": 74
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "H2_drug_buried",
+      "difficulty": "hard",
+      "decisive_factor": "긴 약물목록 속 ACEi+ARB 병용(금기 미표기 — 계열 인지 필요)",
+      "factor_source": "당뇨병지침 2025 §15 Rec.8",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD-H2-0020",
+    "name": "안정자",
+    "age": 80,
+    "gender": "M",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "발사르탄",
+      "페린도프릴",
+      "메트포르민",
+      "니페디핀",
+      "란소프라졸",
+      "아토르바스타틴"
+    ],
+    "medication_adherence_days": 23,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-24",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "122/78",
+          "fasting_glucose": 96,
+          "blood_sugar": 96,
+          "postprandial_glucose": 179,
+          "hba1c": 6.3,
+          "pulse": 77
+        },
+        "notes": "자가 혈압측정 꾸준히 기록, 대체로 안정적이라 함.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-24",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "115/71",
+          "fasting_glucose": 97,
+          "blood_sugar": 97,
+          "postprandial_glucose": 169,
+          "pulse": 81
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-27",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "108/66",
+          "fasting_glucose": 118,
+          "blood_sugar": 118,
+          "postprandial_glucose": 155,
+          "pulse": 76
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "H2_drug_buried",
+      "difficulty": "hard",
+      "decisive_factor": "긴 약물목록 속 ACEi+ARB 병용(금기 미표기 — 계열 인지 필요)",
+      "factor_source": "당뇨병지침 2025 §15 Rec.8",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD-H2-0021",
+    "name": "오병철",
+    "age": 86,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "칼슘제",
+      "메트포르민",
+      "에날라프릴",
+      "란소프라졸",
+      "니페디핀",
+      "텔미사르탄"
+    ],
+    "medication_adherence_days": 22,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-05-08",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "109/67",
+          "fasting_glucose": 114,
+          "blood_sugar": 114,
+          "postprandial_glucose": 161,
+          "hba1c": 7.3,
+          "pulse": 82
+        },
+        "notes": "자가 혈압측정 꾸준히 기록, 대체로 안정적이라 함.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-04-10",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "112/69",
+          "fasting_glucose": 95,
+          "blood_sugar": 95,
+          "postprandial_glucose": 177,
+          "pulse": 73
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-20",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "118/71",
+          "fasting_glucose": 116,
+          "blood_sugar": 116,
+          "postprandial_glucose": 168,
+          "pulse": 79
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "H2_drug_buried",
+      "difficulty": "hard",
+      "decisive_factor": "긴 약물목록 속 ACEi+ARB 병용(금기 미표기 — 계열 인지 필요)",
+      "factor_source": "당뇨병지침 2025 §15 Rec.8",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD-H2-0022",
+    "name": "황철수",
+    "age": 76,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "칸데사르탄",
+      "심바스타틴",
+      "에날라프릴",
+      "메트포르민",
+      "아토르바스타틴",
+      "에포니디핀"
+    ],
+    "medication_adherence_days": 30,
+    "regular_care": false,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-08",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "118/67",
+          "fasting_glucose": 102,
+          "blood_sugar": 102,
+          "postprandial_glucose": 180,
+          "pulse": 71
+        },
+        "notes": "자가 혈압측정 꾸준히 기록, 대체로 안정적이라 함.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-10",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "112/73",
+          "fasting_glucose": 112,
+          "blood_sugar": 112,
+          "postprandial_glucose": 140,
+          "pulse": 63
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-14",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "120/75",
+          "fasting_glucose": 109,
+          "blood_sugar": 109,
+          "postprandial_glucose": 160,
+          "pulse": 79
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "H2_drug_buried",
+      "difficulty": "hard",
+      "decisive_factor": "긴 약물목록 속 ACEi+ARB 병용(금기 미표기 — 계열 인지 필요)",
+      "factor_source": "당뇨병지침 2025 §15 Rec.8",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD-H2-0023",
+    "name": "송길동",
+    "age": 78,
+    "gender": "M",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "에포니디핀",
+      "란소프라졸",
+      "발사르탄",
+      "에날라프릴",
+      "로수바스타틴",
+      "메트포르민"
+    ],
+    "medication_adherence_days": 24,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-03-27",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "122/74",
+          "fasting_glucose": 116,
+          "blood_sugar": 116,
+          "postprandial_glucose": 146,
+          "pulse": 65
+        },
+        "notes": "혈압약 잘 챙겨 드시고 식사도 규칙적이라고 함.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-18",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "113/77",
+          "fasting_glucose": 93,
+          "blood_sugar": 93,
+          "postprandial_glucose": 161,
+          "pulse": 65
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-01-29",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "108/69",
+          "fasting_glucose": 119,
+          "blood_sugar": 119,
+          "postprandial_glucose": 187,
+          "pulse": 66
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "H2_drug_buried",
+      "difficulty": "hard",
+      "decisive_factor": "긴 약물목록 속 ACEi+ARB 병용(금기 미표기 — 계열 인지 필요)",
+      "factor_source": "당뇨병지침 2025 §15 Rec.8",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD-H2-0024",
+    "name": "류영희",
+    "age": 81,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "에포니디핀",
+      "심바스타틴",
+      "란소프라졸",
+      "메트포르민",
+      "텔미사르탄",
+      "페린도프릴"
+    ],
+    "medication_adherence_days": 30,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-05-03",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "127/73",
+          "fasting_glucose": 122,
+          "blood_sugar": 122,
+          "postprandial_glucose": 177,
+          "hba1c": 7.0,
+          "pulse": 66
+        },
+        "notes": "자가 혈압측정 꾸준히 기록, 대체로 안정적이라 함.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-04-02",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "123/76",
+          "fasting_glucose": 105,
+          "blood_sugar": 105,
+          "postprandial_glucose": 170,
+          "pulse": 65
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-25",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "110/74",
+          "fasting_glucose": 107,
+          "blood_sugar": 107,
+          "postprandial_glucose": 148,
+          "pulse": 66
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "H2_drug_buried",
+      "difficulty": "hard",
+      "decisive_factor": "긴 약물목록 속 ACEi+ARB 병용(금기 미표기 — 계열 인지 필요)",
+      "factor_source": "당뇨병지침 2025 §15 Rec.8",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD-H2-0025",
+    "name": "김경자",
+    "age": 84,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "에날라프릴",
+      "암로디핀",
+      "발사르탄",
+      "칼슘제",
+      "메트포르민",
+      "로수바스타틴"
+    ],
+    "medication_adherence_days": 25,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-03-24",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "110/68",
+          "fasting_glucose": 112,
+          "blood_sugar": 112,
+          "postprandial_glucose": 170,
+          "pulse": 77
+        },
+        "notes": "손주 돌보느라 바쁘지만 컨디션은 괜찮다고 진술.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-01",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "122/74",
+          "fasting_glucose": 121,
+          "blood_sugar": 121,
+          "postprandial_glucose": 151,
+          "pulse": 63
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-10",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "109/64",
+          "fasting_glucose": 93,
+          "blood_sugar": 93,
+          "postprandial_glucose": 135,
+          "pulse": 82
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "H2_drug_buried",
+      "difficulty": "hard",
+      "decisive_factor": "긴 약물목록 속 ACEi+ARB 병용(금기 미표기 — 계열 인지 필요)",
+      "factor_source": "당뇨병지침 2025 §15 Rec.8",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD-H2-0026",
+    "name": "류재훈",
+    "age": 80,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "란소프라졸",
+      "메트포르민",
+      "텔미사르탄",
+      "라미프릴",
+      "칼슘제",
+      "에포니디핀"
+    ],
+    "medication_adherence_days": 29,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-05-01",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "121/71",
+          "fasting_glucose": 104,
+          "blood_sugar": 104,
+          "postprandial_glucose": 184,
+          "pulse": 76
+        },
+        "notes": "손주 돌보느라 바쁘지만 컨디션은 괜찮다고 진술.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-04-10",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "116/76",
+          "fasting_glucose": 116,
+          "blood_sugar": 116,
+          "postprandial_glucose": 171,
+          "pulse": 72
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-12",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "117/68",
+          "fasting_glucose": 93,
+          "blood_sugar": 93,
+          "postprandial_glucose": 174,
+          "pulse": 82
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "H2_drug_buried",
+      "difficulty": "hard",
+      "decisive_factor": "긴 약물목록 속 ACEi+ARB 병용(금기 미표기 — 계열 인지 필요)",
+      "factor_source": "당뇨병지침 2025 §15 Rec.8",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD-H2-0027",
+    "name": "윤철수",
+    "age": 78,
+    "gender": "M",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "메트포르민",
+      "란소프라졸",
+      "발사르탄",
+      "니페디핀",
+      "칼슘제",
+      "에날라프릴"
+    ],
+    "medication_adherence_days": 28,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-26",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "126/78",
+          "fasting_glucose": 118,
+          "blood_sugar": 118,
+          "postprandial_glucose": 183,
+          "hba1c": 6.7,
+          "pulse": 63
+        },
+        "notes": "지난달 독감 예방접종 완료, 금연 6개월째 유지.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-25",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "117/77",
+          "fasting_glucose": 96,
+          "blood_sugar": 96,
+          "postprandial_glucose": 186,
+          "pulse": 80
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-26",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "112/68",
+          "fasting_glucose": 119,
+          "blood_sugar": 119,
+          "postprandial_glucose": 186,
+          "pulse": 79
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "H2_drug_buried",
+      "difficulty": "hard",
+      "decisive_factor": "긴 약물목록 속 ACEi+ARB 병용(금기 미표기 — 계열 인지 필요)",
+      "factor_source": "당뇨병지침 2025 §15 Rec.8",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD-H2-0028",
+    "name": "윤순옥",
+    "age": 85,
+    "gender": "M",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "니페디핀",
+      "메트포르민",
+      "에날라프릴",
+      "발사르탄",
+      "아스피린",
+      "칼슘제"
+    ],
+    "medication_adherence_days": 22,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-11",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "122/72",
+          "fasting_glucose": 94,
+          "blood_sugar": 94,
+          "postprandial_glucose": 169,
+          "pulse": 73
+        },
+        "notes": "혈압약 잘 챙겨 드시고 식사도 규칙적이라고 함.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-18",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "110/67",
+          "fasting_glucose": 104,
+          "blood_sugar": 104,
+          "postprandial_glucose": 172,
+          "pulse": 78
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-20",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "116/78",
+          "fasting_glucose": 118,
+          "blood_sugar": 118,
+          "postprandial_glucose": 168,
+          "pulse": 72
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "H2_drug_buried",
+      "difficulty": "hard",
+      "decisive_factor": "긴 약물목록 속 ACEi+ARB 병용(금기 미표기 — 계열 인지 필요)",
+      "factor_source": "당뇨병지침 2025 §15 Rec.8",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD-H2-0029",
+    "name": "류춘자",
+    "age": 78,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "암로디핀",
+      "아스피린",
+      "로사르탄",
+      "메트포르민",
+      "란소프라졸",
+      "페린도프릴"
+    ],
+    "medication_adherence_days": 30,
+    "regular_care": false,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-25",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "110/66",
+          "fasting_glucose": 102,
+          "blood_sugar": 102,
+          "postprandial_glucose": 173,
+          "hba1c": 6.8,
+          "pulse": 62
+        },
+        "notes": "혈압약 잘 챙겨 드시고 식사도 규칙적이라고 함.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-04-06",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "119/68",
+          "fasting_glucose": 108,
+          "blood_sugar": 108,
+          "postprandial_glucose": 173,
+          "pulse": 62
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-04",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "111/64",
+          "fasting_glucose": 98,
+          "blood_sugar": 98,
+          "postprandial_glucose": 171,
+          "pulse": 77
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "H2_drug_buried",
+      "difficulty": "hard",
+      "decisive_factor": "긴 약물목록 속 ACEi+ARB 병용(금기 미표기 — 계열 인지 필요)",
+      "factor_source": "당뇨병지침 2025 §15 Rec.8",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD-H2-0030",
+    "name": "이화자",
+    "age": 72,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "라미프릴",
+      "란소프라졸",
+      "에포니디핀",
+      "칼슘제",
+      "메트포르민",
+      "텔미사르탄"
+    ],
+    "medication_adherence_days": 24,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-05-09",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "122/71",
+          "fasting_glucose": 122,
+          "blood_sugar": 122,
+          "postprandial_glucose": 139,
+          "pulse": 81
+        },
+        "notes": "지난달 독감 예방접종 완료, 금연 6개월째 유지.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-04-20",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "120/78",
+          "fasting_glucose": 95,
+          "blood_sugar": 95,
+          "postprandial_glucose": 180,
+          "pulse": 64
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-04-01",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "116/69",
+          "fasting_glucose": 110,
+          "blood_sugar": 110,
+          "postprandial_glucose": 149,
+          "pulse": 82
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "H2_drug_buried",
+      "difficulty": "hard",
+      "decisive_factor": "긴 약물목록 속 ACEi+ARB 병용(금기 미표기 — 계열 인지 필요)",
+      "factor_source": "당뇨병지침 2025 §15 Rec.8",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD-H2-0031",
+    "name": "장춘자",
+    "age": 67,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "칸데사르탄",
+      "메트포르민",
+      "로수바스타틴",
+      "란소프라졸",
+      "암로디핀",
+      "에날라프릴"
+    ],
+    "medication_adherence_days": 30,
+    "regular_care": false,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-05-07",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "108/67",
+          "fasting_glucose": 113,
+          "blood_sugar": 113,
+          "postprandial_glucose": 182,
+          "hba1c": 6.4,
+          "pulse": 71
+        },
+        "notes": "자가 혈압측정 꾸준히 기록, 대체로 안정적이라 함.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-04-11",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "126/73",
+          "fasting_glucose": 106,
+          "blood_sugar": 106,
+          "postprandial_glucose": 183,
+          "pulse": 82
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-08",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "111/71",
+          "fasting_glucose": 102,
+          "blood_sugar": 102,
+          "postprandial_glucose": 158,
+          "pulse": 70
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "H2_drug_buried",
+      "difficulty": "hard",
+      "decisive_factor": "긴 약물목록 속 ACEi+ARB 병용(금기 미표기 — 계열 인지 필요)",
+      "factor_source": "당뇨병지침 2025 §15 Rec.8",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD-H2-0032",
+    "name": "조영희",
+    "age": 71,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "아스피린",
+      "에포니디핀",
+      "메트포르민",
+      "로수바스타틴",
+      "칸데사르탄",
+      "에날라프릴"
+    ],
+    "medication_adherence_days": 25,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-01",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "120/77",
+          "fasting_glucose": 92,
+          "blood_sugar": 92,
+          "postprandial_glucose": 175,
+          "pulse": 64
+        },
+        "notes": "혈압약 잘 챙겨 드시고 식사도 규칙적이라고 함.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-03",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "122/69",
+          "fasting_glucose": 102,
+          "blood_sugar": 102,
+          "postprandial_glucose": 187,
+          "pulse": 69
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-09",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "123/65",
+          "fasting_glucose": 112,
+          "blood_sugar": 112,
+          "postprandial_glucose": 158,
+          "pulse": 66
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "H2_drug_buried",
+      "difficulty": "hard",
+      "decisive_factor": "긴 약물목록 속 ACEi+ARB 병용(금기 미표기 — 계열 인지 필요)",
+      "factor_source": "당뇨병지침 2025 §15 Rec.8",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD-H2-0033",
+    "name": "신현숙",
+    "age": 70,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "암로디핀",
+      "메트포르민",
+      "심바스타틴",
+      "페린도프릴",
+      "로사르탄",
+      "아토르바스타틴"
+    ],
+    "medication_adherence_days": 22,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-22",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "123/65",
+          "fasting_glucose": 96,
+          "blood_sugar": 96,
+          "postprandial_glucose": 167,
+          "hba1c": 6.7,
+          "pulse": 63
+        },
+        "notes": "자가 혈압측정 꾸준히 기록, 대체로 안정적이라 함.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-25",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "114/72",
+          "fasting_glucose": 107,
+          "blood_sugar": 107,
+          "postprandial_glucose": 188,
+          "pulse": 71
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-02",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "111/68",
+          "fasting_glucose": 116,
+          "blood_sugar": 116,
+          "postprandial_glucose": 147,
+          "pulse": 73
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "H2_drug_buried",
+      "difficulty": "hard",
+      "decisive_factor": "긴 약물목록 속 ACEi+ARB 병용(금기 미표기 — 계열 인지 필요)",
+      "factor_source": "당뇨병지침 2025 §15 Rec.8",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD-H2-0034",
+    "name": "임금자",
+    "age": 86,
+    "gender": "M",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "라미프릴",
+      "아스피린",
+      "메트포르민",
+      "심바스타틴",
+      "암로디핀",
+      "발사르탄"
+    ],
+    "medication_adherence_days": 22,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-08",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "124/68",
+          "fasting_glucose": 97,
+          "blood_sugar": 97,
+          "postprandial_glucose": 158,
+          "hba1c": 7.2,
+          "pulse": 75
+        },
+        "notes": "자가 혈압측정 꾸준히 기록, 대체로 안정적이라 함.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-11",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "109/78",
+          "fasting_glucose": 105,
+          "blood_sugar": 105,
+          "postprandial_glucose": 148,
+          "pulse": 70
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-05",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "126/66",
+          "fasting_glucose": 96,
+          "blood_sugar": 96,
+          "postprandial_glucose": 188,
+          "pulse": 67
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "H2_drug_buried",
+      "difficulty": "hard",
+      "decisive_factor": "긴 약물목록 속 ACEi+ARB 병용(금기 미표기 — 계열 인지 필요)",
+      "factor_source": "당뇨병지침 2025 §15 Rec.8",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD-H2-0035",
+    "name": "강미경",
+    "age": 70,
+    "gender": "M",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "로사르탄",
+      "페린도프릴",
+      "암로디핀",
+      "아토르바스타틴",
+      "메트포르민",
+      "란소프라졸"
+    ],
+    "medication_adherence_days": 25,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-28",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "109/72",
+          "fasting_glucose": 117,
+          "blood_sugar": 117,
+          "postprandial_glucose": 157,
+          "pulse": 72
+        },
+        "notes": "자가 혈압측정 꾸준히 기록, 대체로 안정적이라 함.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-04-10",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "117/77",
+          "fasting_glucose": 112,
+          "blood_sugar": 112,
+          "postprandial_glucose": 166,
+          "pulse": 64
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-21",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "108/70",
+          "fasting_glucose": 121,
+          "blood_sugar": 121,
+          "postprandial_glucose": 183,
+          "pulse": 77
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "H2_drug_buried",
+      "difficulty": "hard",
+      "decisive_factor": "긴 약물목록 속 ACEi+ARB 병용(금기 미표기 — 계열 인지 필요)",
+      "factor_source": "당뇨병지침 2025 §15 Rec.8",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD-H2-0036",
+    "name": "권대호",
+    "age": 68,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "아토르바스타틴",
+      "심바스타틴",
+      "텔미사르탄",
+      "암로디핀",
+      "라미프릴",
+      "메트포르민"
+    ],
+    "medication_adherence_days": 23,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-25",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "123/71",
+          "fasting_glucose": 108,
+          "blood_sugar": 108,
+          "postprandial_glucose": 136,
+          "hba1c": 6.3,
+          "pulse": 78
+        },
+        "notes": "혈압약 잘 챙겨 드시고 식사도 규칙적이라고 함.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-28",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "125/66",
+          "fasting_glucose": 92,
+          "blood_sugar": 92,
+          "postprandial_glucose": 150,
+          "pulse": 64
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-26",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "115/73",
+          "fasting_glucose": 97,
+          "blood_sugar": 97,
+          "postprandial_glucose": 145,
+          "pulse": 65
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "H2_drug_buried",
+      "difficulty": "hard",
+      "decisive_factor": "긴 약물목록 속 ACEi+ARB 병용(금기 미표기 — 계열 인지 필요)",
+      "factor_source": "당뇨병지침 2025 §15 Rec.8",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD-H2-0037",
+    "name": "권말순",
+    "age": 77,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "발사르탄",
+      "심바스타틴",
+      "칼슘제",
+      "암로디핀",
+      "페린도프릴",
+      "메트포르민"
+    ],
+    "medication_adherence_days": 23,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-05-08",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "111/65",
+          "fasting_glucose": 95,
+          "blood_sugar": 95,
+          "postprandial_glucose": 160,
+          "hba1c": 7.1,
+          "pulse": 66
+        },
+        "notes": "자가 혈압측정 꾸준히 기록, 대체로 안정적이라 함.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-04-12",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "125/73",
+          "fasting_glucose": 99,
+          "blood_sugar": 99,
+          "postprandial_glucose": 149,
+          "pulse": 66
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-22",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "126/71",
+          "fasting_glucose": 115,
+          "blood_sugar": 115,
+          "postprandial_glucose": 160,
+          "pulse": 67
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "H2_drug_buried",
+      "difficulty": "hard",
+      "decisive_factor": "긴 약물목록 속 ACEi+ARB 병용(금기 미표기 — 계열 인지 필요)",
+      "factor_source": "당뇨병지침 2025 §15 Rec.8",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD-H2-0038",
+    "name": "한성진",
+    "age": 79,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "로수바스타틴",
+      "아스피린",
+      "페린도프릴",
+      "에포니디핀",
+      "메트포르민",
+      "발사르탄"
+    ],
+    "medication_adherence_days": 27,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-05",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "119/67",
+          "fasting_glucose": 119,
+          "blood_sugar": 119,
+          "postprandial_glucose": 162,
+          "pulse": 82
+        },
+        "notes": "손주 돌보느라 바쁘지만 컨디션은 괜찮다고 진술.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-17",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "108/69",
+          "fasting_glucose": 95,
+          "blood_sugar": 95,
+          "postprandial_glucose": 168,
+          "pulse": 67
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-17",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "110/69",
+          "fasting_glucose": 105,
+          "blood_sugar": 105,
+          "postprandial_glucose": 147,
+          "pulse": 78
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "H2_drug_buried",
+      "difficulty": "hard",
+      "decisive_factor": "긴 약물목록 속 ACEi+ARB 병용(금기 미표기 — 계열 인지 필요)",
+      "factor_source": "당뇨병지침 2025 §15 Rec.8",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD-H2-0039",
+    "name": "홍경자",
+    "age": 85,
+    "gender": "M",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "라미프릴",
+      "암로디핀",
+      "칼슘제",
+      "메트포르민",
+      "로수바스타틴",
+      "칸데사르탄"
+    ],
+    "medication_adherence_days": 26,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-05-08",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "109/68",
+          "fasting_glucose": 95,
+          "blood_sugar": 95,
+          "postprandial_glucose": 154,
+          "hba1c": 6.7,
+          "pulse": 73
+        },
+        "notes": "혈압약 잘 챙겨 드시고 식사도 규칙적이라고 함.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-04-01",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "113/65",
+          "fasting_glucose": 93,
+          "blood_sugar": 93,
+          "postprandial_glucose": 173,
+          "pulse": 78
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-11",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "116/65",
+          "fasting_glucose": 106,
+          "blood_sugar": 106,
+          "postprandial_glucose": 172,
+          "pulse": 79
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "H2_drug_buried",
+      "difficulty": "hard",
+      "decisive_factor": "긴 약물목록 속 ACEi+ARB 병용(금기 미표기 — 계열 인지 필요)",
+      "factor_source": "당뇨병지침 2025 §15 Rec.8",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD-H2-0040",
+    "name": "송순옥",
+    "age": 80,
+    "gender": "M",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "아토르바스타틴",
+      "메트포르민",
+      "라미프릴",
+      "아스피린",
+      "로사르탄",
+      "니페디핀"
+    ],
+    "medication_adherence_days": 25,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-28",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "117/64",
+          "fasting_glucose": 99,
+          "blood_sugar": 99,
+          "postprandial_glucose": 156,
+          "hba1c": 6.8,
+          "pulse": 69
+        },
+        "notes": "산책을 매일 30분씩 한다고 자랑스럽게 말함.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-24",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "114/72",
+          "fasting_glucose": 109,
+          "blood_sugar": 109,
+          "postprandial_glucose": 159,
+          "pulse": 80
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-23",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "120/64",
+          "fasting_glucose": 121,
+          "blood_sugar": 121,
+          "postprandial_glucose": 157,
+          "pulse": 67
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "H2_drug_buried",
+      "difficulty": "hard",
+      "decisive_factor": "긴 약물목록 속 ACEi+ARB 병용(금기 미표기 — 계열 인지 필요)",
+      "factor_source": "당뇨병지침 2025 §15 Rec.8",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD-H3-0007",
+    "name": "김순자",
+    "age": 75,
+    "gender": "M",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "메트포르민",
+      "니페디핀",
+      "심바스타틴"
+    ],
+    "medication_adherence_days": 30,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-21",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "113/71",
+          "fasting_glucose": 116,
+          "blood_sugar": 116,
+          "postprandial_glucose": 170,
+          "hba1c": 6.2,
+          "pulse": 80
+        },
+        "notes": "혈압약 잘 챙겨 드시고 식사도 규칙적이라고 함. 요즘 글씨가 흐릿해 신문을 못 읽겠다고 함, 안경 탓인 듯하다고.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-22",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "116/77",
+          "fasting_glucose": 112,
+          "blood_sugar": 112,
+          "postprandial_glucose": 169,
+          "pulse": 78
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-01",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "112/73",
+          "fasting_glucose": 98,
+          "blood_sugar": 98,
+          "postprandial_glucose": 161,
+          "pulse": 81
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "H3_symptom_buried",
+      "difficulty": "hard",
+      "decisive_factor": "시력저하(망막병증 의심)",
+      "factor_source": "당뇨 합병증/ACS 지침",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD-H3-0014",
+    "name": "강순자",
+    "age": 77,
+    "gender": "M",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "메트포르민",
+      "니페디핀",
+      "심바스타틴"
+    ],
+    "medication_adherence_days": 27,
+    "regular_care": false,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-05-09",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "113/68",
+          "fasting_glucose": 95,
+          "blood_sugar": 95,
+          "postprandial_glucose": 152,
+          "hba1c": 7.0,
+          "pulse": 81
+        },
+        "notes": "손주 돌보느라 바쁘지만 컨디션은 괜찮다고 진술. 요즘 글씨가 흐릿해 신문을 못 읽겠다고 함, 안경 탓인 듯하다고.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-04-07",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "115/75",
+          "fasting_glucose": 113,
+          "blood_sugar": 113,
+          "postprandial_glucose": 137,
+          "pulse": 74
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-13",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "109/73",
+          "fasting_glucose": 97,
+          "blood_sugar": 97,
+          "postprandial_glucose": 162,
+          "pulse": 68
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "H3_symptom_buried",
+      "difficulty": "hard",
+      "decisive_factor": "시력저하(망막병증 의심)",
+      "factor_source": "당뇨 합병증/ACS 지침",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD-H3-0022",
+    "name": "권병철",
+    "age": 78,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "메트포르민",
+      "암로디핀",
+      "로수바스타틴"
+    ],
+    "medication_adherence_days": 29,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-27",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "124/70",
+          "fasting_glucose": 96,
+          "blood_sugar": 96,
+          "postprandial_glucose": 153,
+          "pulse": 64
+        },
+        "notes": "손주 돌보느라 바쁘지만 컨디션은 괜찮다고 진술. 요즘 글씨가 흐릿해 신문을 못 읽겠다고 함, 안경 탓인 듯하다고.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-29",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "109/72",
+          "fasting_glucose": 114,
+          "blood_sugar": 114,
+          "postprandial_glucose": 161,
+          "pulse": 72
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-11",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "110/71",
+          "fasting_glucose": 92,
+          "blood_sugar": 92,
+          "postprandial_glucose": 177,
+          "pulse": 67
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "H3_symptom_buried",
+      "difficulty": "hard",
+      "decisive_factor": "시력저하(망막병증 의심)",
+      "factor_source": "당뇨 합병증/ACS 지침",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD-H3-0023",
+    "name": "김영수",
+    "age": 84,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "메트포르민",
+      "니페디핀",
+      "아토르바스타틴"
+    ],
+    "medication_adherence_days": 25,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-06",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "112/70",
+          "fasting_glucose": 122,
+          "blood_sugar": 122,
+          "postprandial_glucose": 173,
+          "hba1c": 6.8,
+          "pulse": 81
+        },
+        "notes": "손주 돌보느라 바쁘지만 컨디션은 괜찮다고 진술. 요즘 글씨가 흐릿해 신문을 못 읽겠다고 함, 안경 탓인 듯하다고.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-09",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "110/76",
+          "fasting_glucose": 117,
+          "blood_sugar": 117,
+          "postprandial_glucose": 138,
+          "pulse": 72
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-03",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "127/74",
+          "fasting_glucose": 101,
+          "blood_sugar": 101,
+          "postprandial_glucose": 171,
+          "pulse": 80
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "H3_symptom_buried",
+      "difficulty": "hard",
+      "decisive_factor": "시력저하(망막병증 의심)",
+      "factor_source": "당뇨 합병증/ACS 지침",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD-H3-0025",
+    "name": "장병철",
+    "age": 69,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "메트포르민",
+      "암로디핀",
+      "심바스타틴"
+    ],
+    "medication_adherence_days": 26,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-26",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "124/78",
+          "fasting_glucose": 110,
+          "blood_sugar": 110,
+          "postprandial_glucose": 171,
+          "hba1c": 7.0,
+          "pulse": 64
+        },
+        "notes": "혈압약 잘 챙겨 드시고 식사도 규칙적이라고 함. 요즘 글씨가 흐릿해 신문을 못 읽겠다고 함, 안경 탓인 듯하다고.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-22",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "121/74",
+          "fasting_glucose": 94,
+          "blood_sugar": 94,
+          "postprandial_glucose": 186,
+          "pulse": 76
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-18",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "112/77",
+          "fasting_glucose": 108,
+          "blood_sugar": 108,
+          "postprandial_glucose": 170,
+          "pulse": 78
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "H3_symptom_buried",
+      "difficulty": "hard",
+      "decisive_factor": "시력저하(망막병증 의심)",
+      "factor_source": "당뇨 합병증/ACS 지침",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD-H3-0026",
+    "name": "안말순",
+    "age": 80,
+    "gender": "M",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "메트포르민",
+      "니페디핀",
+      "아토르바스타틴"
+    ],
+    "medication_adherence_days": 30,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-28",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "109/70",
+          "fasting_glucose": 99,
+          "blood_sugar": 99,
+          "postprandial_glucose": 138,
+          "hba1c": 7.1,
+          "pulse": 73
+        },
+        "notes": "혈압약 잘 챙겨 드시고 식사도 규칙적이라고 함. 요즘 글씨가 흐릿해 신문을 못 읽겠다고 함, 안경 탓인 듯하다고.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-23",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "109/64",
+          "fasting_glucose": 114,
+          "blood_sugar": 114,
+          "postprandial_glucose": 173,
+          "pulse": 68
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-18",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "122/68",
+          "fasting_glucose": 95,
+          "blood_sugar": 95,
+          "postprandial_glucose": 180,
+          "pulse": 66
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "H3_symptom_buried",
+      "difficulty": "hard",
+      "decisive_factor": "시력저하(망막병증 의심)",
+      "factor_source": "당뇨 합병증/ACS 지침",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD-H3-0028",
+    "name": "조성진",
+    "age": 80,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "메트포르민",
+      "암로디핀",
+      "심바스타틴"
+    ],
+    "medication_adherence_days": 29,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-05-09",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "113/66",
+          "fasting_glucose": 109,
+          "blood_sugar": 109,
+          "postprandial_glucose": 153,
+          "pulse": 74
+        },
+        "notes": "손주 돌보느라 바쁘지만 컨디션은 괜찮다고 진술. 요즘 글씨가 흐릿해 신문을 못 읽겠다고 함, 안경 탓인 듯하다고.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-04-06",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "112/73",
+          "fasting_glucose": 120,
+          "blood_sugar": 120,
+          "postprandial_glucose": 151,
+          "pulse": 79
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-16",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "116/71",
+          "fasting_glucose": 92,
+          "blood_sugar": 92,
+          "postprandial_glucose": 136,
+          "pulse": 72
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "H3_symptom_buried",
+      "difficulty": "hard",
+      "decisive_factor": "시력저하(망막병증 의심)",
+      "factor_source": "당뇨 합병증/ACS 지침",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD-H3-0030",
+    "name": "권철수",
+    "age": 77,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "메트포르민",
+      "에포니디핀",
+      "로수바스타틴"
+    ],
+    "medication_adherence_days": 27,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-19",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "109/74",
+          "fasting_glucose": 96,
+          "blood_sugar": 96,
+          "postprandial_glucose": 181,
+          "hba1c": 7.4,
+          "pulse": 66
+        },
+        "notes": "자가 혈압측정 꾸준히 기록, 대체로 안정적이라 함. 요즘 글씨가 흐릿해 신문을 못 읽겠다고 함, 안경 탓인 듯하다고.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-25",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "116/70",
+          "fasting_glucose": 100,
+          "blood_sugar": 100,
+          "postprandial_glucose": 139,
+          "pulse": 78
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-07",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "116/69",
+          "fasting_glucose": 110,
+          "blood_sugar": 110,
+          "postprandial_glucose": 171,
+          "pulse": 78
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "H3_symptom_buried",
+      "difficulty": "hard",
+      "decisive_factor": "시력저하(망막병증 의심)",
+      "factor_source": "당뇨 합병증/ACS 지침",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD-H3-0031",
+    "name": "이상철",
+    "age": 69,
+    "gender": "M",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "메트포르민",
+      "암로디핀",
+      "아토르바스타틴"
+    ],
+    "medication_adherence_days": 23,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-22",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "119/72",
+          "fasting_glucose": 119,
+          "blood_sugar": 119,
+          "postprandial_glucose": 175,
+          "hba1c": 7.1,
+          "pulse": 69
+        },
+        "notes": "손주 돌보느라 바쁘지만 컨디션은 괜찮다고 진술. 요즘 글씨가 흐릿해 신문을 못 읽겠다고 함, 안경 탓인 듯하다고.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-28",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "119/77",
+          "fasting_glucose": 109,
+          "blood_sugar": 109,
+          "postprandial_glucose": 180,
+          "pulse": 74
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-06",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "118/64",
+          "fasting_glucose": 114,
+          "blood_sugar": 114,
+          "postprandial_glucose": 156,
+          "pulse": 72
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "H3_symptom_buried",
+      "difficulty": "hard",
+      "decisive_factor": "시력저하(망막병증 의심)",
+      "factor_source": "당뇨 합병증/ACS 지침",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD-H3-0034",
+    "name": "이금자",
+    "age": 85,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "메트포르민",
+      "암로디핀",
+      "로수바스타틴"
+    ],
+    "medication_adherence_days": 23,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-04",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "108/74",
+          "fasting_glucose": 102,
+          "blood_sugar": 102,
+          "postprandial_glucose": 136,
+          "hba1c": 6.8,
+          "pulse": 68
+        },
+        "notes": "혈압약 잘 챙겨 드시고 식사도 규칙적이라고 함. 요즘 글씨가 흐릿해 신문을 못 읽겠다고 함, 안경 탓인 듯하다고.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-07",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "118/69",
+          "fasting_glucose": 119,
+          "blood_sugar": 119,
+          "postprandial_glucose": 182,
+          "pulse": 62
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-13",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "123/70",
+          "fasting_glucose": 111,
+          "blood_sugar": 111,
+          "postprandial_glucose": 178,
+          "pulse": 72
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "H3_symptom_buried",
+      "difficulty": "hard",
+      "decisive_factor": "시력저하(망막병증 의심)",
+      "factor_source": "당뇨 합병증/ACS 지침",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD-H3-0039",
+    "name": "오미경",
+    "age": 76,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "메트포르민",
+      "에포니디핀",
+      "심바스타틴"
+    ],
+    "medication_adherence_days": 26,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-09",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "116/76",
+          "fasting_glucose": 96,
+          "blood_sugar": 96,
+          "postprandial_glucose": 187,
+          "hba1c": 7.3,
+          "pulse": 71
+        },
+        "notes": "자가 혈압측정 꾸준히 기록, 대체로 안정적이라 함. 요즘 글씨가 흐릿해 신문을 못 읽겠다고 함, 안경 탓인 듯하다고.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-16",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "117/65",
+          "fasting_glucose": 102,
+          "blood_sugar": 102,
+          "postprandial_glucose": 135,
+          "pulse": 77
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-08",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "115/66",
+          "fasting_glucose": 102,
+          "blood_sugar": 102,
+          "postprandial_glucose": 178,
+          "pulse": 81
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "H3_symptom_buried",
+      "difficulty": "hard",
+      "decisive_factor": "시력저하(망막병증 의심)",
+      "factor_source": "당뇨 합병증/ACS 지침",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD-H3-0040",
+    "name": "이미경",
+    "age": 77,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "메트포르민",
+      "암로디핀",
+      "아토르바스타틴"
+    ],
+    "medication_adherence_days": 24,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-05-02",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "112/78",
+          "fasting_glucose": 101,
+          "blood_sugar": 101,
+          "postprandial_glucose": 144,
+          "hba1c": 7.3,
+          "pulse": 78
+        },
+        "notes": "자가 혈압측정 꾸준히 기록, 대체로 안정적이라 함. 요즘 글씨가 흐릿해 신문을 못 읽겠다고 함, 안경 탓인 듯하다고.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-04-05",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "119/65",
+          "fasting_glucose": 116,
+          "blood_sugar": 116,
+          "postprandial_glucose": 145,
+          "pulse": 76
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-18",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "120/65",
+          "fasting_glucose": 105,
+          "blood_sugar": 105,
+          "postprandial_glucose": 156,
+          "pulse": 82
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "H3_symptom_buried",
+      "difficulty": "hard",
+      "decisive_factor": "시력저하(망막병증 의심)",
+      "factor_source": "당뇨 합병증/ACS 지침",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  }
+]

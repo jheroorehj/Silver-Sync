@@ -34,6 +34,17 @@ class VisitRecord:
     blood_sugar: float | None = None
     hba1c: float | None = None
     notes: str = ""
+    # --- 방문건강관리 [서식 3] 기초검사 확장 (선택, 하위호환) ---
+    pulse: int | None = None
+    fasting_glucose: float | None = None
+    postprandial_glucose: float | None = None
+    bmi: float | None = None
+    waist_circumference: float | None = None
+    total_cholesterol: float | None = None
+    triglyceride: float | None = None
+    hdl: float | None = None
+    ldl: float | None = None
+    symptoms: list[str] = field(default_factory=list)  # 증상 체크리스트
     raw: dict[str, Any] = field(default_factory=dict)
 
 
@@ -47,6 +58,10 @@ class PatientSnapshot:
     medications: list[str]
     records: list[VisitRecord]
     overrides: list[dict[str, Any]] = field(default_factory=list)
+    # --- 방문건강관리 확장 (선택, 하위호환) ---
+    diagnoses: list[dict[str, Any]] = field(default_factory=list)  # [{"name","diagnosed","treated"}] (건강면접조사표 17번)
+    medication_adherence_days: int | None = None  # 월 복용일수 (만성질환 서식 24일 / 서식5 20일 기준)
+    regular_care: bool | None = None  # 정기 진료 여부 (서식5 Q1)
     raw: dict[str, Any] = field(default_factory=dict)
 
 

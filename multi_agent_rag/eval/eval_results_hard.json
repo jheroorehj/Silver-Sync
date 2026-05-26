@@ -1,0 +1,1787 @@
+[
+  {
+    "arm": "baseline",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "single_llm",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "fair_multi",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "대면"
+  },
+  {
+    "arm": "fair_multi_balanced",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "multi_agent",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "baseline",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "single_llm",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "fair_multi",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "대면"
+  },
+  {
+    "arm": "fair_multi_balanced",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "multi_agent",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "baseline",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "single_llm",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "fair_multi",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "대면"
+  },
+  {
+    "arm": "fair_multi_balanced",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "multi_agent",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "baseline",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "single_llm",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "fair_multi",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "대면"
+  },
+  {
+    "arm": "fair_multi_balanced",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "multi_agent",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "baseline",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "single_llm",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "fair_multi",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "대면"
+  },
+  {
+    "arm": "fair_multi_balanced",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "multi_agent",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "baseline",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "single_llm",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "fair_multi",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "대면"
+  },
+  {
+    "arm": "fair_multi_balanced",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "multi_agent",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "baseline",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "single_llm",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "fair_multi",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "대면"
+  },
+  {
+    "arm": "fair_multi_balanced",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "multi_agent",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "baseline",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "single_llm",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "fair_multi",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "대면"
+  },
+  {
+    "arm": "fair_multi_balanced",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "multi_agent",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "대면"
+  },
+  {
+    "arm": "baseline",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "single_llm",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "fair_multi",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "대면"
+  },
+  {
+    "arm": "fair_multi_balanced",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "multi_agent",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "baseline",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "single_llm",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "fair_multi",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "대면"
+  },
+  {
+    "arm": "fair_multi_balanced",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "multi_agent",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "baseline",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "single_llm",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "fair_multi",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "대면"
+  },
+  {
+    "arm": "fair_multi_balanced",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "multi_agent",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "baseline",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "single_llm",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "fair_multi",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "대면"
+  },
+  {
+    "arm": "fair_multi_balanced",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "multi_agent",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "baseline",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "single_llm",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "fair_multi",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "대면"
+  },
+  {
+    "arm": "fair_multi_balanced",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "multi_agent",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "baseline",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "single_llm",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "fair_multi",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "대면"
+  },
+  {
+    "arm": "fair_multi_balanced",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "multi_agent",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "baseline",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "single_llm",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "fair_multi",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "대면"
+  },
+  {
+    "arm": "fair_multi_balanced",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "대면"
+  },
+  {
+    "arm": "multi_agent",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "baseline",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "single_llm",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "fair_multi",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "대면"
+  },
+  {
+    "arm": "fair_multi_balanced",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "multi_agent",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "baseline",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "single_llm",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "fair_multi",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "대면"
+  },
+  {
+    "arm": "fair_multi_balanced",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "multi_agent",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "baseline",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "single_llm",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "fair_multi",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "대면"
+  },
+  {
+    "arm": "fair_multi_balanced",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "multi_agent",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "대면"
+  },
+  {
+    "arm": "baseline",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "single_llm",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "fair_multi",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "대면"
+  },
+  {
+    "arm": "fair_multi_balanced",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "multi_agent",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "baseline",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "single_llm",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "fair_multi",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "대면"
+  },
+  {
+    "arm": "fair_multi_balanced",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "multi_agent",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "baseline",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "single_llm",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "fair_multi",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "대면"
+  },
+  {
+    "arm": "fair_multi_balanced",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "multi_agent",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "baseline",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "single_llm",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "fair_multi",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "대면"
+  },
+  {
+    "arm": "fair_multi_balanced",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "대면"
+  },
+  {
+    "arm": "multi_agent",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "baseline",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "single_llm",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "fair_multi",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "대면"
+  },
+  {
+    "arm": "fair_multi_balanced",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "multi_agent",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "대면"
+  },
+  {
+    "arm": "baseline",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "single_llm",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "fair_multi",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "대면"
+  },
+  {
+    "arm": "fair_multi_balanced",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "multi_agent",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "baseline",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "single_llm",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "fair_multi",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "대면"
+  },
+  {
+    "arm": "fair_multi_balanced",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "multi_agent",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "baseline",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "single_llm",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "fair_multi",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "대면"
+  },
+  {
+    "arm": "fair_multi_balanced",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "multi_agent",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "대면"
+  },
+  {
+    "arm": "baseline",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "single_llm",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "fair_multi",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "대면"
+  },
+  {
+    "arm": "fair_multi_balanced",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "대면"
+  },
+  {
+    "arm": "multi_agent",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "baseline",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "single_llm",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "fair_multi",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "대면"
+  },
+  {
+    "arm": "fair_multi_balanced",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "multi_agent",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "baseline",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "single_llm",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "fair_multi",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "대면"
+  },
+  {
+    "arm": "fair_multi_balanced",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "multi_agent",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "baseline",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "single_llm",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "fair_multi",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "대면"
+  },
+  {
+    "arm": "fair_multi_balanced",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "multi_agent",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "baseline",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "single_llm",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "fair_multi",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "대면"
+  },
+  {
+    "arm": "fair_multi_balanced",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "multi_agent",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "baseline",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "single_llm",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "fair_multi",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "대면"
+  },
+  {
+    "arm": "fair_multi_balanced",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "multi_agent",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "baseline",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "single_llm",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "fair_multi",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "대면"
+  },
+  {
+    "arm": "fair_multi_balanced",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "multi_agent",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "baseline",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "single_llm",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "fair_multi",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "대면"
+  },
+  {
+    "arm": "fair_multi_balanced",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "multi_agent",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "baseline",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "single_llm",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "fair_multi",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "대면"
+  },
+  {
+    "arm": "fair_multi_balanced",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "multi_agent",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "baseline",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "single_llm",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "fair_multi",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "대면"
+  },
+  {
+    "arm": "fair_multi_balanced",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "multi_agent",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "baseline",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "single_llm",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "fair_multi",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "대면"
+  },
+  {
+    "arm": "fair_multi_balanced",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "multi_agent",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "baseline",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "single_llm",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "fair_multi",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "대면"
+  },
+  {
+    "arm": "fair_multi_balanced",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "multi_agent",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "baseline",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "single_llm",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "fair_multi",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "대면"
+  },
+  {
+    "arm": "fair_multi_balanced",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "multi_agent",
+    "archetype": "H2",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "baseline",
+    "archetype": "H3",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "single_llm",
+    "archetype": "H3",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "fair_multi",
+    "archetype": "H3",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "대면"
+  },
+  {
+    "arm": "fair_multi_balanced",
+    "archetype": "H3",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "multi_agent",
+    "archetype": "H3",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "baseline",
+    "archetype": "H3",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "single_llm",
+    "archetype": "H3",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "fair_multi",
+    "archetype": "H3",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "대면"
+  },
+  {
+    "arm": "fair_multi_balanced",
+    "archetype": "H3",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "대면"
+  },
+  {
+    "arm": "multi_agent",
+    "archetype": "H3",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "baseline",
+    "archetype": "H3",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "single_llm",
+    "archetype": "H3",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "fair_multi",
+    "archetype": "H3",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "대면"
+  },
+  {
+    "arm": "fair_multi_balanced",
+    "archetype": "H3",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "multi_agent",
+    "archetype": "H3",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "baseline",
+    "archetype": "H3",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "single_llm",
+    "archetype": "H3",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "fair_multi",
+    "archetype": "H3",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "대면"
+  },
+  {
+    "arm": "fair_multi_balanced",
+    "archetype": "H3",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "대면"
+  },
+  {
+    "arm": "multi_agent",
+    "archetype": "H3",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "대면"
+  },
+  {
+    "arm": "baseline",
+    "archetype": "H3",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "single_llm",
+    "archetype": "H3",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "fair_multi",
+    "archetype": "H3",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "대면"
+  },
+  {
+    "arm": "fair_multi_balanced",
+    "archetype": "H3",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "대면"
+  },
+  {
+    "arm": "multi_agent",
+    "archetype": "H3",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "baseline",
+    "archetype": "H3",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "single_llm",
+    "archetype": "H3",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "fair_multi",
+    "archetype": "H3",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "대면"
+  },
+  {
+    "arm": "fair_multi_balanced",
+    "archetype": "H3",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "대면"
+  },
+  {
+    "arm": "multi_agent",
+    "archetype": "H3",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "baseline",
+    "archetype": "H3",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "single_llm",
+    "archetype": "H3",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "fair_multi",
+    "archetype": "H3",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "대면"
+  },
+  {
+    "arm": "fair_multi_balanced",
+    "archetype": "H3",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "multi_agent",
+    "archetype": "H3",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "대면"
+  },
+  {
+    "arm": "baseline",
+    "archetype": "H3",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "single_llm",
+    "archetype": "H3",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "대면"
+  },
+  {
+    "arm": "fair_multi",
+    "archetype": "H3",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "대면"
+  },
+  {
+    "arm": "fair_multi_balanced",
+    "archetype": "H3",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "대면"
+  },
+  {
+    "arm": "multi_agent",
+    "archetype": "H3",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "baseline",
+    "archetype": "H3",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "single_llm",
+    "archetype": "H3",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "fair_multi",
+    "archetype": "H3",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "대면"
+  },
+  {
+    "arm": "fair_multi_balanced",
+    "archetype": "H3",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "multi_agent",
+    "archetype": "H3",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "baseline",
+    "archetype": "H3",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "single_llm",
+    "archetype": "H3",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "fair_multi",
+    "archetype": "H3",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "대면"
+  },
+  {
+    "arm": "fair_multi_balanced",
+    "archetype": "H3",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "multi_agent",
+    "archetype": "H3",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "baseline",
+    "archetype": "H3",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "single_llm",
+    "archetype": "H3",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "fair_multi",
+    "archetype": "H3",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "대면"
+  },
+  {
+    "arm": "fair_multi_balanced",
+    "archetype": "H3",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "multi_agent",
+    "archetype": "H3",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "baseline",
+    "archetype": "H3",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "single_llm",
+    "archetype": "H3",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  },
+  {
+    "arm": "fair_multi",
+    "archetype": "H3",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "대면"
+  },
+  {
+    "arm": "fair_multi_balanced",
+    "archetype": "H3",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "대면"
+  },
+  {
+    "arm": "multi_agent",
+    "archetype": "H3",
+    "stratum": "edge",
+    "truth": "대면",
+    "pred": "비대면"
+  }
+]

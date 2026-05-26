@@ -30,3 +30,6 @@ Thumbs.db
 
 # Logs (build/runtime - keep agent/log/ which is meaningful run output)
 *.log
+
+# 참고용 안내서 PDF (저작권+용량)
+eval_refs/
