@@ -1,0 +1,29 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-silversync-dev-d9511-authRole",
+      "UnauthRoleArn": "arn:aws:iam::379995600109:role/amplify-silversync-dev-d9511-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::379995600109:role/amplify-silversync-dev-d9511-authRole",
+      "Region": "ap-northeast-2",
+      "DeploymentBucketName": "amplify-silversync-dev-d9511-deployment",
+      "UnauthRoleName": "amplify-silversync-dev-d9511-unauthRole",
+      "StackName": "amplify-silversync-dev-d9511",
+      "StackId": "arn:aws:cloudformation:ap-northeast-2:379995600109:stack/amplify-silversync-dev-d9511/263436f0-4537-11f1-a31c-02056ca4a273",
+      "AmplifyAppId": "datj21rdw9mq2"
+    },
+    "categories": {
+      "storage": {
+        "PatientVitals": {}
+      },
+      "function": {
+        "SilverSyncVitalsHandler": {
+          "deploymentBucketName": "amplify-silversync-dev-d9511-deployment",
+          "s3Key": "amplify-builds/SilverSyncVitalsHandler-61412f5434464a6f6763-build.zip"
+        }
+      },
+      "api": {
+        "SilverSyncAPI": {}
+      }
+    }
+  }
+}
