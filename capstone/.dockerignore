@@ -1,0 +1,17 @@
+# Ignore Git files
+.git
+.gitignore
+
+# Ignore Python cache and virtual environments
+__pycache__/
+venv/
+
+# Ignore logs and setup scripts (assuming they are not needed in the Lambda runtime)
+log/
+setup/
+FE_DEMO/
+node_modules/
+
+# Ignore Docker-related files
+Dockerfile
+.dockerignore

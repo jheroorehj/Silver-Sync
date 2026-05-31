@@ -1,0 +1,92 @@
+{
+  "providers": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-silversync-dev-d9511-authRole",
+      "UnauthRoleArn": "arn:aws:iam::379995600109:role/amplify-silversync-dev-d9511-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::379995600109:role/amplify-silversync-dev-d9511-authRole",
+      "Region": "ap-northeast-2",
+      "DeploymentBucketName": "amplify-silversync-dev-d9511-deployment",
+      "UnauthRoleName": "amplify-silversync-dev-d9511-unauthRole",
+      "StackName": "amplify-silversync-dev-d9511",
+      "StackId": "arn:aws:cloudformation:ap-northeast-2:379995600109:stack/amplify-silversync-dev-d9511/263436f0-4537-11f1-a31c-02056ca4a273",
+      "AmplifyAppId": "datj21rdw9mq2"
+    }
+  },
+  "storage": {
+    "PatientVitals": {
+      "service": "DynamoDB",
+      "providerPlugin": "awscloudformation",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-silversync-dev-d9511-deployment/amplify-cfn-templates/storage/PatientVitals-cloudformation-template.json",
+        "logicalId": "storagePatientVitals"
+      },
+      "lastPushTimeStamp": "2026-05-01T14:26:17.194Z",
+      "output": {
+        "PartitionKeyName": "patientCode",
+        "SortKeyName": "timestamp",
+        "SortKeyType": "N",
+        "Region": "ap-northeast-2",
+        "Arn": "arn:aws:dynamodb:ap-northeast-2:379995600109:table/PatientVitals-dev",
+        "StreamArn": "arn:aws:dynamodb:ap-northeast-2:379995600109:table/PatientVitals-dev/stream/2026-05-01T08:37:05.704",
+        "PartitionKeyType": "S",
+        "Name": "PatientVitals-dev"
+      },
+      "lastPushDirHash": "Mi/hXd0+6nZIKI0UsmXw97fTlYI="
+    }
+  },
+  "function": {
+    "SilverSyncVitalsHandler": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "lastBuildTimeStamp": "2026-05-01T13:47:53.983Z",
+      "lastBuildType": "PROD",
+      "lastPackageTimeStamp": "2026-05-01T13:47:54.662Z",
+      "distZipFilename": "SilverSyncVitalsHandler-61412f5434464a6f6763-build.zip",
+      "s3Bucket": {
+        "deploymentBucketName": "amplify-silversync-dev-d9511-deployment",
+        "s3Key": "amplify-builds/SilverSyncVitalsHandler-61412f5434464a6f6763-build.zip"
+      },
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-silversync-dev-d9511-deployment/amplify-cfn-templates/function/SilverSyncVitalsHandler-cloudformation-template.json",
+        "logicalId": "functionSilverSyncVitalsHandler"
+      },
+      "lastPushTimeStamp": "2026-05-01T14:26:17.195Z",
+      "output": {
+        "LambdaExecutionRoleArn": "arn:aws:iam::379995600109:role/silversyncLambdaRolea044914d-dev",
+        "Region": "ap-northeast-2",
+        "Arn": "arn:aws:lambda:ap-northeast-2:379995600109:function:SilverSyncVitalsHandler-dev",
+        "Name": "SilverSyncVitalsHandler-dev",
+        "LambdaExecutionRole": "silversyncLambdaRolea044914d-dev"
+      },
+      "lastPushDirHash": "aA/T4FJogc+VYrGUCdgblv5mhDQ="
+    }
+  },
+  "api": {
+    "SilverSyncAPI": {
+      "service": "API Gateway",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [
+        {
+          "category": "function",
+          "resourceName": "SilverSyncVitalsHandler",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        }
+      ],
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-silversync-dev-d9511-deployment/amplify-cfn-templates/api/SilverSyncAPI-cloudformation-template.json",
+        "logicalId": "apiSilverSyncAPI"
+      },
+      "lastPushTimeStamp": "2026-05-01T14:26:17.195Z",
+      "output": {
+        "ApiName": "SilverSyncAPI",
+        "RootUrl": "https://ky1y2zdh68.execute-api.ap-northeast-2.amazonaws.com/dev",
+        "ApiId": "ky1y2zdh68"
+      },
+      "lastPushDirHash": "fCdVtnZBH/NVj2Rk9kdPmZ285Hk="
+    }
+  }
+}
