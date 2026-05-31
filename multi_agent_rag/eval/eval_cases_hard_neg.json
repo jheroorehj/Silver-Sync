@@ -1,0 +1,2552 @@
+[
+  {
+    "patient_id": "HARDNEG-HN1-0001",
+    "name": "홍길동001",
+    "age": 68,
+    "gender": "M",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "메트포르민",
+      "암로디핀",
+      "로수바스타틴"
+    ],
+    "medication_adherence_days": 25,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-20",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "117/71",
+          "fasting_glucose": 93,
+          "blood_sugar": 91,
+          "postprandial_glucose": 174,
+          "pulse": 66,
+          "hba1c": 6.9
+        },
+        "notes": "기립 시 일시적 어지럼 1-2회/주. 누우면 즉시 회복. 의식변화나 낙상은 없음.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-22",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "111/68",
+          "fasting_glucose": 90,
+          "blood_sugar": 98,
+          "postprandial_glucose": 154,
+          "pulse": 80
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-25",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "129/68",
+          "fasting_glucose": 120,
+          "blood_sugar": 97,
+          "postprandial_glucose": 174,
+          "pulse": 77
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "비대면",
+      "stratum": "hard_neg",
+      "archetype": "HN_orthostatic_dizzy",
+      "difficulty": "hard_negative",
+      "variant": "plain",
+      "decisive_factor": "기립성 어지러움 (양성), 안정 vitals + 안정 HbA1c",
+      "factor_source": "기립성/양성 증상 변별 (의사 판단 권고: 외래 escalate 불필요)",
+      "baseline_should_miss": false,
+      "comparison_axis": 0
+    }
+  },
+  {
+    "patient_id": "HARDNEG-HN1-0002",
+    "name": "홍길동002",
+    "age": 68,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "메트포르민",
+      "에포니디핀",
+      "아토르바스타틴"
+    ],
+    "medication_adherence_days": 28,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-20",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "123/73",
+          "fasting_glucose": 102,
+          "blood_sugar": 94,
+          "postprandial_glucose": 153,
+          "pulse": 74,
+          "hba1c": 6.5
+        },
+        "notes": "화장실에서 일어설 때 잠시 어지러움 호소. 충분한 수분 섭취 권고 후 안정.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-22",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "122/69",
+          "fasting_glucose": 107,
+          "blood_sugar": 107,
+          "postprandial_glucose": 156,
+          "pulse": 65
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-25",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "124/76",
+          "fasting_glucose": 92,
+          "blood_sugar": 109,
+          "postprandial_glucose": 145,
+          "pulse": 81
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "비대면",
+      "stratum": "hard_neg",
+      "archetype": "HN_orthostatic_dizzy",
+      "difficulty": "hard_negative",
+      "variant": "plain",
+      "decisive_factor": "기립성 어지러움 (양성), 안정 vitals + 안정 HbA1c",
+      "factor_source": "기립성/양성 증상 변별 (의사 판단 권고: 외래 escalate 불필요)",
+      "baseline_should_miss": false,
+      "comparison_axis": 0
+    }
+  },
+  {
+    "patient_id": "HARDNEG-HN1-0003",
+    "name": "홍길동003",
+    "age": 77,
+    "gender": "M",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "메트포르민",
+      "에포니디핀",
+      "아토르바스타틴"
+    ],
+    "medication_adherence_days": 23,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-20",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "112/68",
+          "fasting_glucose": 99,
+          "blood_sugar": 103,
+          "postprandial_glucose": 145,
+          "pulse": 71,
+          "hba1c": 7.1
+        },
+        "notes": "화장실에서 일어설 때 잠시 어지러움 호소. 충분한 수분 섭취 권고 후 안정.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-22",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "122/72",
+          "fasting_glucose": 114,
+          "blood_sugar": 125,
+          "postprandial_glucose": 163,
+          "pulse": 69
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-25",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "121/73",
+          "fasting_glucose": 98,
+          "blood_sugar": 102,
+          "postprandial_glucose": 144,
+          "pulse": 69
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "비대면",
+      "stratum": "hard_neg",
+      "archetype": "HN_orthostatic_dizzy",
+      "difficulty": "hard_negative",
+      "variant": "plain",
+      "decisive_factor": "기립성 어지러움 (양성), 안정 vitals + 안정 HbA1c",
+      "factor_source": "기립성/양성 증상 변별 (의사 판단 권고: 외래 escalate 불필요)",
+      "baseline_should_miss": false,
+      "comparison_axis": 0
+    }
+  },
+  {
+    "patient_id": "HARDNEG-HN1-0004",
+    "name": "홍길동004",
+    "age": 74,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "메트포르민",
+      "에포니디핀",
+      "아토르바스타틴"
+    ],
+    "medication_adherence_days": 27,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-20",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "130/79",
+          "fasting_glucose": 120,
+          "blood_sugar": 99,
+          "postprandial_glucose": 160,
+          "pulse": 65,
+          "hba1c": 6.6
+        },
+        "notes": "기립 시 일시적 어지럼 1-2회/주. 누우면 즉시 회복. 의식변화나 낙상은 없음.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-22",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "111/80",
+          "fasting_glucose": 105,
+          "blood_sugar": 110,
+          "postprandial_glucose": 157,
+          "pulse": 66
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-25",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "116/82",
+          "fasting_glucose": 121,
+          "blood_sugar": 105,
+          "postprandial_glucose": 153,
+          "pulse": 79
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "비대면",
+      "stratum": "hard_neg",
+      "archetype": "HN_orthostatic_dizzy",
+      "difficulty": "hard_negative",
+      "variant": "plain",
+      "decisive_factor": "기립성 어지러움 (양성), 안정 vitals + 안정 HbA1c",
+      "factor_source": "기립성/양성 증상 변별 (의사 판단 권고: 외래 escalate 불필요)",
+      "baseline_should_miss": false,
+      "comparison_axis": 0
+    }
+  },
+  {
+    "patient_id": "HARDNEG-HN1-0005",
+    "name": "홍길동005",
+    "age": 70,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "메트포르민",
+      "에포니디핀",
+      "아토르바스타틴"
+    ],
+    "medication_adherence_days": 26,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-20",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "114/71",
+          "fasting_glucose": 120,
+          "blood_sugar": 119,
+          "postprandial_glucose": 156,
+          "pulse": 82,
+          "hba1c": 6.7
+        },
+        "notes": "기립 시 일시적 어지럼 1-2회/주. 누우면 즉시 회복. 의식변화나 낙상은 없음.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-22",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "128/74",
+          "fasting_glucose": 108,
+          "blood_sugar": 99,
+          "postprandial_glucose": 148,
+          "pulse": 80
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-25",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "125/69",
+          "fasting_glucose": 88,
+          "blood_sugar": 92,
+          "postprandial_glucose": 149,
+          "pulse": 69
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "비대면",
+      "stratum": "hard_neg",
+      "archetype": "HN_orthostatic_dizzy",
+      "difficulty": "hard_negative",
+      "variant": "plain",
+      "decisive_factor": "기립성 어지러움 (양성), 안정 vitals + 안정 HbA1c",
+      "factor_source": "기립성/양성 증상 변별 (의사 판단 권고: 외래 escalate 불필요)",
+      "baseline_should_miss": false,
+      "comparison_axis": 0
+    }
+  },
+  {
+    "patient_id": "HARDNEG-HN2-0001",
+    "name": "홍길동001",
+    "age": 71,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압",
+      "정맥류"
+    ],
+    "medications": [
+      "메트포르민",
+      "암로디핀",
+      "로수바스타틴"
+    ],
+    "medication_adherence_days": 26,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "정맥류",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-15",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "122/77",
+          "fasting_glucose": 114,
+          "blood_sugar": 118,
+          "postprandial_glucose": 156,
+          "pulse": 81,
+          "hba1c": 7.1
+        },
+        "notes": "양다리 가벼운 부종, 평생 비슷한 정도. 압박스타킹 사용 중. 호흡곤란 없음.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-18",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "110/78",
+          "fasting_glucose": 92,
+          "blood_sugar": 119,
+          "postprandial_glucose": 157,
+          "pulse": 74
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-12",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "113/72",
+          "fasting_glucose": 112,
+          "blood_sugar": 95,
+          "postprandial_glucose": 169,
+          "pulse": 64
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "비대면",
+      "stratum": "hard_neg",
+      "archetype": "HN_varicose_edema",
+      "difficulty": "hard_negative",
+      "variant": "plain",
+      "decisive_factor": "정맥류 기왕 부종 (TZD 없음, 체중·심부전 변화 없음)",
+      "factor_source": "기립성/양성 증상 변별 (의사 판단 권고: 외래 escalate 불필요)",
+      "baseline_should_miss": false,
+      "comparison_axis": 0
+    }
+  },
+  {
+    "patient_id": "HARDNEG-HN2-0002",
+    "name": "홍길동002",
+    "age": 72,
+    "gender": "M",
+    "conditions": [
+      "당뇨병",
+      "고혈압",
+      "정맥류"
+    ],
+    "medications": [
+      "메트포르민",
+      "암로디핀",
+      "로수바스타틴"
+    ],
+    "medication_adherence_days": 26,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "정맥류",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-15",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "113/81",
+          "fasting_glucose": 125,
+          "blood_sugar": 104,
+          "postprandial_glucose": 172,
+          "pulse": 70,
+          "hba1c": 6.5
+        },
+        "notes": "발목 부종 미미. 정맥류 진료 외래 다님. 심부전 증상 없음, 체중 변화 없음.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-18",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "115/76",
+          "fasting_glucose": 118,
+          "blood_sugar": 85,
+          "postprandial_glucose": 160,
+          "pulse": 79
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-12",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "110/69",
+          "fasting_glucose": 108,
+          "blood_sugar": 104,
+          "postprandial_glucose": 155,
+          "pulse": 65
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "비대면",
+      "stratum": "hard_neg",
+      "archetype": "HN_varicose_edema",
+      "difficulty": "hard_negative",
+      "variant": "plain",
+      "decisive_factor": "정맥류 기왕 부종 (TZD 없음, 체중·심부전 변화 없음)",
+      "factor_source": "기립성/양성 증상 변별 (의사 판단 권고: 외래 escalate 불필요)",
+      "baseline_should_miss": false,
+      "comparison_axis": 0
+    }
+  },
+  {
+    "patient_id": "HARDNEG-HN2-0003",
+    "name": "홍길동003",
+    "age": 71,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압",
+      "정맥류"
+    ],
+    "medications": [
+      "메트포르민",
+      "암로디핀",
+      "로수바스타틴"
+    ],
+    "medication_adherence_days": 26,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "정맥류",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-15",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "125/81",
+          "fasting_glucose": 89,
+          "blood_sugar": 119,
+          "postprandial_glucose": 148,
+          "pulse": 68,
+          "hba1c": 6.9
+        },
+        "notes": "다리가 종일 서 있은 후 약간 붓는다고 호소. 정맥류 기왕력 있음. 신규 변화 없음.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-18",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "127/70",
+          "fasting_glucose": 101,
+          "blood_sugar": 118,
+          "postprandial_glucose": 167,
+          "pulse": 70
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-12",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "127/80",
+          "fasting_glucose": 97,
+          "blood_sugar": 104,
+          "postprandial_glucose": 165,
+          "pulse": 75
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "비대면",
+      "stratum": "hard_neg",
+      "archetype": "HN_varicose_edema",
+      "difficulty": "hard_negative",
+      "variant": "plain",
+      "decisive_factor": "정맥류 기왕 부종 (TZD 없음, 체중·심부전 변화 없음)",
+      "factor_source": "기립성/양성 증상 변별 (의사 판단 권고: 외래 escalate 불필요)",
+      "baseline_should_miss": false,
+      "comparison_axis": 0
+    }
+  },
+  {
+    "patient_id": "HARDNEG-HN2-0004",
+    "name": "홍길동004",
+    "age": 77,
+    "gender": "M",
+    "conditions": [
+      "당뇨병",
+      "고혈압",
+      "정맥류"
+    ],
+    "medications": [
+      "메트포르민",
+      "암로디핀",
+      "로수바스타틴"
+    ],
+    "medication_adherence_days": 24,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "정맥류",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-15",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "117/71",
+          "fasting_glucose": 89,
+          "blood_sugar": 106,
+          "postprandial_glucose": 141,
+          "pulse": 82,
+          "hba1c": 6.8
+        },
+        "notes": "다리가 종일 서 있은 후 약간 붓는다고 호소. 정맥류 기왕력 있음. 신규 변화 없음.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-18",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "128/71",
+          "fasting_glucose": 85,
+          "blood_sugar": 89,
+          "postprandial_glucose": 143,
+          "pulse": 71
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-12",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "112/82",
+          "fasting_glucose": 87,
+          "blood_sugar": 106,
+          "postprandial_glucose": 144,
+          "pulse": 80
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "비대면",
+      "stratum": "hard_neg",
+      "archetype": "HN_varicose_edema",
+      "difficulty": "hard_negative",
+      "variant": "plain",
+      "decisive_factor": "정맥류 기왕 부종 (TZD 없음, 체중·심부전 변화 없음)",
+      "factor_source": "기립성/양성 증상 변별 (의사 판단 권고: 외래 escalate 불필요)",
+      "baseline_should_miss": false,
+      "comparison_axis": 0
+    }
+  },
+  {
+    "patient_id": "HARDNEG-HN2-0005",
+    "name": "홍길동005",
+    "age": 80,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압",
+      "정맥류"
+    ],
+    "medications": [
+      "메트포르민",
+      "암로디핀",
+      "로수바스타틴"
+    ],
+    "medication_adherence_days": 27,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "정맥류",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-15",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "116/76",
+          "fasting_glucose": 93,
+          "blood_sugar": 121,
+          "postprandial_glucose": 170,
+          "pulse": 71,
+          "hba1c": 7.0
+        },
+        "notes": "양다리 가벼운 부종, 평생 비슷한 정도. 압박스타킹 사용 중. 호흡곤란 없음.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-18",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "123/71",
+          "fasting_glucose": 91,
+          "blood_sugar": 91,
+          "postprandial_glucose": 167,
+          "pulse": 75
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-12",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "123/74",
+          "fasting_glucose": 114,
+          "blood_sugar": 88,
+          "postprandial_glucose": 146,
+          "pulse": 65
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "비대면",
+      "stratum": "hard_neg",
+      "archetype": "HN_varicose_edema",
+      "difficulty": "hard_negative",
+      "variant": "plain",
+      "decisive_factor": "정맥류 기왕 부종 (TZD 없음, 체중·심부전 변화 없음)",
+      "factor_source": "기립성/양성 증상 변별 (의사 판단 권고: 외래 escalate 불필요)",
+      "baseline_should_miss": false,
+      "comparison_axis": 0
+    }
+  },
+  {
+    "patient_id": "HARDNEG-HN3-0001",
+    "name": "홍길동001",
+    "age": 67,
+    "gender": "M",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "메트포르민",
+      "에포니디핀",
+      "아토르바스타틴"
+    ],
+    "medication_adherence_days": 25,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-25",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "116/71",
+          "fasting_glucose": 119,
+          "blood_sugar": 113,
+          "postprandial_glucose": 148,
+          "pulse": 77,
+          "hba1c": 6.5
+        },
+        "notes": "최근 체중이 조금 늘었다고 호소. 휴가 동안 외식이 잦았다고 본인 진술.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-30",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "124/71",
+          "fasting_glucose": 89,
+          "blood_sugar": 113,
+          "postprandial_glucose": 175,
+          "pulse": 67
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-28",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "111/78",
+          "fasting_glucose": 119,
+          "blood_sugar": 85,
+          "postprandial_glucose": 145,
+          "pulse": 71
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "비대면",
+      "stratum": "hard_neg",
+      "archetype": "HN_dietary_weight",
+      "difficulty": "hard_negative",
+      "variant": "plain",
+      "decisive_factor": "식이 일시 체중 증가 (TZD 없음, 부종 없음)",
+      "factor_source": "기립성/양성 증상 변별 (의사 판단 권고: 외래 escalate 불필요)",
+      "baseline_should_miss": false,
+      "comparison_axis": 0
+    }
+  },
+  {
+    "patient_id": "HARDNEG-HN3-0002",
+    "name": "홍길동002",
+    "age": 73,
+    "gender": "M",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "메트포르민",
+      "에포니디핀",
+      "아토르바스타틴"
+    ],
+    "medication_adherence_days": 27,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-25",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "122/82",
+          "fasting_glucose": 88,
+          "blood_sugar": 95,
+          "postprandial_glucose": 164,
+          "pulse": 64,
+          "hba1c": 7.2
+        },
+        "notes": "최근 체중이 조금 늘었다고 호소. 휴가 동안 외식이 잦았다고 본인 진술.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-30",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "118/82",
+          "fasting_glucose": 114,
+          "blood_sugar": 103,
+          "postprandial_glucose": 167,
+          "pulse": 81
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-28",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "125/70",
+          "fasting_glucose": 97,
+          "blood_sugar": 103,
+          "postprandial_glucose": 153,
+          "pulse": 65
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "비대면",
+      "stratum": "hard_neg",
+      "archetype": "HN_dietary_weight",
+      "difficulty": "hard_negative",
+      "variant": "plain",
+      "decisive_factor": "식이 일시 체중 증가 (TZD 없음, 부종 없음)",
+      "factor_source": "기립성/양성 증상 변별 (의사 판단 권고: 외래 escalate 불필요)",
+      "baseline_should_miss": false,
+      "comparison_axis": 0
+    }
+  },
+  {
+    "patient_id": "HARDNEG-HN3-0003",
+    "name": "홍길동003",
+    "age": 66,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "메트포르민",
+      "에포니디핀",
+      "아토르바스타틴"
+    ],
+    "medication_adherence_days": 27,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-25",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "128/75",
+          "fasting_glucose": 117,
+          "blood_sugar": 118,
+          "postprandial_glucose": 150,
+          "pulse": 65,
+          "hba1c": 7.2
+        },
+        "notes": "명절 후 체중이 약 2kg 늘었다고 함. 식이가 원인으로 보임. 운동·식이 조정 권고.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-30",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "112/81",
+          "fasting_glucose": 96,
+          "blood_sugar": 89,
+          "postprandial_glucose": 144,
+          "pulse": 71
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-28",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "122/69",
+          "fasting_glucose": 121,
+          "blood_sugar": 100,
+          "postprandial_glucose": 142,
+          "pulse": 66
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "비대면",
+      "stratum": "hard_neg",
+      "archetype": "HN_dietary_weight",
+      "difficulty": "hard_negative",
+      "variant": "plain",
+      "decisive_factor": "식이 일시 체중 증가 (TZD 없음, 부종 없음)",
+      "factor_source": "기립성/양성 증상 변별 (의사 판단 권고: 외래 escalate 불필요)",
+      "baseline_should_miss": false,
+      "comparison_axis": 0
+    }
+  },
+  {
+    "patient_id": "HARDNEG-HN3-0004",
+    "name": "홍길동004",
+    "age": 70,
+    "gender": "M",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "메트포르민",
+      "에포니디핀",
+      "아토르바스타틴"
+    ],
+    "medication_adherence_days": 23,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-25",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "120/71",
+          "fasting_glucose": 101,
+          "blood_sugar": 110,
+          "postprandial_glucose": 148,
+          "pulse": 73,
+          "hba1c": 6.8
+        },
+        "notes": "최근 체중이 조금 늘었다고 호소. 휴가 동안 외식이 잦았다고 본인 진술.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-30",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "112/68",
+          "fasting_glucose": 114,
+          "blood_sugar": 124,
+          "postprandial_glucose": 146,
+          "pulse": 66
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-28",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "127/71",
+          "fasting_glucose": 117,
+          "blood_sugar": 101,
+          "postprandial_glucose": 148,
+          "pulse": 75
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "비대면",
+      "stratum": "hard_neg",
+      "archetype": "HN_dietary_weight",
+      "difficulty": "hard_negative",
+      "variant": "plain",
+      "decisive_factor": "식이 일시 체중 증가 (TZD 없음, 부종 없음)",
+      "factor_source": "기립성/양성 증상 변별 (의사 판단 권고: 외래 escalate 불필요)",
+      "baseline_should_miss": false,
+      "comparison_axis": 0
+    }
+  },
+  {
+    "patient_id": "HARDNEG-HN3-0005",
+    "name": "홍길동005",
+    "age": 70,
+    "gender": "M",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "메트포르민",
+      "에포니디핀",
+      "아토르바스타틴"
+    ],
+    "medication_adherence_days": 27,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-25",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "124/81",
+          "fasting_glucose": 119,
+          "blood_sugar": 104,
+          "postprandial_glucose": 173,
+          "pulse": 64,
+          "hba1c": 6.9
+        },
+        "notes": "최근 체중이 조금 늘었다고 호소. 휴가 동안 외식이 잦았다고 본인 진술.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-30",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "127/72",
+          "fasting_glucose": 91,
+          "blood_sugar": 93,
+          "postprandial_glucose": 156,
+          "pulse": 67
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-28",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "113/79",
+          "fasting_glucose": 120,
+          "blood_sugar": 94,
+          "postprandial_glucose": 157,
+          "pulse": 73
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "비대면",
+      "stratum": "hard_neg",
+      "archetype": "HN_dietary_weight",
+      "difficulty": "hard_negative",
+      "variant": "plain",
+      "decisive_factor": "식이 일시 체중 증가 (TZD 없음, 부종 없음)",
+      "factor_source": "기립성/양성 증상 변별 (의사 판단 권고: 외래 escalate 불필요)",
+      "baseline_should_miss": false,
+      "comparison_axis": 0
+    }
+  },
+  {
+    "patient_id": "HARDNEG-HN4-0001",
+    "name": "홍길동001",
+    "age": 75,
+    "gender": "M",
+    "conditions": [
+      "당뇨병",
+      "고혈압",
+      "만성콩팥병"
+    ],
+    "medications": [
+      "메트포르민",
+      "암로디핀",
+      "로수바스타틴"
+    ],
+    "medication_adherence_days": 27,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "만성콩팥병",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-22",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "126/75",
+          "fasting_glucose": 101,
+          "blood_sugar": 88,
+          "postprandial_glucose": 145,
+          "pulse": 77,
+          "hba1c": 7.1
+        },
+        "notes": "검사 eGFR 45으로 만성 안정 상태. 약물 용량 조정 받았고 외래 follow.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-25",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "111/68",
+          "fasting_glucose": 106,
+          "blood_sugar": 93,
+          "postprandial_glucose": 156,
+          "pulse": 69
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-22",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "124/76",
+          "fasting_glucose": 112,
+          "blood_sugar": 120,
+          "postprandial_glucose": 140,
+          "pulse": 67
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "비대면",
+      "stratum": "hard_neg",
+      "archetype": "HN_stable_ckd",
+      "difficulty": "hard_negative",
+      "variant": "plain",
+      "decisive_factor": "안정 CKD eGFR 45 (>30, 추적 안정)",
+      "factor_source": "기립성/양성 증상 변별 (의사 판단 권고: 외래 escalate 불필요)",
+      "baseline_should_miss": false,
+      "comparison_axis": 0
+    }
+  },
+  {
+    "patient_id": "HARDNEG-HN4-0002",
+    "name": "홍길동002",
+    "age": 80,
+    "gender": "M",
+    "conditions": [
+      "당뇨병",
+      "고혈압",
+      "만성콩팥병"
+    ],
+    "medications": [
+      "메트포르민",
+      "암로디핀",
+      "로수바스타틴"
+    ],
+    "medication_adherence_days": 28,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "만성콩팥병",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-22",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "121/77",
+          "fasting_glucose": 120,
+          "blood_sugar": 94,
+          "postprandial_glucose": 167,
+          "pulse": 68,
+          "hba1c": 6.4
+        },
+        "notes": "최근 혈액검사 eGFR 39 mL/min, 6개월 전과 변화 없음. 외래 추적 안정.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-25",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "121/82",
+          "fasting_glucose": 87,
+          "blood_sugar": 107,
+          "postprandial_glucose": 153,
+          "pulse": 71
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-22",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "113/73",
+          "fasting_glucose": 120,
+          "blood_sugar": 111,
+          "postprandial_glucose": 149,
+          "pulse": 71
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "비대면",
+      "stratum": "hard_neg",
+      "archetype": "HN_stable_ckd",
+      "difficulty": "hard_negative",
+      "variant": "plain",
+      "decisive_factor": "안정 CKD eGFR 39 (>30, 추적 안정)",
+      "factor_source": "기립성/양성 증상 변별 (의사 판단 권고: 외래 escalate 불필요)",
+      "baseline_should_miss": false,
+      "comparison_axis": 0
+    }
+  },
+  {
+    "patient_id": "HARDNEG-HN4-0003",
+    "name": "홍길동003",
+    "age": 78,
+    "gender": "M",
+    "conditions": [
+      "당뇨병",
+      "고혈압",
+      "만성콩팥병"
+    ],
+    "medications": [
+      "메트포르민",
+      "암로디핀",
+      "로수바스타틴"
+    ],
+    "medication_adherence_days": 25,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "만성콩팥병",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-22",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "115/79",
+          "fasting_glucose": 106,
+          "blood_sugar": 111,
+          "postprandial_glucose": 155,
+          "pulse": 72,
+          "hba1c": 6.5
+        },
+        "notes": "최근 혈액검사 eGFR 40 mL/min, 6개월 전과 변화 없음. 외래 추적 안정.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-25",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "113/74",
+          "fasting_glucose": 87,
+          "blood_sugar": 115,
+          "postprandial_glucose": 154,
+          "pulse": 70
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-22",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "124/73",
+          "fasting_glucose": 104,
+          "blood_sugar": 99,
+          "postprandial_glucose": 154,
+          "pulse": 64
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "비대면",
+      "stratum": "hard_neg",
+      "archetype": "HN_stable_ckd",
+      "difficulty": "hard_negative",
+      "variant": "plain",
+      "decisive_factor": "안정 CKD eGFR 40 (>30, 추적 안정)",
+      "factor_source": "기립성/양성 증상 변별 (의사 판단 권고: 외래 escalate 불필요)",
+      "baseline_should_miss": false,
+      "comparison_axis": 0
+    }
+  },
+  {
+    "patient_id": "HARDNEG-HN4-0004",
+    "name": "홍길동004",
+    "age": 76,
+    "gender": "M",
+    "conditions": [
+      "당뇨병",
+      "고혈압",
+      "만성콩팥병"
+    ],
+    "medications": [
+      "메트포르민",
+      "암로디핀",
+      "로수바스타틴"
+    ],
+    "medication_adherence_days": 25,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "만성콩팥병",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-22",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "118/73",
+          "fasting_glucose": 117,
+          "blood_sugar": 110,
+          "postprandial_glucose": 174,
+          "pulse": 74,
+          "hba1c": 7.2
+        },
+        "notes": "최근 혈액검사 eGFR 45 mL/min, 6개월 전과 변화 없음. 외래 추적 안정.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-25",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "113/82",
+          "fasting_glucose": 101,
+          "blood_sugar": 96,
+          "postprandial_glucose": 156,
+          "pulse": 65
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-22",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "113/77",
+          "fasting_glucose": 112,
+          "blood_sugar": 107,
+          "postprandial_glucose": 160,
+          "pulse": 77
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "비대면",
+      "stratum": "hard_neg",
+      "archetype": "HN_stable_ckd",
+      "difficulty": "hard_negative",
+      "variant": "plain",
+      "decisive_factor": "안정 CKD eGFR 45 (>30, 추적 안정)",
+      "factor_source": "기립성/양성 증상 변별 (의사 판단 권고: 외래 escalate 불필요)",
+      "baseline_should_miss": false,
+      "comparison_axis": 0
+    }
+  },
+  {
+    "patient_id": "HARDNEG-HN4-0005",
+    "name": "홍길동005",
+    "age": 76,
+    "gender": "M",
+    "conditions": [
+      "당뇨병",
+      "고혈압",
+      "만성콩팥병"
+    ],
+    "medications": [
+      "메트포르민",
+      "암로디핀",
+      "로수바스타틴"
+    ],
+    "medication_adherence_days": 23,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "만성콩팥병",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-22",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "123/68",
+          "fasting_glucose": 118,
+          "blood_sugar": 119,
+          "postprandial_glucose": 152,
+          "pulse": 75,
+          "hba1c": 6.7
+        },
+        "notes": "최근 혈액검사 eGFR 41 mL/min, 6개월 전과 변화 없음. 외래 추적 안정.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-25",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "120/77",
+          "fasting_glucose": 105,
+          "blood_sugar": 92,
+          "postprandial_glucose": 159,
+          "pulse": 80
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-22",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "119/78",
+          "fasting_glucose": 111,
+          "blood_sugar": 105,
+          "postprandial_glucose": 165,
+          "pulse": 73
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "비대면",
+      "stratum": "hard_neg",
+      "archetype": "HN_stable_ckd",
+      "difficulty": "hard_negative",
+      "variant": "plain",
+      "decisive_factor": "안정 CKD eGFR 41 (>30, 추적 안정)",
+      "factor_source": "기립성/양성 증상 변별 (의사 판단 권고: 외래 escalate 불필요)",
+      "baseline_should_miss": false,
+      "comparison_axis": 0
+    }
+  },
+  {
+    "patient_id": "HARDNEG-HN5-0001",
+    "name": "홍길동001",
+    "age": 74,
+    "gender": "M",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "메트포르민",
+      "암로디핀",
+      "로수바스타틴"
+    ],
+    "medication_adherence_days": 24,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-18",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "115/77",
+          "fasting_glucose": 121,
+          "blood_sugar": 104,
+          "postprandial_glucose": 165,
+          "pulse": 81,
+          "hba1c": 7.1
+        },
+        "notes": "시야가 일시적으로 흐려진다는데 일과성. 망막병증 없고 안저 정상.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-20",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "119/72",
+          "fasting_glucose": 98,
+          "blood_sugar": 112,
+          "postprandial_glucose": 160,
+          "pulse": 78
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-18",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "124/75",
+          "fasting_glucose": 98,
+          "blood_sugar": 117,
+          "postprandial_glucose": 170,
+          "pulse": 69
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "비대면",
+      "stratum": "hard_neg",
+      "archetype": "HN_vitreous_floaters",
+      "difficulty": "hard_negative",
+      "variant": "plain",
+      "decisive_factor": "양성 부동시 (망막병증 진단 없음, 시력 보존)",
+      "factor_source": "기립성/양성 증상 변별 (의사 판단 권고: 외래 escalate 불필요)",
+      "baseline_should_miss": false,
+      "comparison_axis": 0
+    }
+  },
+  {
+    "patient_id": "HARDNEG-HN5-0002",
+    "name": "홍길동002",
+    "age": 76,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "메트포르민",
+      "암로디핀",
+      "로수바스타틴"
+    ],
+    "medication_adherence_days": 25,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-18",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "112/81",
+          "fasting_glucose": 100,
+          "blood_sugar": 104,
+          "postprandial_glucose": 154,
+          "pulse": 70,
+          "hba1c": 6.5
+        },
+        "notes": "눈에 모기 날아다니는 것 같다고 표현. 안과 외래 예정. 시력 저하는 없음.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-20",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "111/71",
+          "fasting_glucose": 115,
+          "blood_sugar": 124,
+          "postprandial_glucose": 144,
+          "pulse": 78
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-18",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "123/82",
+          "fasting_glucose": 125,
+          "blood_sugar": 121,
+          "postprandial_glucose": 152,
+          "pulse": 76
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "비대면",
+      "stratum": "hard_neg",
+      "archetype": "HN_vitreous_floaters",
+      "difficulty": "hard_negative",
+      "variant": "plain",
+      "decisive_factor": "양성 부동시 (망막병증 진단 없음, 시력 보존)",
+      "factor_source": "기립성/양성 증상 변별 (의사 판단 권고: 외래 escalate 불필요)",
+      "baseline_should_miss": false,
+      "comparison_axis": 0
+    }
+  },
+  {
+    "patient_id": "HARDNEG-HN5-0003",
+    "name": "홍길동003",
+    "age": 71,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "메트포르민",
+      "암로디핀",
+      "로수바스타틴"
+    ],
+    "medication_adherence_days": 26,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-18",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "130/79",
+          "fasting_glucose": 85,
+          "blood_sugar": 91,
+          "postprandial_glucose": 167,
+          "pulse": 71,
+          "hba1c": 6.5
+        },
+        "notes": "시야에 작은 부유물 보인다고 함. 양성 부동시 의심. 망막병증 진단 없음.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-20",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "126/75",
+          "fasting_glucose": 88,
+          "blood_sugar": 120,
+          "postprandial_glucose": 155,
+          "pulse": 67
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-18",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "124/70",
+          "fasting_glucose": 114,
+          "blood_sugar": 118,
+          "postprandial_glucose": 175,
+          "pulse": 74
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "비대면",
+      "stratum": "hard_neg",
+      "archetype": "HN_vitreous_floaters",
+      "difficulty": "hard_negative",
+      "variant": "plain",
+      "decisive_factor": "양성 부동시 (망막병증 진단 없음, 시력 보존)",
+      "factor_source": "기립성/양성 증상 변별 (의사 판단 권고: 외래 escalate 불필요)",
+      "baseline_should_miss": false,
+      "comparison_axis": 0
+    }
+  },
+  {
+    "patient_id": "HARDNEG-HN5-0004",
+    "name": "홍길동004",
+    "age": 76,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "메트포르민",
+      "암로디핀",
+      "로수바스타틴"
+    ],
+    "medication_adherence_days": 26,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-18",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "127/75",
+          "fasting_glucose": 95,
+          "blood_sugar": 115,
+          "postprandial_glucose": 168,
+          "pulse": 72,
+          "hba1c": 7.0
+        },
+        "notes": "시야가 일시적으로 흐려진다는데 일과성. 망막병증 없고 안저 정상.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-20",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "130/72",
+          "fasting_glucose": 118,
+          "blood_sugar": 116,
+          "postprandial_glucose": 155,
+          "pulse": 72
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-18",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "124/69",
+          "fasting_glucose": 103,
+          "blood_sugar": 100,
+          "postprandial_glucose": 157,
+          "pulse": 74
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "비대면",
+      "stratum": "hard_neg",
+      "archetype": "HN_vitreous_floaters",
+      "difficulty": "hard_negative",
+      "variant": "plain",
+      "decisive_factor": "양성 부동시 (망막병증 진단 없음, 시력 보존)",
+      "factor_source": "기립성/양성 증상 변별 (의사 판단 권고: 외래 escalate 불필요)",
+      "baseline_should_miss": false,
+      "comparison_axis": 0
+    }
+  },
+  {
+    "patient_id": "HARDNEG-HN5-0005",
+    "name": "홍길동005",
+    "age": 69,
+    "gender": "M",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "메트포르민",
+      "암로디핀",
+      "로수바스타틴"
+    ],
+    "medication_adherence_days": 24,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-18",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "114/71",
+          "fasting_glucose": 109,
+          "blood_sugar": 94,
+          "postprandial_glucose": 153,
+          "pulse": 66,
+          "hba1c": 6.7
+        },
+        "notes": "시야에 작은 부유물 보인다고 함. 양성 부동시 의심. 망막병증 진단 없음.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-20",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "120/76",
+          "fasting_glucose": 114,
+          "blood_sugar": 111,
+          "postprandial_glucose": 143,
+          "pulse": 70
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-18",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "123/74",
+          "fasting_glucose": 122,
+          "blood_sugar": 86,
+          "postprandial_glucose": 164,
+          "pulse": 79
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "비대면",
+      "stratum": "hard_neg",
+      "archetype": "HN_vitreous_floaters",
+      "difficulty": "hard_negative",
+      "variant": "plain",
+      "decisive_factor": "양성 부동시 (망막병증 진단 없음, 시력 보존)",
+      "factor_source": "기립성/양성 증상 변별 (의사 판단 권고: 외래 escalate 불필요)",
+      "baseline_should_miss": false,
+      "comparison_axis": 0
+    }
+  },
+  {
+    "patient_id": "HARDNEG-HN6-0001",
+    "name": "홍길동001",
+    "age": 68,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "메트포르민",
+      "암로디핀",
+      "로수바스타틴"
+    ],
+    "medication_adherence_days": 26,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-28",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "123/76",
+          "fasting_glucose": 119,
+          "blood_sugar": 123,
+          "postprandial_glucose": 154,
+          "pulse": 79,
+          "hba1c": 6.6
+        },
+        "notes": "산책 30분 후 발이 뻐근하다고. 진찰 시 상처·감염 징후 없음. 모노필라멘트 정상.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-30",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "123/75",
+          "fasting_glucose": 86,
+          "blood_sugar": 109,
+          "postprandial_glucose": 161,
+          "pulse": 76
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-28",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "115/81",
+          "fasting_glucose": 114,
+          "blood_sugar": 93,
+          "postprandial_glucose": 174,
+          "pulse": 64
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "비대면",
+      "stratum": "hard_neg",
+      "archetype": "HN_walking_foot",
+      "difficulty": "hard_negative",
+      "variant": "plain",
+      "decisive_factor": "운동 관련 발 통증 (상처·궤양·감각저하 없음, 신경병증 없음)",
+      "factor_source": "기립성/양성 증상 변별 (의사 판단 권고: 외래 escalate 불필요)",
+      "baseline_should_miss": false,
+      "comparison_axis": 0
+    }
+  },
+  {
+    "patient_id": "HARDNEG-HN6-0002",
+    "name": "홍길동002",
+    "age": 73,
+    "gender": "M",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "메트포르민",
+      "암로디핀",
+      "로수바스타틴"
+    ],
+    "medication_adherence_days": 27,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-28",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "112/78",
+          "fasting_glucose": 112,
+          "blood_sugar": 93,
+          "postprandial_glucose": 169,
+          "pulse": 69,
+          "hba1c": 6.4
+        },
+        "notes": "최근 산책 늘려서 발이 약간 아프다고 함. 발 상처·궤양·감각저하 없음. 신경병증 없음.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-30",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "122/73",
+          "fasting_glucose": 98,
+          "blood_sugar": 114,
+          "postprandial_glucose": 160,
+          "pulse": 74
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-28",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "122/72",
+          "fasting_glucose": 111,
+          "blood_sugar": 101,
+          "postprandial_glucose": 145,
+          "pulse": 79
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "비대면",
+      "stratum": "hard_neg",
+      "archetype": "HN_walking_foot",
+      "difficulty": "hard_negative",
+      "variant": "plain",
+      "decisive_factor": "운동 관련 발 통증 (상처·궤양·감각저하 없음, 신경병증 없음)",
+      "factor_source": "기립성/양성 증상 변별 (의사 판단 권고: 외래 escalate 불필요)",
+      "baseline_should_miss": false,
+      "comparison_axis": 0
+    }
+  },
+  {
+    "patient_id": "HARDNEG-HN6-0003",
+    "name": "홍길동003",
+    "age": 72,
+    "gender": "M",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "메트포르민",
+      "암로디핀",
+      "로수바스타틴"
+    ],
+    "medication_adherence_days": 26,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-28",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "121/71",
+          "fasting_glucose": 89,
+          "blood_sugar": 87,
+          "postprandial_glucose": 141,
+          "pulse": 71,
+          "hba1c": 6.6
+        },
+        "notes": "최근 산책 늘려서 발이 약간 아프다고 함. 발 상처·궤양·감각저하 없음. 신경병증 없음.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-30",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "110/77",
+          "fasting_glucose": 94,
+          "blood_sugar": 100,
+          "postprandial_glucose": 148,
+          "pulse": 79
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-28",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "113/77",
+          "fasting_glucose": 98,
+          "blood_sugar": 114,
+          "postprandial_glucose": 156,
+          "pulse": 75
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "비대면",
+      "stratum": "hard_neg",
+      "archetype": "HN_walking_foot",
+      "difficulty": "hard_negative",
+      "variant": "plain",
+      "decisive_factor": "운동 관련 발 통증 (상처·궤양·감각저하 없음, 신경병증 없음)",
+      "factor_source": "기립성/양성 증상 변별 (의사 판단 권고: 외래 escalate 불필요)",
+      "baseline_should_miss": false,
+      "comparison_axis": 0
+    }
+  },
+  {
+    "patient_id": "HARDNEG-HN6-0004",
+    "name": "홍길동004",
+    "age": 73,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "메트포르민",
+      "암로디핀",
+      "로수바스타틴"
+    ],
+    "medication_adherence_days": 27,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-28",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "115/72",
+          "fasting_glucose": 91,
+          "blood_sugar": 122,
+          "postprandial_glucose": 141,
+          "pulse": 73,
+          "hba1c": 6.9
+        },
+        "notes": "최근 산책 늘려서 발이 약간 아프다고 함. 발 상처·궤양·감각저하 없음. 신경병증 없음.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-30",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "122/74",
+          "fasting_glucose": 97,
+          "blood_sugar": 89,
+          "postprandial_glucose": 155,
+          "pulse": 67
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-28",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "119/81",
+          "fasting_glucose": 123,
+          "blood_sugar": 92,
+          "postprandial_glucose": 142,
+          "pulse": 75
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "비대면",
+      "stratum": "hard_neg",
+      "archetype": "HN_walking_foot",
+      "difficulty": "hard_negative",
+      "variant": "plain",
+      "decisive_factor": "운동 관련 발 통증 (상처·궤양·감각저하 없음, 신경병증 없음)",
+      "factor_source": "기립성/양성 증상 변별 (의사 판단 권고: 외래 escalate 불필요)",
+      "baseline_should_miss": false,
+      "comparison_axis": 0
+    }
+  },
+  {
+    "patient_id": "HARDNEG-HN6-0005",
+    "name": "홍길동005",
+    "age": 69,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "메트포르민",
+      "암로디핀",
+      "로수바스타틴"
+    ],
+    "medication_adherence_days": 25,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-28",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "126/78",
+          "fasting_glucose": 106,
+          "blood_sugar": 85,
+          "postprandial_glucose": 166,
+          "pulse": 79,
+          "hba1c": 6.5
+        },
+        "notes": "최근 산책 늘려서 발이 약간 아프다고 함. 발 상처·궤양·감각저하 없음. 신경병증 없음.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-30",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "121/78",
+          "fasting_glucose": 114,
+          "blood_sugar": 94,
+          "postprandial_glucose": 167,
+          "pulse": 69
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-28",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "126/78",
+          "fasting_glucose": 102,
+          "blood_sugar": 124,
+          "postprandial_glucose": 174,
+          "pulse": 79
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "비대면",
+      "stratum": "hard_neg",
+      "archetype": "HN_walking_foot",
+      "difficulty": "hard_negative",
+      "variant": "plain",
+      "decisive_factor": "운동 관련 발 통증 (상처·궤양·감각저하 없음, 신경병증 없음)",
+      "factor_source": "기립성/양성 증상 변별 (의사 판단 권고: 외래 escalate 불필요)",
+      "baseline_should_miss": false,
+      "comparison_axis": 0
+    }
+  }
+]

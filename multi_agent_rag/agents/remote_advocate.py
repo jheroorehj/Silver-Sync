@@ -4,11 +4,11 @@ from ..config import SETTINGS
 from ..llm import LLMClient, evidence_block, extract_json_object
 from ..personas import REMOTE_ADVOCATE_PERSONA
 from ..schemas import AdvocateArgument, ConsultationType, CuratedCase, ReasoningReport
-from ..utils import clamp
+from ..utils import clamp, coerce_str_list
 
 
 class RemoteAdvocate:
-    """Argues that the patient can safely continue remote revisit care."""
+    """순수 LLM+RAG 비대면 옹호. 룰 base 점수 없음 — LLM이 RAG 근거로 강도·논거를 모두 결정."""
 
     agent_name = "비대면 Advocate"
 
@@ -16,59 +16,29 @@ class RemoteAdvocate:
         self.llm = LLMClient(model=SETTINGS.planner_model)
 
     def run(self, curated: CuratedCase, reasoning: ReasoningReport) -> AdvocateArgument:
-        s = curated.signals
-        arguments: list[str] = []
+        model_output = self._model_argument(curated, reasoning)
+        parsed = extract_json_object(model_output) or {}
+
+        # LLM 출력 그대로 사용 (룰 blend 없음)
+        total_strength = clamp(float(parsed["total_strength"])) if isinstance(parsed.get("total_strength"), (int, float)) else 50
+        arguments = coerce_str_list(parsed.get("arguments"))[:5]
         issue_scores: dict[str, int] = {}
-
-        base = 40
-        if curated.data_quality_score >= 80:
-            base += 15
-            arguments.append("최근 자료의 신뢰도가 높아 비대면 판정의 불확실성이 낮습니다.")
-        if s.get("latest_blood_sugar") is not None and s["latest_blood_sugar"] < 180:
-            base += 15
-            arguments.append("최근 혈당이 응급 또는 명백한 조절 실패 범위가 아닙니다.")
-        if s.get("latest_systolic") is not None and s["latest_systolic"] < 140:
-            base += 15
-            arguments.append("최근 수축기 혈압이 비교적 안정 범위입니다.")
-        if not reasoning.red_flags:
-            base += 15
-            arguments.append("흉통, 호흡곤란, 의식 변화 같은 즉시 대면 전환 신호가 없습니다.")
-        if curated.patient.overrides:
-            base += 5
-            arguments.append("과거 오버라이드 기록상 일시 생활요인으로 판단된 전례가 있습니다.")
-
+        model_scores = parsed.get("issue_scores")
+        if isinstance(model_scores, dict):
+            for k, v in model_scores.items():
+                if isinstance(v, (int, float)):
+                    issue_scores[str(k)] = clamp(float(v))
+        # LLM이 쟁점 점수 안 줬으면 reasoning의 쟁점에 중립값
         for issue in reasoning.contested_issues:
-            score = 45
-            if "혈당" in issue.issue and (s.get("latest_blood_sugar") or 999) < 180:
-                score += 20
-            if "혈압" in issue.issue and (s.get("latest_systolic") or 999) < 140:
-                score += 20
-            if "오버라이드" in issue.issue and curated.patient.overrides:
-                score += 10
-            issue_scores[issue.issue] = clamp(score)
+            issue_scores.setdefault(issue.issue, 50)
 
         if not arguments:
-            arguments.append("대면 위험 신호가 충분히 강하지 않아 비대면 추적 가능성을 검토할 수 있습니다.")
-
-        model_output = self._model_argument(curated, reasoning, arguments, issue_scores, base)
-        parsed = extract_json_object(model_output)
-        if parsed:
-            model_arguments = parsed.get("arguments")
-            if isinstance(model_arguments, list):
-                arguments = [str(item) for item in model_arguments[:5] if item] or arguments
-            model_scores = parsed.get("issue_scores")
-            if isinstance(model_scores, dict):
-                for key, value in model_scores.items():
-                    if key in issue_scores and isinstance(value, (int, float)):
-                        issue_scores[key] = clamp((issue_scores[key] + float(value)) / 2)
-            if isinstance(parsed.get("total_strength"), (int, float)):
-                proposed = clamp(float(parsed["total_strength"]))
-                base = clamp((clamp(base) * 0.7) + (proposed * 0.3))
+            arguments = ["RAG 근거로 비대면 가능 여부를 종합 평가."]
 
         return AdvocateArgument(
             agent_name=self.agent_name,
             position=ConsultationType.REMOTE,
-            total_strength=clamp(base),
+            total_strength=total_strength,
             arguments=arguments,
             issue_scores=issue_scores,
             evidence_sources=list({e.source for e in reasoning.guideline_evidence}),
@@ -77,39 +47,50 @@ class RemoteAdvocate:
             model_error=self.llm.last_error,
         )
 
-    def _model_argument(
-        self,
-        curated: CuratedCase,
-        reasoning: ReasoningReport,
-        rule_arguments: list[str],
-        rule_issue_scores: dict[str, int],
-        rule_strength: int,
-    ) -> str | None:
+    def _model_argument(self, curated: CuratedCase, reasoning: ReasoningReport) -> str | None:
         issues = [issue.issue for issue in reasoning.contested_issues]
         prompt = f"""{REMOTE_ADVOCATE_PERSONA}
 
-목표: 안전을 훼손하지 않는 범위에서 비대면 재진이 가능한 근거를 RAG 근거 기반으로 제시하세요.
-응급/red flag가 있으면 비대면을 억지로 주장하지 말고 약한 근거로 표현하세요.
+당신은 RAG 진료지침 근거를 활용해 환자의 *비대면(화상) 재진* 가능성을 옹호합니다.
+하드코딩 임계값·룰 없이, *지침 본문과 환자 정보만* 가지고 논거를 만드세요.
 
-[환자 신호]
+⚠ **정직성 원칙**:
+- 객관적으로 안정적인 환자(수치 정상·증상 없음·복약 양호)는 **strength 75~90**으로 자신 있게 옹호.
+- *명백한* 위험 신호(지침이 명시한 임계값 위반, 금기 약물 조합, 합병증 증상)가 있을 때만 강도 낮춤.
+- **상대(InPerson)가 약한 일반론적 우려**("고령이라", "다약제라")만 제시하면 그것에 끌리지 말고 *반박* 논거 명시.
+- *위양성(과의뢰)도 위험*입니다 — 안정환자를 굳이 대면 보내면 의사 부담·환자 불편 발생.
+
+[환자]
+나이={curated.patient.age}, 동반질환={curated.patient.conditions}
+진단 상세={curated.patient.diagnoses}
+약물={curated.patient.medications}
+복약 순응(월일수)={curated.patient.medication_adherence_days}
+
+[활력·검사 신호]
 {curated.signals}
 
 [Clinical Reasoner 요약]
 {reasoning.summary}
+red_flags={reasoning.red_flags}
 
 [쟁점]
 {issues}
 
-[시스템 규칙 근거]
-strength={rule_strength}, arguments={rule_arguments}, issue_scores={rule_issue_scores}
-
-[RAG 근거]
+[RAG 근거 (진료지침)]
 {evidence_block(reasoning.guideline_evidence)}
 
-JSON으로만 답하세요:
+반드시 *유효한* JSON 한 객체로만 답하세요. 숫자 필드는 0–100 정수 한 값(예: 75).
+"0~100" 같은 범위표기·주석·자유 텍스트 금지. arguments가 없으면 빈 배열 `[]`.
+
+스키마 (값은 예시):
 {{
-  "total_strength": 0,
-  "arguments": ["비대면 가능 근거"],
-  "issue_scores": {{"쟁점명": 0}}
-}}"""
+  "total_strength": 75,
+  "arguments": ["RAG 근거에 기반한 비대면 가능 논거 1", "논거 2"],
+  "issue_scores": {{"쟁점명": 70}}
+}}
+
+필드 제약:
+- total_strength: 0–100 정수 (비대면 옹호 강도)
+- arguments: 문자열 배열, 2~4개 권장
+- issue_scores: 쟁점명을 key로 한 0–100 정수 맵"""
         return self.llm.invoke(prompt)

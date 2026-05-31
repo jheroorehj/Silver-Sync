@@ -23,7 +23,17 @@ class DataCurator:
         )
         return self._curate(patient)
 
+    def curate_deterministic(self, patient: PatientSnapshot) -> CuratedCase:
+        """LLM 호출 없이 *결정론적*으로 CuratedCase 생성.
+        signals/missing/notes만 생성하고 model_quality_note는 생략.
+        single_llm_cds 같은 *LLM 회수 최소화* arm에서 사용.
+        """
+        return self._build_curated(patient, llm_quality_note=False)
+
     def _curate(self, patient: PatientSnapshot) -> CuratedCase:
+        return self._build_curated(patient, llm_quality_note=True)
+
+    def _build_curated(self, patient: PatientSnapshot, llm_quality_note: bool) -> CuratedCase:
         condition_texts = patient.conditions
         has_diabetes = contains_any(condition_texts, ["당뇨", "diabetes", "dm"])
         has_hypertension = contains_any(condition_texts, ["고혈압", "hypertension", "htn"])
@@ -33,7 +43,14 @@ class DataCurator:
         diastolic_values = [bp[1] for bp in bp_values]
         sugar_values = [record.blood_sugar for record in patient.records]
         hba1c_values = [record.hba1c for record in patient.records]
-        symptom_texts = [record.chief_complaint + " " + record.notes for record in patient.records[:3]]
+        # chief_complaint + notes + structured symptoms 리스트까지 모두 합쳐
+        # CDS/Reasoner가 어느 입력 채널에서도 증상 단서를 놓치지 않게.
+        def _record_text(rec):
+            parts = [rec.chief_complaint or "", rec.notes or ""]
+            if getattr(rec, "symptoms", None):
+                parts.append(" / ".join(str(s) for s in rec.symptoms if s))
+            return " ".join(p for p in parts if p)
+        symptom_texts = [_record_text(record) for record in patient.records[:3]]
 
         latest_systolic = latest_numeric(systolic_values)
         latest_diastolic = latest_numeric(diastolic_values)
@@ -60,6 +77,7 @@ class DataCurator:
             data_quality_score -= 10
         data_quality_score = max(0, min(100, data_quality_score))
 
+        # 순수 데이터 추출만 (파생 플래그·룰 점수 없음). LLM이 RAG와 함께 해석.
         signals = {
             "latest_systolic": latest_systolic,
             "latest_diastolic": latest_diastolic,
@@ -69,9 +87,13 @@ class DataCurator:
             "diastolic_delta": trend_delta_desc(diastolic_values),
             "blood_sugar_delta": trend_delta_desc(sugar_values),
             "record_count": len(patient.records),
-            "medication_count": len(patient.medications),
             "recent_symptom_text": " / ".join(symptom_texts),
             "has_doctor_override": bool(patient.overrides),
+            # LLM agent들이 같은 컨텍스트로 추론할 수 있게 원시 데이터 노출 (룰 아님, 정보 전달)
+            "medications": list(patient.medications),
+            "diagnoses": [d.get("name", "") for d in patient.diagnoses],
+            "medication_adherence_days": patient.medication_adherence_days,
+            "regular_care": patient.regular_care,
         }
 
         notes = [
@@ -81,14 +103,18 @@ class DataCurator:
         if patient.overrides:
             notes.append("과거 의사 오버라이드가 있어 에피소드 메모리를 추론에 반영합니다.")
 
-        model_output = self._model_data_quality_note(patient, signals, missing_items)
-        parsed = extract_json_object(model_output)
-        if parsed and isinstance(parsed.get("curator_notes"), list):
-            notes.extend(str(item) for item in parsed["curator_notes"][:3])
-        elif model_output:
-            notes.append(model_output[:500])
-        elif self.llm.last_error:
-            notes.append(f"Data Curator 모델 호출 실패: {self.llm.last_error}")
+        # llm_quality_note=False면 LLM 호출 스킵 — 결정론적 curate.
+        # single_llm_cds 같은 "단일 LLM + CDS" arm이 추가 LLM 비용 없이 deterministic
+        # signal/symptom_text + CDS만 받게 하기 위해.
+        if llm_quality_note:
+            model_output = self._model_data_quality_note(patient, signals, missing_items)
+            parsed = extract_json_object(model_output)
+            if parsed and isinstance(parsed.get("curator_notes"), list):
+                notes.extend(str(item) for item in parsed["curator_notes"][:3])
+            elif model_output:
+                notes.append(model_output[:500])
+            elif self.llm.last_error:
+                notes.append(f"Data Curator 모델 호출 실패: {self.llm.last_error}")
 
         return CuratedCase(
             patient=patient,

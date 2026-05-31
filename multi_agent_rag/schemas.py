@@ -74,6 +74,11 @@ class CuratedCase:
     missing_items: list[str]
     signals: dict[str, Any]
     curator_notes: list[str]
+    # CDS(Clinical Decision Support) 도구 결과. enable_clinical_tools=True일 때만 채워짐.
+    # 각 요소: {name, severity, rule_family, guideline, detail}
+    # severity ∈ {"emergency", "urgent_in_person", "routine_in_person"}  (4-tier 중 alert 발동 3종)
+    # rule_family ∈ {1..7}  (clinical_safety.py docstring 참조)
+    clinical_alerts: list[dict[str, Any]] = field(default_factory=list)
 
 
 @dataclass
@@ -127,6 +132,9 @@ class GuardianReport:
     medication_alerts: list[str]
     consistency_alerts: list[str]
     system_alerts: list[str]
+    # block_tier: Judge가 어떤 분기로 가야 하는지 — emergency(긴급내원) vs in_person(외래 대면 우선) vs None.
+    # force_block/system_alerts(시스템 안전)는 emergency, DUR 약물 병용금기는 in_person.
+    block_tier: str | None = None
     model_used: str | None = None
     model_output: str | None = None
     model_error: str | None = None

@@ -1,0 +1,261 @@
+[
+  {
+    "patient_id": "CLEAR-C1-0021",
+    "construction_label": "긴급내원",
+    "archetype": "C1_clear_emergency",
+    "stratum": "clear",
+    "decisive_factor": "초고위험(혈압/혈당/흉통)"
+  },
+  {
+    "patient_id": "CLEAR-C1-0004",
+    "construction_label": "긴급내원",
+    "archetype": "C1_clear_emergency",
+    "stratum": "clear",
+    "decisive_factor": "초고위험(혈압/혈당/흉통)"
+  },
+  {
+    "patient_id": "CLEAR-C2-0001",
+    "construction_label": "비대면",
+    "archetype": "C2_clear_remote",
+    "stratum": "clear",
+    "decisive_factor": "전부 안정·무증상"
+  },
+  {
+    "patient_id": "CLEAR-C2-0024",
+    "construction_label": "비대면",
+    "archetype": "C2_clear_remote",
+    "stratum": "clear",
+    "decisive_factor": "전부 안정·무증상"
+  },
+  {
+    "patient_id": "EDGE-E1-0009",
+    "construction_label": "대면",
+    "archetype": "E1_renal_referral",
+    "stratum": "edge",
+    "decisive_factor": "eGFR 16 (<30) → 신장내과 의뢰"
+  },
+  {
+    "patient_id": "EDGE-E1-0008",
+    "construction_label": "대면",
+    "archetype": "E1_renal_referral",
+    "stratum": "edge",
+    "decisive_factor": "eGFR 29 (<30) → 신장내과 의뢰"
+  },
+  {
+    "patient_id": "EDGE-E2-0008",
+    "construction_label": "대면",
+    "archetype": "E2_acei_arb_combo",
+    "stratum": "edge",
+    "decisive_factor": "ACE억제제(라미프릴) + ARB(로사르탄) 병용금기"
+  },
+  {
+    "patient_id": "EDGE-E2-0005",
+    "construction_label": "대면",
+    "archetype": "E2_acei_arb_combo",
+    "stratum": "edge",
+    "decisive_factor": "ACE억제제(라미프릴) + ARB(발사르탄) 병용금기"
+  },
+  {
+    "patient_id": "EDGE-E3-0024",
+    "construction_label": "대면",
+    "archetype": "E3_nonkeyword_symptom",
+    "stratum": "edge",
+    "decisive_factor": "당뇨망막병증 악화 의심"
+  },
+  {
+    "patient_id": "EDGE-E3-0004",
+    "construction_label": "대면",
+    "archetype": "E3_nonkeyword_symptom",
+    "stratum": "edge",
+    "decisive_factor": "당뇨망막병증 악화 의심"
+  },
+  {
+    "patient_id": "EDGE-E4-0022",
+    "construction_label": "대면",
+    "archetype": "E4_glycemic_control",
+    "stratum": "edge",
+    "decisive_factor": "HbA1c 8.3 단독 상승 (자가측정 정상)"
+  },
+  {
+    "patient_id": "EDGE-E4-0024",
+    "construction_label": "대면",
+    "archetype": "E4_glycemic_control",
+    "stratum": "edge",
+    "decisive_factor": "HbA1c 8.3 단독 상승 (자가측정 정상)"
+  },
+  {
+    "patient_id": "EDGE-E5-0018",
+    "construction_label": "대면",
+    "archetype": "E5_hf_tzd_caution",
+    "stratum": "edge",
+    "decisive_factor": "심부전 동반 + 피오글리타존(부종/악화 주의)"
+  },
+  {
+    "patient_id": "EDGE-E5-0003",
+    "construction_label": "대면",
+    "archetype": "E5_hf_tzd_caution",
+    "stratum": "edge",
+    "decisive_factor": "심부전 동반 + 피오글리타존(부종/악화 주의)"
+  },
+  {
+    "patient_id": "SENS-S1-0019",
+    "construction_label": "대면",
+    "archetype": "S1_bp_band_tod",
+    "stratum": "sensitivity",
+    "decisive_factor": "BP 130~139 밴드 + 좌심실비대 → 당뇨 목표 <130/80 미달"
+  },
+  {
+    "patient_id": "SENS-S1-0014",
+    "construction_label": "대면",
+    "archetype": "S1_bp_band_tod",
+    "stratum": "sensitivity",
+    "decisive_factor": "BP 130~139 밴드 + 알부민뇨 → 당뇨 목표 <130/80 미달"
+  },
+  {
+    "patient_id": "HARDNEG-HN3-0001",
+    "construction_label": "비대면",
+    "archetype": "HN_dietary_weight",
+    "stratum": "hard_neg",
+    "decisive_factor": "식이 일시 체중 증가 (TZD 없음, 부종 없음)"
+  },
+  {
+    "patient_id": "HARDNEG-HN1-0001",
+    "construction_label": "비대면",
+    "archetype": "HN_orthostatic_dizzy",
+    "stratum": "hard_neg",
+    "decisive_factor": "기립성 어지러움 (양성), 안정 vitals + 안정 HbA1c"
+  },
+  {
+    "patient_id": "HARDNEG-HN4-0001",
+    "construction_label": "비대면",
+    "archetype": "HN_stable_ckd",
+    "stratum": "hard_neg",
+    "decisive_factor": "안정 CKD eGFR 45 (>30, 추적 안정)"
+  },
+  {
+    "patient_id": "HARDNEG-HN2-0002",
+    "construction_label": "비대면",
+    "archetype": "HN_varicose_edema",
+    "stratum": "hard_neg",
+    "decisive_factor": "정맥류 기왕 부종 (TZD 없음, 체중·심부전 변화 없음)"
+  },
+  {
+    "patient_id": "HARDNEG-HN5-0002",
+    "construction_label": "비대면",
+    "archetype": "HN_vitreous_floaters",
+    "stratum": "hard_neg",
+    "decisive_factor": "양성 부동시 (망막병증 진단 없음, 시력 보존)"
+  },
+  {
+    "patient_id": "HARDNEG-HN6-0005",
+    "construction_label": "비대면",
+    "archetype": "HN_walking_foot",
+    "stratum": "hard_neg",
+    "decisive_factor": "운동 관련 발 통증 (상처·궤양·감각저하 없음, 신경병증 없음)"
+  },
+  {
+    "patient_id": "SETB-B2-0005",
+    "construction_label": "대면",
+    "archetype": "SETB_drug_indirect",
+    "stratum": "set_b",
+    "decisive_factor": "약물 위험 약사 진술/계열 명시 (literal 약물명 keyword 매칭 없음)"
+  },
+  {
+    "patient_id": "SETB-B7-0001",
+    "construction_label": "비대면",
+    "archetype": "SETB_drug_safe",
+    "stratum": "set_b",
+    "decisive_factor": "약물 OK 약사 사인 (B2 reasoning, 결론은 안전)"
+  },
+  {
+    "patient_id": "SETB-B8-0002",
+    "construction_label": "비대면",
+    "archetype": "SETB_glucose_stable",
+    "stratum": "set_b",
+    "decisive_factor": "HbA1c 결측이지만 자가혈당 안정 + 증상 없음 (B3 reasoning, 결론은 안정)"
+  },
+  {
+    "patient_id": "SETB-B3-0006",
+    "construction_label": "대면",
+    "archetype": "SETB_glucose_uncertainty",
+    "stratum": "set_b",
+    "decisive_factor": "HbA1c 결측 + 다뇨/체중감소 (CDS HbA1c≥8.0 임계값 매칭 불가)"
+  },
+  {
+    "patient_id": "SETB-B6-0004",
+    "construction_label": "비대면",
+    "archetype": "SETB_renal_stable",
+    "stratum": "set_b",
+    "decisive_factor": "Cr 0.8 안정 + 정맥류 만성 부종 (B1 reasoning 필요, 결론은 비대면)"
+  },
+  {
+    "patient_id": "SETB-B1-0002",
+    "construction_label": "대면",
+    "archetype": "SETB_renal_trend",
+    "stratum": "set_b",
+    "decisive_factor": "Cr 0.9→1.9 상승 + 부종/소변량 감소 (eGFR 수치 미표기)"
+  },
+  {
+    "patient_id": "SETB-B4-0008",
+    "construction_label": "비대면",
+    "archetype": "SETB_stable_lookalike",
+    "stratum": "set_b",
+    "decisive_factor": "CDS keyword fire 하지만 양성 맥락/외래 추적 중 (context 변별 필요)"
+  },
+  {
+    "patient_id": "SETB-B5-0005",
+    "construction_label": "대면",
+    "archetype": "SETB_unknown_drug",
+    "stratum": "set_b",
+    "decisive_factor": "인지저하 + 복약 오류 위험"
+  },
+  {
+    "patient_id": "SETB-B9-0002",
+    "construction_label": "비대면",
+    "archetype": "SETB_unknown_drug_stable",
+    "stratum": "set_b",
+    "decisive_factor": "GLP-1 agonist 부작용 적응 완료"
+  },
+  {
+    "patient_id": "SETC-F4-0001",
+    "construction_label": "비대면",
+    "archetype": "SETC_allergic_rhinitis",
+    "stratum": "set_c",
+    "decisive_factor": "계절성 알레르기 비염 (안정, DM/HTN과 무관)"
+  },
+  {
+    "patient_id": "SETC-F1-0002",
+    "construction_label": "비대면",
+    "archetype": "SETC_gerd_chest",
+    "stratum": "set_c",
+    "decisive_factor": "만성 GERD로 가슴 답답함 (위장관 원인, 외래 추적 중)"
+  },
+  {
+    "patient_id": "SETC-F3-0004",
+    "construction_label": "비대면",
+    "archetype": "SETC_orthopedic_pain",
+    "stratum": "set_c",
+    "decisive_factor": "퇴행성 무릎관절염 통증 (정형외과 추적, 당뇨족과 무관)"
+  },
+  {
+    "patient_id": "SETC-F6-0003",
+    "construction_label": "비대면",
+    "archetype": "SETC_stable_depression",
+    "stratum": "set_c",
+    "decisive_factor": "안정기 우울증 추적 (정신과 외래)"
+  },
+  {
+    "patient_id": "SETC-F2-0003",
+    "construction_label": "비대면",
+    "archetype": "SETC_thyroid_adjust",
+    "stratum": "set_c",
+    "decisive_factor": "갑상선 약 조정 중 피로/체중변화 (내분비 추적 중)"
+  },
+  {
+    "patient_id": "SETC-F5-0002",
+    "construction_label": "비대면",
+    "archetype": "SETC_vertigo_recovery",
+    "stratum": "set_c",
+    "decisive_factor": "전정/이석증 회복기 어지럼 (이비인후과 추적, 호전 중)"
+  }
+]

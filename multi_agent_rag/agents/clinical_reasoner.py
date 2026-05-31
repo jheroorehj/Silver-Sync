@@ -5,64 +5,46 @@ from ..llm import LLMClient, evidence_block, extract_json_object
 from ..personas import CLINICAL_REASONER_PERSONA
 from ..repository import MongoRepository
 from ..schemas import ContestedIssue, CuratedCase, ReasoningReport, RoutingDecision
-from ..utils import clamp
+from ..utils import coerce_str_list
 
 
 class ClinicalReasoner:
-    """Extracts clinical issues and decides whether a debate is necessary."""
+    """순수 RAG+LLM 임상 추론: 룰 점수 없이 지침 검색 + LLM이 라우팅·쟁점·red_flags 결정."""
 
     def __init__(self, repository: MongoRepository):
         self.repository = repository
         self.llm = LLMClient(model=SETTINGS.planner_model)
 
     def run(self, curated: CuratedCase) -> ReasoningReport:
-        signals = curated.signals
-        red_flags = self._detect_red_flags(curated)
-        rule_score = self._debate_score(curated, red_flags)
-        issues = self._contested_issues(curated)
-
-        if red_flags:
-            rule_routing = RoutingDecision.EMERGENCY_BYPASS
-        elif rule_score <= 25 and curated.data_quality_score >= 80:
-            rule_routing = RoutingDecision.FAST_TRACK
-        else:
-            rule_routing = RoutingDecision.FULL_DEBATE
-
-        query = (
-            "65세 이상 노인 당뇨병 고혈압 동반 환자 재진 혈당 혈압 조절 "
-            "비대면 진료 대면 진료 위험도 기준 DUR 약물 안전"
-        )
+        # RAG: 케이스 특성에 맞춘 질의로 가이드라인 검색
+        query = self._build_query(curated)
         evidence = self.repository.retrieve_guidelines(query)
 
-        summary = (
-            f"{curated.patient.age}세 환자, 당뇨/고혈압 동반 여부="
-            f"{curated.has_diabetes and curated.has_hypertension}. "
-            f"최근 혈압 {signals.get('latest_systolic')}/{signals.get('latest_diastolic')}, "
-            f"최근 혈당 {signals.get('latest_blood_sugar')}, "
-            f"HbA1c {signals.get('latest_hba1c')}, "
-            f"규칙 기반 토론 필요도 {rule_score}/100."
-        )
-        if rule_routing == RoutingDecision.FULL_DEBATE:
-            self.llm.set_backend(SETTINGS.llm_provider, SETTINGS.planner_model)
-        else:
-            self.llm.set_backend(SETTINGS.simple_route_provider, SETTINGS.simple_route_model)
-        model_output = self._model_reasoning(curated, evidence, summary, issues, rule_score, rule_routing)
-        routing = rule_routing
-        score = rule_score
-        routing_rationale = "규칙 기반 라우팅을 그대로 사용했습니다."
-        parsed = extract_json_object(model_output)
-        if parsed:
-            summary = str(parsed.get("summary") or summary)
-            extra_issues = parsed.get("contested_issues")
-            if isinstance(extra_issues, list):
-                issues = self._merge_model_issues(issues, extra_issues)
-            routing, score, routing_rationale = self._apply_rag_routing(
-                rule_routing=rule_routing,
-                rule_score=rule_score,
-                red_flags=red_flags,
-                data_quality_score=curated.data_quality_score,
-                parsed=parsed,
-            )
+        model_output = self._model_reasoning(curated, evidence)
+        parsed = extract_json_object(model_output) or {}
+
+        # LLM이 모두 결정 — 룰 fallback 없음
+        routing = self._parse_routing(str(parsed.get("suggested_routing", "full_debate")))
+        score = int(parsed["debate_necessity_score"]) if isinstance(parsed.get("debate_necessity_score"), (int, float)) else 50
+        summary = str(parsed.get("summary", ""))
+        # 모델이 list 대신 "없음" 같은 문자열을 내면 char 단위 분해되어 게이트 오발동.
+        red_flags = coerce_str_list(parsed.get("red_flags"))
+        routing_rationale = str(parsed.get("routing_rationale", ""))
+
+        # LLM이 제시한 쟁점 그대로
+        issues: list[ContestedIssue] = []
+        for item in parsed.get("contested_issues", []) or []:
+            if not isinstance(item, dict):
+                continue
+            name = str(item.get("issue", "")).strip()
+            if not name:
+                continue
+            issues.append(ContestedIssue(
+                issue=name,
+                hypothesis_remote=str(item.get("hypothesis_remote", "")),
+                hypothesis_in_person=str(item.get("hypothesis_in_person", "")),
+                required_evidence=[str(v) for v in item.get("required_evidence", []) if v],
+            ))
 
         return ReasoningReport(
             routing=routing,
@@ -71,63 +53,110 @@ class ClinicalReasoner:
             red_flags=red_flags,
             contested_issues=issues,
             guideline_evidence=evidence,
-            rule_routing=rule_routing,
-            rule_debate_necessity_score=rule_score,
+            rule_routing=None,
+            rule_debate_necessity_score=None,
             routing_rationale=routing_rationale,
             model_used=self.llm.model if (model_output or self.llm.last_error) else None,
             model_output=model_output,
             model_error=self.llm.last_error,
         )
 
-    def _model_reasoning(
-        self,
-        curated: CuratedCase,
-        evidence,
-        summary: str,
-        issues: list[ContestedIssue],
-        score: int,
-        routing: RoutingDecision,
-    ) -> str | None:
-        issue_text = [
-            {
-                "issue": issue.issue,
-                "hypothesis_remote": issue.hypothesis_remote,
-                "hypothesis_in_person": issue.hypothesis_in_person,
-                "required_evidence": issue.required_evidence,
-            }
-            for issue in issues
-        ]
+    def _build_query(self, curated: CuratedCase) -> str:
+        meds = " ".join(curated.patient.medications)
+        diags = " ".join(d.get("name", "") for d in curated.patient.diagnoses)
+        signals = curated.signals or {}
+
+        # 증상·검사·노트 텍스트도 query에 포함 — 약물·진단명만으로는
+        # "가슴 답답함/시야 흐림/발 상처/체중 증가/발목 부종" 등 케이스별 핵심 단서가 RAG에 닿지 않음.
+        symptom_bits: list[str] = []
+        for key in ("recent_symptoms", "symptoms", "symptom_text", "notes", "recent_notes",
+                    "vital_trend", "lab_trend", "hba1c", "blood_pressure", "blood_glucose",
+                    "egfr", "weight_change", "edema", "alerts"):
+            value = signals.get(key)
+            if not value:
+                continue
+            if isinstance(value, (list, tuple, set)):
+                symptom_bits.append(" ".join(str(v) for v in value if v))
+            elif isinstance(value, dict):
+                symptom_bits.append(" ".join(f"{k}={v}" for k, v in value.items() if v))
+            else:
+                symptom_bits.append(str(value))
+        signals_text = " ".join(s.strip() for s in symptom_bits if s.strip())
+
+        return (
+            f"65세 이상 노인 당뇨병 고혈압 동반 재진 비대면 대면 판단 "
+            f"{meds} {diags} {signals_text} "
+            f"약물 금기 신기능 합병증 표적장기손상 심부전 부종 체중증가 흉통 시야 발 상처"
+        ).strip()
+
+    def _model_reasoning(self, curated: CuratedCase, evidence) -> str | None:
+        signals = curated.signals or {}
+        symptom_text = str(signals.get("recent_symptom_text") or "").strip()
+        # 약물 텍스트 — 같은 계열(예: ACE+ARB) 중복은 LLM이 약물명 패턴으로 감지해야 하므로 prominent 위치에.
+        meds_list = list(curated.patient.medications or [])
+        diagnoses_text = ", ".join(d.get("name", "") for d in (curated.patient.diagnoses or []))
+
         prompt = f"""{CLINICAL_REASONER_PERSONA}
 
-RAG 근거와 환자 데이터를 바탕으로 당뇨+고혈압 고령 환자의 재진 라우팅과 판단 쟁점을 정리하세요.
-시스템 규칙 기반 라우팅은 1차 초안입니다. RAG 근거상 더 안전한 경로가 필요하면 suggested_routing으로 보정 제안을 하세요.
-단, 초고위험 red flag가 있으면 emergency_bypass를 유지해야 하며, 데이터가 부족하거나 근거가 애매하면 fast_track을 제안하지 마세요.
+당신은 진료지침 RAG 근거만으로 환자의 비대면/대면 재진 라우팅과 토론 쟁점을 도출합니다.
+하드코딩된 임계값이나 규칙은 사용하지 마세요 — RAG에서 검색된 지침 본문과 환자 정보만 근거로.
 의사의 진단/처방을 대체하지 않는 보조 의견으로 작성하세요.
 
-[환자 신호]
-{curated.signals}
+⚠ **red_flags 등재 가이드 (RAG 근거와 *일치할 때만* 등재; 일반론 금지)**:
+RAG에서 검색된 지침이 환자 신호와 *직접* 연결될 때만 다음 패턴들을 red_flag로 올리세요.
+명확한 임상 패턴 예시 (참고용 — *환자에 해당하지 않으면 무시*):
+- 신기능: eGFR <30 또는 갑작스런 크레아티닌 상승 → "신장내과 의뢰 필요"
+- 약물 안전: TZD(피오글리타존/로지글리타존) + 부종/체중증가/심부전 동반 → "심부전 악화 위험"
+- 약물 안전: SGLT2i + 케톤산증 증상(복통/구역/호흡곤란) → "DKA 의심"
+- 합병증 진행: 당뇨망막병증 환자에서 BP 130/80 이상 → "DM 목표 BP 미달"
+- 조절 악화: HbA1c ≥ 8.0 + 식후 또는 공복 고혈당 지속 → "조절 악화 평가"
+- 표적장기 손상 증상: 흉통/호흡곤란/시야이상/감각이상/발 상처 → "합병증 의심"
+- 저혈당/고혈당 응급 범위: 혈당 <70 또는 >300 (특히 증상 동반) → "혈당 응급"
+
+원칙:
+- 환자가 *안정적*(수치 정상·증상 없음·복약 양호·DUR 깨끗)이면 red_flags는 **빈 배열 `[]`**로 두세요.
+- 일반론적 "고령이라" "다약제라"는 절대 red_flag 아님.
+- **이미 외래 추적·관리 중인 만성 진단명만 보고 red_flag 등재 금지**.
+  예: 만성콩팥병 진단 + "외래 추적 안정"·"신장내과 정기 외래" 노트 + eGFR 정상 범위 → red_flag 금지.
+  진단명이 *진행 중*이거나 *새 악화 신호*(eGFR 급락, 새 단백뇨, 부종 발생 등)가 동반될 때만 등재.
+- 위 패턴 중 *환자에 해당*하면서 *RAG가 뒷받침*하고 *현재 진행/악화 신호가 있는* 것만 등재 (1-2개면 충분).
+- 응급 수준(혈당/혈압 응급 범위, 의식변화, 명백한 흉통 등)이면 `suggested_routing: "emergency_bypass"`.
+
+[환자]
+나이={curated.patient.age}, 성별={curated.patient.gender}
+동반질환={curated.patient.conditions}
+진단={diagnoses_text}
+약물={meds_list}
+복약 순응(월일수)={curated.patient.medication_adherence_days}
+
+[최근 활력·검사 (수치)]
+{{"systolic": {signals.get("latest_systolic")}, "diastolic": {signals.get("latest_diastolic")},
+  "blood_sugar": {signals.get("latest_blood_sugar")}, "hba1c": {signals.get("latest_hba1c")},
+  "systolic_delta": {signals.get("systolic_delta")}, "blood_sugar_delta": {signals.get("blood_sugar_delta")},
+  "record_count": {signals.get("record_count")}}}
+
+[증상·간호사 노트 (chief_complaint + 자유서술; *반드시 읽고 위 패턴과 대조*)]
+{symptom_text or "(노트 비어있음)"}
+
+[CDS 안전 도구 결과 (진료지침 기반 결정론적 검사; *발견된 위험은 red_flags에 반영*)]
+{self._format_cds_alerts(curated.clinical_alerts)}
 
 [과거 의사 오버라이드]
 {curated.patient.overrides}
 
-[시스템 1차 요약]
-{summary}
-
-[시스템 1차 라우팅]
-{routing.value}, debate_necessity_score={score}
-
-[시스템 쟁점 초안]
-{issue_text}
-
-[RAG 근거]
+[RAG 근거 (진료지침 검색 결과)]
 {evidence_block(evidence)}
 
-JSON으로만 답하세요:
+반드시 *유효한* JSON 한 객체로만 답하세요. 주석·범위표기(0~100 같은)·문자열 외 자유 텍스트 금지.
+숫자 필드는 *반드시* 0과 100 사이의 정수로 출력. red_flags가 없으면 *빈 배열 `[]`*을 출력하고, 절대 "없음" 같은 문자열을 쓰지 마세요.
+
+스키마 (값은 예시이며 케이스에 맞게 채울 것):
 {{
-  "summary": "환자 상태와 판단 포인트 2문장",
-  "suggested_routing": "fast_track | full_debate | emergency_bypass",
-  "debate_necessity_score": 0,
-  "routing_rationale": "RAG 근거에 기반한 라우팅 보정 이유",
+  "summary": "환자 상태와 핵심 판단 포인트 2문장",
+  "suggested_routing": "full_debate",
+  "debate_necessity_score": 60,
+  "routing_rationale": "RAG 근거에 기반한 라우팅 사유",
+  "red_flags": [],
   "contested_issues": [
     {{
       "issue": "쟁점명",
@@ -136,190 +165,33 @@ JSON으로만 답하세요:
       "required_evidence": ["필요 근거"]
     }}
   ]
-}}"""
+}}
+
+필드 제약:
+- suggested_routing: "fast_track" | "full_debate" | "emergency_bypass" 중 하나
+- debate_necessity_score: 0–100 정수
+- red_flags: 문자열 배열 (RAG가 명시한 즉시 위험 신호만; 일반론적 우려 금지). 없으면 []."""
         return self.llm.invoke(prompt)
 
-    def _apply_rag_routing(
-        self,
-        rule_routing: RoutingDecision,
-        rule_score: int,
-        red_flags: list[str],
-        data_quality_score: int,
-        parsed: dict,
-    ) -> tuple[RoutingDecision, int, str]:
-        model_score = parsed.get("debate_necessity_score")
-        score = rule_score
-        if isinstance(model_score, (int, float)):
-            score = clamp(rule_score * 0.6 + float(model_score) * 0.4)
+    def _format_cds_alerts(self, alerts) -> str:
+        if not alerts:
+            return "(없음)"
+        lines = []
+        for a in alerts:
+            sev = a.get("severity", "moderate")
+            name = a.get("name", "")
+            detail = a.get("detail", "")
+            guideline = a.get("guideline", "")
+            lines.append(f"- [{sev.upper()}] {name} — {detail} (근거: {guideline})")
+        return "\n".join(lines)
 
-        rationale = str(parsed.get("routing_rationale") or "RAG 기반 보정 사유가 명시되지 않았습니다.")
-        raw_route = str(parsed.get("suggested_routing") or "").strip()
-        suggested = self._parse_routing(raw_route)
-
-        if red_flags:
-            return RoutingDecision.EMERGENCY_BYPASS, max(score, 80), (
-                f"hard stop red flag가 있어 RAG 제안과 무관하게 emergency_bypass 유지. {rationale}"
-            )
-
-        if suggested is None:
-            return rule_routing, score, f"RAG 라우팅 제안이 유효하지 않아 규칙 기반 라우팅 유지. {rationale}"
-
-        if suggested == RoutingDecision.EMERGENCY_BYPASS:
-            if score >= 55 or rule_score >= 55:
-                return suggested, max(score, 70), f"RAG 근거가 고위험 우회를 제안하여 emergency_bypass로 보정. {rationale}"
-            return RoutingDecision.FULL_DEBATE, max(score, 55), (
-                f"RAG가 emergency_bypass를 제안했지만 초고위험 hard stop은 없어 full_debate로 보수적 보정. {rationale}"
-            )
-
-        if suggested == RoutingDecision.FULL_DEBATE:
-            return suggested, max(score, 35), f"RAG 근거상 Advocate 토론 필요성이 있어 full_debate로 보정. {rationale}"
-
-        if suggested == RoutingDecision.FAST_TRACK:
-            if data_quality_score >= 80 and score <= 35:
-                return suggested, min(score, 35), f"RAG 근거와 데이터 품질이 안정적이어서 fast_track 허용. {rationale}"
-            return RoutingDecision.FULL_DEBATE, max(score, 40), (
-                f"RAG가 fast_track을 제안했지만 데이터 품질/점수 안전 조건이 부족해 full_debate로 보정. {rationale}"
-            )
-
-        return rule_routing, score, rationale
-
-    def _parse_routing(self, value: str) -> RoutingDecision | None:
-        normalized = value.strip().lower()
-        for routing in RoutingDecision:
-            if normalized == routing.value:
-                return routing
-        aliases = {
-            "fast": RoutingDecision.FAST_TRACK,
-            "full": RoutingDecision.FULL_DEBATE,
-            "debate": RoutingDecision.FULL_DEBATE,
-            "emergency": RoutingDecision.EMERGENCY_BYPASS,
-        }
-        return aliases.get(normalized)
-
-    def _merge_model_issues(
-        self,
-        base_issues: list[ContestedIssue],
-        model_issues: list[object],
-    ) -> list[ContestedIssue]:
-        merged = list(base_issues)
-        existing = {issue.issue for issue in merged}
-        for item in model_issues[:3]:
-            if not isinstance(item, dict):
-                continue
-            issue_name = str(item.get("issue") or "").strip()
-            if not issue_name or issue_name in existing:
-                continue
-            merged.append(
-                ContestedIssue(
-                    issue=issue_name,
-                    hypothesis_remote=str(item.get("hypothesis_remote") or ""),
-                    hypothesis_in_person=str(item.get("hypothesis_in_person") or ""),
-                    required_evidence=[
-                        str(value) for value in item.get("required_evidence", []) if value
-                    ],
-                )
-            )
-            existing.add(issue_name)
-        return merged
-
-    def _detect_red_flags(self, curated: CuratedCase) -> list[str]:
-        s = curated.signals
-        flags: list[str] = []
-        symptom_text = str(s.get("recent_symptom_text", ""))
-
-        if s.get("record_count", 0) < 3:
-            flags.append("최근 바이탈 측정 횟수가 3회 미만입니다.")
-        if s.get("latest_blood_sugar") is not None and s["latest_blood_sugar"] >= 400:
-            flags.append("혈당 400mg/dL 이상 초고위험 신호입니다.")
-        if s.get("latest_systolic") is not None and s["latest_systolic"] >= 180:
-            flags.append("수축기 혈압 180mmHg 이상 초고위험 신호입니다.")
-        if s.get("latest_diastolic") is not None and s["latest_diastolic"] >= 120:
-            flags.append("이완기 혈압 120mmHg 이상 초고위험 신호입니다.")
-        emergency_keywords = ["흉통", "호흡곤란", "마비", "실신", "의식", "극심"]
-        if any(keyword in symptom_text for keyword in emergency_keywords):
-            flags.append("응급 증상 키워드가 최근 기록에 포함되어 있습니다.")
-        return flags
-
-    def _debate_score(self, curated: CuratedCase, red_flags: list[str]) -> int:
-        s = curated.signals
-        score = 0
-        if not curated.has_diabetes or not curated.has_hypertension:
-            score += 25
-        if curated.data_quality_score < 70:
-            score += 25
-        if red_flags:
-            score += 70
-        if s.get("latest_blood_sugar") and s["latest_blood_sugar"] >= 250:
-            score += 30
-        elif s.get("latest_blood_sugar") and s["latest_blood_sugar"] >= 180:
-            score += 15
-        if s.get("latest_hba1c") and s["latest_hba1c"] >= 8.0:
-            score += 25
-        if s.get("latest_systolic") and s["latest_systolic"] >= 160:
-            score += 30
-        elif s.get("latest_systolic") and s["latest_systolic"] >= 140:
-            score += 15
-        if s.get("latest_diastolic") and s["latest_diastolic"] >= 100:
-            score += 25
-        elif s.get("latest_diastolic") and s["latest_diastolic"] >= 90:
-            score += 10
-        if s.get("blood_sugar_delta") and s["blood_sugar_delta"] >= 20:
-            score += 15
-        if s.get("systolic_delta") and s["systolic_delta"] >= 10:
-            score += 10
-        if curated.patient.age and curated.patient.age >= 80:
-            score += 10
-        if s.get("medication_count", 0) >= 5:
-            score += 10
-        if s.get("has_doctor_override"):
-            score += 10
-        return clamp(score)
-
-    def _contested_issues(self, curated: CuratedCase) -> list[ContestedIssue]:
-        s = curated.signals
-        issues: list[ContestedIssue] = []
-
-        if s.get("blood_sugar_delta") is not None and s["blood_sugar_delta"] >= 15:
-            issues.append(
-                ContestedIssue(
-                    issue="최근 혈당 상승의 원인",
-                    hypothesis_remote="식이 변화나 활동량 감소에 따른 일시적 상승으로 비대면 추적 가능",
-                    hypothesis_in_person="당뇨 조절 악화 또는 합병증 위험 증가로 대면 평가 필요",
-                    required_evidence=["당뇨병 진료지침", "최근 식이/운동 변화", "HbA1c 추세"],
-                    related_signals={"blood_sugar_delta": s.get("blood_sugar_delta")},
-                )
-            )
-        if s.get("latest_systolic") and s["latest_systolic"] >= 140:
-            issues.append(
-                ContestedIssue(
-                    issue="혈압 조절 상태가 비대면 재진에 충분히 안정적인가",
-                    hypothesis_remote="140대 혈압이나 증상 부재라면 약물 유지 및 자가측정 강화 가능",
-                    hypothesis_in_person="당뇨 동반 고혈압에서 심혈관 위험이 높아 대면 조정 필요",
-                    required_evidence=["고혈압 진료지침", "자가혈압 추세", "심혈관 증상"],
-                    related_signals={
-                        "latest_systolic": s.get("latest_systolic"),
-                        "latest_diastolic": s.get("latest_diastolic"),
-                    },
-                )
-            )
-        if curated.patient.overrides:
-            issues.append(
-                ContestedIssue(
-                    issue="과거 의사 오버라이드와 현재 수치 변화의 의미",
-                    hypothesis_remote="이전에도 일시 요인으로 판단되어 비대면 유지가 가능",
-                    hypothesis_in_person="동일 패턴 반복이면 생활 요인 외 질환 악화 가능성을 배제해야 함",
-                    required_evidence=["이전 오버라이드 사유", "이번 수치 재상승 여부"],
-                    related_signals={"override_count": len(curated.patient.overrides)},
-                )
-            )
-        if not issues:
-            issues.append(
-                ContestedIssue(
-                    issue="안정 환자인지 최종 확인",
-                    hypothesis_remote="데이터가 충분하고 수치가 안정적이므로 비대면 재진 가능",
-                    hypothesis_in_person="노인 복합만성질환 특성상 숨은 합병증 확인 필요",
-                    required_evidence=["최근 혈압/혈당 추세", "증상 설문", "약물 안전성"],
-                    related_signals=s,
-                )
-            )
-        return issues
+    def _parse_routing(self, value: str) -> RoutingDecision:
+        v = value.strip().lower()
+        for r in RoutingDecision:
+            if v == r.value:
+                return r
+        if "emergency" in v or "응급" in v:
+            return RoutingDecision.EMERGENCY_BYPASS
+        if "fast" in v:
+            return RoutingDecision.FAST_TRACK
+        return RoutingDecision.FULL_DEBATE
