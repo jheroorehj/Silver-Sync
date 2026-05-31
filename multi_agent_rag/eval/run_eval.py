@@ -36,6 +36,7 @@ from ..schemas import ConsultationType as _CT_imp
 from .baseline import PRIMARY, form5_baseline
 from .cds_only import CDSOnlyTriage
 from .fair_multi import FairMultiAgent
+from .neuro_symbolic_cds import NeuroSymbolicCDS
 from .raw_llm import RawLLMTriage
 from .single_llm import SingleLLMTriage
 from .single_llm_cds import SingleLLMWithCDS
@@ -47,7 +48,7 @@ REMOTE_LABEL = CT.REMOTE.value  # "비대면"
 STRATUM_ORDER = ["edge", "sensitivity", "clear"]
 
 
-def _predict(arm, snap, case, repo, raw, single, single_rag, single_cds, single_rag_cds, cds_only_remote, cds_only_inperson, fair, pipeline, pipeline_tools) -> dict:
+def _predict(arm, snap, case, repo, raw, single, single_rag, single_cds, single_rag_cds, cds_only_remote, cds_only_inperson, fair, pipeline, pipeline_tools, neuro_symbolic) -> dict:
     """arm 실행 결과를 audit-friendly dict로 반환.
     필수: consultation_type. 선택: rationale, confidence, model, alerts, error.
     """
@@ -110,6 +111,23 @@ def _predict(arm, snap, case, repo, raw, single, single_rag, single_cds, single_
     if arm == "single_llm_rag_cds":
         d = single_rag_cds.run(snap)
         return _single_cds_row(d)
+    if arm == "neuro_symbolic_cds":
+        d = neuro_symbolic.run(snap)
+        return {
+            "consultation_type": d.consultation_type,
+            "rationale": (d.rationale or "")[:500],
+            "risk_score": d.risk_score,
+            "model": d.model_used,
+            "error": d.model_error,
+            "decided_by": d.decided_by,
+            "fired_rules": d.fired_rules,
+            "guidelines": d.guidelines,
+            "clinical_alerts": [
+                {"name": a.get("name"), "severity": a.get("severity"),
+                 "rule_family": a.get("rule_family"), "guideline": a.get("guideline")}
+                for a in (d.clinical_alerts or [])
+            ],
+        }
     if arm in ("fair_multi", "fair_multi_balanced"):
         d = fair[arm].run(snap)
         return {
@@ -175,6 +193,7 @@ def run_arms(cases, arms, limit, eval_path):
     single_rag_cds = SingleLLMWithCDS(repo, use_rag=True) if "single_llm_rag_cds" in arms else None
     cds_only_remote = CDSOnlyTriage(repo, default=_CT_imp.REMOTE) if "cds_only_remote" in arms else None
     cds_only_inperson = CDSOnlyTriage(repo, default=_CT_imp.IN_PERSON) if "cds_only_inperson" in arms else None
+    neuro_symbolic = NeuroSymbolicCDS(repo) if "neuro_symbolic_cds" in arms else None
     fair = {}
     if "fair_multi" in arms:
         fair["fair_multi"] = FairMultiAgent(repo, use_rag=False, judge_style="safety")
@@ -197,7 +216,7 @@ def run_arms(cases, arms, limit, eval_path):
         meta = case["_eval"]
         snap = repo._snapshot_from_dummy(case)
         for arm in arms:
-            r = _predict(arm, snap, case, repo, raw, single, single_rag, single_cds, single_rag_cds, cds_only_remote, cds_only_inperson, fair, pipeline, pipeline_tools)
+            r = _predict(arm, snap, case, repo, raw, single, single_rag, single_cds, single_rag_cds, cds_only_remote, cds_only_inperson, fair, pipeline, pipeline_tools, neuro_symbolic)
             # archetype_full = 전체 archetype 이름 (예: SETB_renal_trend, HN_orthostatic_dizzy)
             # archetype     = 첫 토큰만 (예: E1, S1, HN, SETB) — 기존 v3 호환용
             # Set B/C 분석에는 archetype_full 사용
@@ -216,7 +235,7 @@ def run_arms(cases, arms, limit, eval_path):
             # 얼마나 자주 결정하고 LLM이 얼마나 자주 fallback되는지 추적.
             for k in ("rationale", "confidence", "risk_score", "model", "error",
                       "reasoner_red_flags", "guardian_blocked", "clinical_alerts",
-                      "decided_by"):
+                      "decided_by", "fired_rules", "guidelines"):
                 if k in r:
                     row[k] = r[k]
             rows.append(row)
@@ -281,6 +300,7 @@ def main():
                     choices=["baseline", "raw_llm", "single_llm", "single_llm_rag",
                              "single_llm_cds", "single_llm_rag_cds",
                              "cds_only_remote", "cds_only_inperson",
+                             "neuro_symbolic_cds",
                              "fair_multi", "fair_multi_balanced", "multi_agent", "tool_multi"])
     ap.add_argument("--cases", type=str, default=str(EVAL_DIR / "eval_cases.json"))
     ap.add_argument("--limit", type=int, default=0, help="앞에서 N건만 (0=전체)")

@@ -73,6 +73,18 @@ _ARB_KEYWORDS = (
 )
 _TZD_KEYWORDS = ("피오글리타존", "로지글리타존", "pioglitazone", "rosiglitazone")
 
+# Rule 8: 항응고제 — 낙상·출혈 시 응급 (두개내 출혈 위험)
+_ANTICOAGULANT_KEYWORDS = (
+    "와파린", "warfarin",
+    "리바록사반", "rivaroxaban",
+    "아픽사반", "apixaban",
+    "다비가트란", "dabigatran",
+    "항응고", "혈액희석",
+)
+
+# Rule 9: 인슐린 — 반복 저혈당 응급
+_INSULIN_KEYWORDS = ("인슐린", "insulin", "글라진", "glargine", "데글루덱", "degludec")
+
 # --- 증상 키워드 (간호사 노트의 자유서술에서 탐지) ----------------------------
 #
 # Emergency keywords는 *진짜 응급실 대상* 증상만 — 즉시 평가 안 하면 생명/장기 손상.
@@ -91,16 +103,22 @@ _MODERATE_SYMPTOMS = {
     "가슴 답답": "흉부 답답함",
     "가슴이 답답": "흉부 답답함",
     "숨이 차": "운동 시 호흡곤란 호소",
-    # 시야·시력
+    # 시야·시력 + 비문증(날파리증) — 당뇨 망막병증 스크리닝 트리거
     "시야": "시야 이상",
     "시력 저하": "시력 저하",
     "시야가 흐": "시야 흐림",
-    # 족부 (당뇨족 평가)
+    "날파리": "비문증(날파리증)",  # 망막 박리·망막병증 의심 증상
+    # 족부·신경병증 (당뇨족 평가) — 형태 변형(저림/저리) 모두 포함
     "발 상처": "족부 상처",
     "발에 상처": "족부 상처",
     "발이 저리": "족부 감각 저하",
+    "발 저림": "족부 감각 저하(저림)",   # "발 저림이 심해지고" 등
+    "다리 저림": "하지 감각 저하(저림)",  # "다리 저림" chief_complaint 등
     "발 감각": "족부 감각 저하",
     "감각이 떨어": "감각 저하",
+    "감각 저하": "감각 저하",            # "감각 저하 동반" 등 명사형
+    "야간 통증": "야간 통증(신경병증 의심)",
+    "밤에 통증": "야간 통증(신경병증 의심)",
     # 어지러움 (기립성 흔함)
     "어지러": "어지러움",
     # 부종·체중 (TZD 외 맥락에서)
@@ -136,6 +154,17 @@ def _text_has_med(text: str, keywords: tuple[str, ...]) -> str | None:
             return kw
     return None
 
+
+# 시야 증상에 대한 양성(benign) 맥락 표현. 이 표현이 symptom_text에 있으면
+# DM+시야 스크리닝 규칙을 억제한다. 전역 negation window 확대 대신 시야 분기 전용.
+_BENIGN_VISION_CONTEXT = (
+    "없고",          # "망막병증 없고" — 부정 접속사 (없음/없다 계열과 다름)
+    "안저 정상",     # 안저 검사 정상 소견
+    "안저정상",
+    "양성 부동시",   # 명시적 양성 진단
+    "부동시 의심",   # 양성 추정
+    "시력 저하는 없", # "시력 저하는 없음"
+)
 
 # 부정 신호 (negation) — 한국어 의료 노트의 흔한 패턴.
 # 키워드가 이 단어들과 같은 짧은 절(clause)에 나오면 *부정 맥락*으로 간주 → 발동 안 함.
@@ -370,9 +399,10 @@ def check_clinical_safety(curated: CuratedCase) -> list[dict[str, Any]]:
     for kw, label in _MODERATE_SYMPTOMS.items():
         if not _symptom_matches(symptom_text, kw):
             continue
-        # 망막병증 환자의 시야 이상은 합병증 진행 의심 — urgent (시력 보존)
-        if "시야" in kw or "시력" in kw:
+        # 시야·시력·비문증(날파리) — 망막병증 스크리닝 또는 진행 의심
+        if "시야" in kw or "시력" in kw or "날파리" in kw:
             if has_retinopathy:
+                # 기존 망막병증 진단 + 시야 증상 → urgent (합병증 진행)
                 alerts.append({
                     "name": f"망막병증 진행 의심: {label}",
                     "severity": "urgent_in_person",
@@ -381,9 +411,23 @@ def check_clinical_safety(curated: CuratedCase) -> list[dict[str, Any]]:
                     "detail": f"진단 망막병증 + 노트 '{kw}'",
                 })
                 continue
+            elif has_dm:
+                # 당뇨병 + 망막병증 *미진단* + 시야 증상 → routine (스크리닝 의뢰)
+                # 단, 노트에 양성(benign) 맥락("없고", "안저 정상", "양성 부동시" 등)이 명시되면
+                # 이미 평가된 경우이므로 발동 억제 — hard-negative FPR 방지.
+                tl = symptom_text.lower()
+                is_benign = any(ph.lower() in tl for ph in _BENIGN_VISION_CONTEXT)
+                if not is_benign:
+                    alerts.append({
+                        "name": f"당뇨 시야 증상 (망막병증 스크리닝 필요): {label}",
+                        "severity": "routine_in_person",
+                        "rule_family": 7,
+                        "guideline": "대한당뇨병학회 진료지침 2023 / 망막병증 스크리닝",
+                        "detail": f"당뇨병 + 노트 '{kw}' → 안과 스크리닝 의뢰",
+                    })
+                continue
             else:
-                # 망막병증 진단 없는데 시야 이상 → 양성 부동시 가능. routine 권고 *생략*
-                # (실제 시력 변화가 우려되면 LLM이 추론으로 잡음)
+                # 비당뇨 → 양성 부동시 가능, 생략
                 continue
         # 족부 증상은 당뇨족 위험 (routine) — 단 "상처 없음" 같은 부정은 위에서 걸러짐
         if "발" in kw or "족부" in kw or "감각" in kw:
@@ -413,6 +457,44 @@ def check_clinical_safety(curated: CuratedCase) -> list[dict[str, Any]]:
             "guideline": "대한당뇨병학회 진료지침 2023 / 합병증 평가",
             "detail": f"간호사 노트 '{kw}'",
         })
+
+    # === Rule 8: 항응고제 + 낙상/출혈 — 두개내 출혈 위험, 즉시 평가 ===
+    anticoag_match = _med_has(meds, _ANTICOAGULANT_KEYWORDS)
+    anticoag_note = _text_has_med(symptom_text, _ANTICOAGULANT_KEYWORDS) if not anticoag_match else None
+    if anticoag_match or anticoag_note:
+        fall_or_bleed = any(kw in symptom_text for kw in (
+            "낙상", "넘어", "쓰러", "떨어", "미끄러", "머리", "출혈", "피가",
+            "멍", "타박", "골절",
+        ))
+        if fall_or_bleed:
+            src = anticoag_match or f"{anticoag_note}(노트)"
+            alerts.append({
+                "name": f"항응고제 복용 중 낙상/출혈 위험",
+                "severity": "emergency",
+                "rule_family": 8,
+                "guideline": "응급의학 / 항응고제 복용 중 낙상·두부 외상 즉시 평가",
+                "detail": f"{src} 복용 중 낙상·출혈 신호 감지",
+            })
+
+    # === Rule 9: 인슐린 + 반복 저혈당 — 응급 (단일 저혈당은 Rule 6에서 처리) ===
+    insulin_match = _med_has(meds, _INSULIN_KEYWORDS)
+    insulin_note = _text_has_med(symptom_text, _INSULIN_KEYWORDS) if not insulin_match else None
+    if insulin_match or insulin_note:
+        # 노트에서 저혈당 수치(30-70 범위) 2회 이상 또는 저혈당 키워드 탐지
+        import re as _re
+        # "혈당 60, 55, 48" 같은 연속 나열도 잡도록 단독 숫자 패턴 사용
+        low_sugar_hits = _re.findall(r"\b([3-6]\d)\b", symptom_text)
+        low_kw_count = sum(symptom_text.count(kw)
+                           for kw in ("저혈당", "hypoglycemia", "식은땀", "저혈당증"))
+        if len(low_sugar_hits) >= 2 or low_kw_count >= 2:
+            src = insulin_match or f"{insulin_note}(노트)"
+            alerts.append({
+                "name": f"인슐린 복용 중 반복 저혈당",
+                "severity": "emergency",
+                "rule_family": 9,
+                "guideline": "응급의학 / 인슐린 반복 저혈당 즉시 평가",
+                "detail": f"{src} 복용 중 저혈당 {len(low_sugar_hits)}회 기록",
+            })
 
     return alerts
 

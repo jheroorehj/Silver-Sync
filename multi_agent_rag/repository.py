@@ -164,6 +164,9 @@ class MongoRepository:
             self._record_from_mongo(record)
             for record in patient.get("visit_records", patient.get("records", []))
         ]
+        # _eval은 채점 메타(정답 라벨)이므로 PatientSnapshot.raw에서 제외.
+        # raw_llm처럼 `.raw`를 직렬화해 LLM 프롬프트에 넣는 arm에서 라벨 누수를 막는다.
+        safe_raw = {k: v for k, v in patient.items() if k != "_eval"}
         return PatientSnapshot(
             patient_id=str(patient.get("patient_id", "")),
             name=str(patient.get("name", "")),
@@ -176,7 +179,7 @@ class MongoRepository:
             diagnoses=list(patient.get("diagnoses", [])),
             medication_adherence_days=patient.get("medication_adherence_days"),
             regular_care=patient.get("regular_care"),
-            raw=patient,
+            raw=safe_raw,
         )
 
     @property
