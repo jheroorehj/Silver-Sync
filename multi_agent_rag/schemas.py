@@ -34,6 +34,17 @@ class VisitRecord:
     blood_sugar: float | None = None
     hba1c: float | None = None
     notes: str = ""
+    # --- 방문건강관리 [서식 3] 기초검사 확장 (선택, 하위호환) ---
+    pulse: int | None = None
+    fasting_glucose: float | None = None
+    postprandial_glucose: float | None = None
+    bmi: float | None = None
+    waist_circumference: float | None = None
+    total_cholesterol: float | None = None
+    triglyceride: float | None = None
+    hdl: float | None = None
+    ldl: float | None = None
+    symptoms: list[str] = field(default_factory=list)  # 증상 체크리스트
     raw: dict[str, Any] = field(default_factory=dict)
 
 
@@ -47,6 +58,10 @@ class PatientSnapshot:
     medications: list[str]
     records: list[VisitRecord]
     overrides: list[dict[str, Any]] = field(default_factory=list)
+    # --- 방문건강관리 확장 (선택, 하위호환) ---
+    diagnoses: list[dict[str, Any]] = field(default_factory=list)  # [{"name","diagnosed","treated"}] (건강면접조사표 17번)
+    medication_adherence_days: int | None = None  # 월 복용일수 (만성질환 서식 24일 / 서식5 20일 기준)
+    regular_care: bool | None = None  # 정기 진료 여부 (서식5 Q1)
     raw: dict[str, Any] = field(default_factory=dict)
 
 
@@ -59,6 +74,11 @@ class CuratedCase:
     missing_items: list[str]
     signals: dict[str, Any]
     curator_notes: list[str]
+    # CDS(Clinical Decision Support) 도구 결과. enable_clinical_tools=True일 때만 채워짐.
+    # 각 요소: {name, severity, rule_family, guideline, detail}
+    # severity ∈ {"emergency", "urgent_in_person", "routine_in_person"}  (4-tier 중 alert 발동 3종)
+    # rule_family ∈ {1..7}  (clinical_safety.py docstring 참조)
+    clinical_alerts: list[dict[str, Any]] = field(default_factory=list)
 
 
 @dataclass
@@ -112,6 +132,9 @@ class GuardianReport:
     medication_alerts: list[str]
     consistency_alerts: list[str]
     system_alerts: list[str]
+    # block_tier: Judge가 어떤 분기로 가야 하는지 — emergency(긴급내원) vs in_person(외래 대면 우선) vs None.
+    # force_block/system_alerts(시스템 안전)는 emergency, DUR 약물 병용금기는 in_person.
+    block_tier: str | None = None
     model_used: str | None = None
     model_output: str | None = None
     model_error: str | None = None

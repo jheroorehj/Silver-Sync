@@ -56,6 +56,46 @@ def clamp(value: int | float, low: int = 0, high: int = 100) -> int:
     return int(max(low, min(high, round(value))))
 
 
+# JSON 파싱 후 문자열 리스트로 안전하게 강제. 모델이 list 대신 str("없음" 등)을 내면
+# Python 기본 `[str(x) for x in value]`는 char 단위로 깨져 안전 게이트가 오작동(예: red_flags).
+_NEG_LIST_TOKENS = {"", "없음", "없다", "없어요", "n/a", "none", "null", "[]", "-", "x"}
+
+
+def coerce_str_list(value: Any) -> list[str]:
+    if value is None:
+        return []
+    if isinstance(value, str):
+        text = value.strip()
+        if text.lower() in _NEG_LIST_TOKENS or text in _NEG_LIST_TOKENS:
+            return []
+        return [text]
+    if isinstance(value, (list, tuple, set)):
+        out: list[str] = []
+        for item in value:
+            if item is None:
+                continue
+            s = str(item).strip()
+            if not s:
+                continue
+            if s.lower() in _NEG_LIST_TOKENS:
+                continue
+            out.append(s)
+        return out
+    s = str(value).strip()
+    return [s] if s else []
+
+
+def coerce_bool(value: Any) -> bool:
+    """JSON 출력에서 안전한 boolean. 'false'/'no'/'0' 같은 문자열을 False로 처리."""
+    if isinstance(value, bool):
+        return value
+    if isinstance(value, (int, float)):
+        return value != 0
+    if isinstance(value, str):
+        return value.strip().lower() in {"true", "1", "yes", "y", "t", "예", "참"}
+    return False
+
+
 def _to_int(value: Any) -> int | None:
     parsed = to_float(value)
     return int(parsed) if parsed is not None else None

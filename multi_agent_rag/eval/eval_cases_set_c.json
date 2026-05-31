@@ -1,0 +1,2672 @@
+[
+  {
+    "patient_id": "SETC-F1-0001",
+    "name": "환자001",
+    "age": 66,
+    "gender": "M",
+    "conditions": [
+      "당뇨병",
+      "고혈압",
+      "위식도역류"
+    ],
+    "medications": [
+      "메트포르민",
+      "에포니디핀",
+      "판토프라졸"
+    ],
+    "medication_adherence_days": 23,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "위식도역류",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-05-20",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "126/71",
+          "fasting_glucose": 98,
+          "blood_sugar": 108,
+          "postprandial_glucose": 167,
+          "pulse": 70,
+          "hba1c": 6.7
+        },
+        "notes": "흉부 답답함 식후 발생. 위장관 추적 중. 본인은 '소화 안 되는 느낌'이라고 표현. 호흡곤란 없음.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-04-22",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "128/72",
+          "fasting_glucose": 107,
+          "blood_sugar": 110,
+          "postprandial_glucose": 151,
+          "pulse": 70
+        },
+        "notes": "안정.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-22",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "126/79",
+          "fasting_glucose": 120,
+          "blood_sugar": 113,
+          "postprandial_glucose": 145,
+          "pulse": 78
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "비대면",
+      "stratum": "set_c",
+      "archetype": "SETC_gerd_chest",
+      "difficulty": "fresh_hard_negative",
+      "variant": "plain",
+      "decisive_factor": "만성 GERD로 가슴 답답함 (위장관 원인, 외래 추적 중)",
+      "factor_source": "Fresh held-out hard-negative (CDS modifications frozen)",
+      "baseline_should_miss": false,
+      "comparison_axis": 0
+    }
+  },
+  {
+    "patient_id": "SETC-F1-0002",
+    "name": "환자002",
+    "age": 67,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압",
+      "위식도역류"
+    ],
+    "medications": [
+      "메트포르민",
+      "암로디핀",
+      "에소메프라졸"
+    ],
+    "medication_adherence_days": 23,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "위식도역류",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-05-20",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "125/73",
+          "fasting_glucose": 90,
+          "blood_sugar": 104,
+          "postprandial_glucose": 161,
+          "pulse": 65,
+          "hba1c": 7.2
+        },
+        "notes": "식후 가슴 답답함 가끔. 위내시경 정상, 역류성 식도염 진단. 약 복용 중이며 증상 호전.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-04-22",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "128/68",
+          "fasting_glucose": 90,
+          "blood_sugar": 120,
+          "postprandial_glucose": 150,
+          "pulse": 70
+        },
+        "notes": "안정.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-22",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "124/69",
+          "fasting_glucose": 110,
+          "blood_sugar": 103,
+          "postprandial_glucose": 146,
+          "pulse": 70
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "비대면",
+      "stratum": "set_c",
+      "archetype": "SETC_gerd_chest",
+      "difficulty": "fresh_hard_negative",
+      "variant": "plain",
+      "decisive_factor": "만성 GERD로 가슴 답답함 (위장관 원인, 외래 추적 중)",
+      "factor_source": "Fresh held-out hard-negative (CDS modifications frozen)",
+      "baseline_should_miss": false,
+      "comparison_axis": 0
+    }
+  },
+  {
+    "patient_id": "SETC-F1-0003",
+    "name": "환자003",
+    "age": 66,
+    "gender": "M",
+    "conditions": [
+      "당뇨병",
+      "고혈압",
+      "위식도역류"
+    ],
+    "medications": [
+      "메트포르민",
+      "에포니디핀",
+      "판토프라졸"
+    ],
+    "medication_adherence_days": 24,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "위식도역류",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-05-20",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "118/75",
+          "fasting_glucose": 96,
+          "blood_sugar": 113,
+          "postprandial_glucose": 175,
+          "pulse": 70,
+          "hba1c": 6.6
+        },
+        "notes": "식후 가슴 답답함 가끔. 위내시경 정상, 역류성 식도염 진단. 약 복용 중이며 증상 호전.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-04-22",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "128/76",
+          "fasting_glucose": 119,
+          "blood_sugar": 120,
+          "postprandial_glucose": 148,
+          "pulse": 66
+        },
+        "notes": "안정.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-22",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "120/72",
+          "fasting_glucose": 117,
+          "blood_sugar": 116,
+          "postprandial_glucose": 140,
+          "pulse": 69
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "비대면",
+      "stratum": "set_c",
+      "archetype": "SETC_gerd_chest",
+      "difficulty": "fresh_hard_negative",
+      "variant": "plain",
+      "decisive_factor": "만성 GERD로 가슴 답답함 (위장관 원인, 외래 추적 중)",
+      "factor_source": "Fresh held-out hard-negative (CDS modifications frozen)",
+      "baseline_should_miss": false,
+      "comparison_axis": 0
+    }
+  },
+  {
+    "patient_id": "SETC-F1-0004",
+    "name": "환자004",
+    "age": 68,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압",
+      "위식도역류"
+    ],
+    "medications": [
+      "메트포르민",
+      "에포니디핀",
+      "판토프라졸"
+    ],
+    "medication_adherence_days": 24,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "위식도역류",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-05-20",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "125/68",
+          "fasting_glucose": 91,
+          "blood_sugar": 91,
+          "postprandial_glucose": 168,
+          "pulse": 67,
+          "hba1c": 6.7
+        },
+        "notes": "흉부 불편 가끔. 위장관 외래 정기 추적 중. PPI 8주째 복용, 빈도 감소.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-04-22",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "120/80",
+          "fasting_glucose": 90,
+          "blood_sugar": 114,
+          "postprandial_glucose": 163,
+          "pulse": 71
+        },
+        "notes": "안정.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-22",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "131/80",
+          "fasting_glucose": 93,
+          "blood_sugar": 105,
+          "postprandial_glucose": 143,
+          "pulse": 65
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "비대면",
+      "stratum": "set_c",
+      "archetype": "SETC_gerd_chest",
+      "difficulty": "fresh_hard_negative",
+      "variant": "plain",
+      "decisive_factor": "만성 GERD로 가슴 답답함 (위장관 원인, 외래 추적 중)",
+      "factor_source": "Fresh held-out hard-negative (CDS modifications frozen)",
+      "baseline_should_miss": false,
+      "comparison_axis": 0
+    }
+  },
+  {
+    "patient_id": "SETC-F1-0005",
+    "name": "환자005",
+    "age": 74,
+    "gender": "M",
+    "conditions": [
+      "당뇨병",
+      "고혈압",
+      "위식도역류"
+    ],
+    "medications": [
+      "메트포르민",
+      "에포니디핀",
+      "판토프라졸"
+    ],
+    "medication_adherence_days": 22,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "위식도역류",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-05-20",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "126/80",
+          "fasting_glucose": 111,
+          "blood_sugar": 112,
+          "postprandial_glucose": 147,
+          "pulse": 69,
+          "hba1c": 6.5
+        },
+        "notes": "식후 가슴 답답함 가끔. 위내시경 정상, 역류성 식도염 진단. 약 복용 중이며 증상 호전.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-04-22",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "120/73",
+          "fasting_glucose": 97,
+          "blood_sugar": 96,
+          "postprandial_glucose": 150,
+          "pulse": 70
+        },
+        "notes": "안정.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-22",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "124/70",
+          "fasting_glucose": 107,
+          "blood_sugar": 92,
+          "postprandial_glucose": 173,
+          "pulse": 65
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "비대면",
+      "stratum": "set_c",
+      "archetype": "SETC_gerd_chest",
+      "difficulty": "fresh_hard_negative",
+      "variant": "plain",
+      "decisive_factor": "만성 GERD로 가슴 답답함 (위장관 원인, 외래 추적 중)",
+      "factor_source": "Fresh held-out hard-negative (CDS modifications frozen)",
+      "baseline_should_miss": false,
+      "comparison_axis": 0
+    }
+  },
+  {
+    "patient_id": "SETC-F2-0001",
+    "name": "환자001",
+    "age": 62,
+    "gender": "M",
+    "conditions": [
+      "당뇨병",
+      "고혈압",
+      "갑상선기능저하증"
+    ],
+    "medications": [
+      "메트포르민",
+      "에포니디핀",
+      "신지로이드"
+    ],
+    "medication_adherence_days": 25,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "갑상선기능저하증",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-05-18",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "118/72",
+          "fasting_glucose": 106,
+          "blood_sugar": 114,
+          "postprandial_glucose": 165,
+          "pulse": 67,
+          "hba1c": 7.0
+        },
+        "notes": "갑상선기능저하증 약 조정 시기. 피로감 가벼움. 정기 외래에서 용량 검토 예정.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-04-20",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "129/74",
+          "fasting_glucose": 95,
+          "blood_sugar": 97,
+          "postprandial_glucose": 151,
+          "pulse": 65
+        },
+        "notes": "안정.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-18",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "126/73",
+          "fasting_glucose": 95,
+          "blood_sugar": 102,
+          "postprandial_glucose": 151,
+          "pulse": 70
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "비대면",
+      "stratum": "set_c",
+      "archetype": "SETC_thyroid_adjust",
+      "difficulty": "fresh_hard_negative",
+      "variant": "plain",
+      "decisive_factor": "갑상선 약 조정 중 피로/체중변화 (내분비 추적 중)",
+      "factor_source": "Fresh held-out hard-negative (CDS modifications frozen)",
+      "baseline_should_miss": false,
+      "comparison_axis": 0
+    }
+  },
+  {
+    "patient_id": "SETC-F2-0002",
+    "name": "환자002",
+    "age": 65,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압",
+      "갑상선기능저하증"
+    ],
+    "medications": [
+      "메트포르민",
+      "에포니디핀",
+      "신지로이드"
+    ],
+    "medication_adherence_days": 22,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "갑상선기능저하증",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-05-18",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "117/78",
+          "fasting_glucose": 104,
+          "blood_sugar": 113,
+          "postprandial_glucose": 152,
+          "pulse": 71,
+          "hba1c": 7.0
+        },
+        "notes": "갑상선기능저하증 약 조정 중. 최근 약간 피로감, 체중 1kg 증가. 내분비 외래 매월 추적.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-04-20",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "131/71",
+          "fasting_glucose": 100,
+          "blood_sugar": 108,
+          "postprandial_glucose": 158,
+          "pulse": 69
+        },
+        "notes": "안정.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-18",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "132/76",
+          "fasting_glucose": 112,
+          "blood_sugar": 114,
+          "postprandial_glucose": 143,
+          "pulse": 73
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "비대면",
+      "stratum": "set_c",
+      "archetype": "SETC_thyroid_adjust",
+      "difficulty": "fresh_hard_negative",
+      "variant": "plain",
+      "decisive_factor": "갑상선 약 조정 중 피로/체중변화 (내분비 추적 중)",
+      "factor_source": "Fresh held-out hard-negative (CDS modifications frozen)",
+      "baseline_should_miss": false,
+      "comparison_axis": 0
+    }
+  },
+  {
+    "patient_id": "SETC-F2-0003",
+    "name": "환자003",
+    "age": 72,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압",
+      "갑상선기능저하증"
+    ],
+    "medications": [
+      "메트포르민",
+      "에포니디핀",
+      "신지로이드"
+    ],
+    "medication_adherence_days": 22,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "갑상선기능저하증",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-05-18",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "132/77",
+          "fasting_glucose": 93,
+          "blood_sugar": 110,
+          "postprandial_glucose": 144,
+          "pulse": 69,
+          "hba1c": 6.7
+        },
+        "notes": "갑상선기능저하증 약 조정 시기. 피로감 가벼움. 정기 외래에서 용량 검토 예정.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-04-20",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "116/72",
+          "fasting_glucose": 113,
+          "blood_sugar": 104,
+          "postprandial_glucose": 163,
+          "pulse": 77
+        },
+        "notes": "안정.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-18",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "124/75",
+          "fasting_glucose": 109,
+          "blood_sugar": 98,
+          "postprandial_glucose": 159,
+          "pulse": 80
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "비대면",
+      "stratum": "set_c",
+      "archetype": "SETC_thyroid_adjust",
+      "difficulty": "fresh_hard_negative",
+      "variant": "plain",
+      "decisive_factor": "갑상선 약 조정 중 피로/체중변화 (내분비 추적 중)",
+      "factor_source": "Fresh held-out hard-negative (CDS modifications frozen)",
+      "baseline_should_miss": false,
+      "comparison_axis": 0
+    }
+  },
+  {
+    "patient_id": "SETC-F2-0004",
+    "name": "환자004",
+    "age": 67,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압",
+      "갑상선기능저하증"
+    ],
+    "medications": [
+      "메트포르민",
+      "에포니디핀",
+      "신지로이드"
+    ],
+    "medication_adherence_days": 24,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "갑상선기능저하증",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-05-18",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "122/73",
+          "fasting_glucose": 94,
+          "blood_sugar": 119,
+          "postprandial_glucose": 140,
+          "pulse": 67,
+          "hba1c": 6.4
+        },
+        "notes": "갑상선기능저하증 약 조정 중. 최근 약간 피로감, 체중 1kg 증가. 내분비 외래 매월 추적.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-04-20",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "121/74",
+          "fasting_glucose": 105,
+          "blood_sugar": 95,
+          "postprandial_glucose": 157,
+          "pulse": 76
+        },
+        "notes": "안정.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-18",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "121/72",
+          "fasting_glucose": 113,
+          "blood_sugar": 100,
+          "postprandial_glucose": 164,
+          "pulse": 67
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "비대면",
+      "stratum": "set_c",
+      "archetype": "SETC_thyroid_adjust",
+      "difficulty": "fresh_hard_negative",
+      "variant": "plain",
+      "decisive_factor": "갑상선 약 조정 중 피로/체중변화 (내분비 추적 중)",
+      "factor_source": "Fresh held-out hard-negative (CDS modifications frozen)",
+      "baseline_should_miss": false,
+      "comparison_axis": 0
+    }
+  },
+  {
+    "patient_id": "SETC-F2-0005",
+    "name": "환자005",
+    "age": 66,
+    "gender": "M",
+    "conditions": [
+      "당뇨병",
+      "고혈압",
+      "갑상선기능저하증"
+    ],
+    "medications": [
+      "메트포르민",
+      "암로디핀",
+      "레보티록신"
+    ],
+    "medication_adherence_days": 25,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "갑상선기능저하증",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-05-18",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "120/69",
+          "fasting_glucose": 94,
+          "blood_sugar": 116,
+          "postprandial_glucose": 159,
+          "pulse": 72,
+          "hba1c": 6.7
+        },
+        "notes": "갑상선 약 용량 조정 후 적응 중. 피로, 식욕 약간 감소. TSH 정상 회복 중.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-04-20",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "121/68",
+          "fasting_glucose": 94,
+          "blood_sugar": 93,
+          "postprandial_glucose": 172,
+          "pulse": 66
+        },
+        "notes": "안정.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-18",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "125/74",
+          "fasting_glucose": 100,
+          "blood_sugar": 117,
+          "postprandial_glucose": 142,
+          "pulse": 72
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "비대면",
+      "stratum": "set_c",
+      "archetype": "SETC_thyroid_adjust",
+      "difficulty": "fresh_hard_negative",
+      "variant": "plain",
+      "decisive_factor": "갑상선 약 조정 중 피로/체중변화 (내분비 추적 중)",
+      "factor_source": "Fresh held-out hard-negative (CDS modifications frozen)",
+      "baseline_should_miss": false,
+      "comparison_axis": 0
+    }
+  },
+  {
+    "patient_id": "SETC-F3-0001",
+    "name": "환자001",
+    "age": 70,
+    "gender": "M",
+    "conditions": [
+      "당뇨병",
+      "고혈압",
+      "퇴행성무릎관절염"
+    ],
+    "medications": [
+      "메트포르민",
+      "암로디핀",
+      "아세트아미노펜"
+    ],
+    "medication_adherence_days": 26,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "퇴행성무릎관절염",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-05-16",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "121/72",
+          "fasting_glucose": 108,
+          "blood_sugar": 107,
+          "postprandial_glucose": 162,
+          "pulse": 70,
+          "hba1c": 7.2
+        },
+        "notes": "관절통 (무릎 위주). 정형외과 진료 받고 진통제 복용. 발 상처·궤양 없음, 감각 정상.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-04-18",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "124/68",
+          "fasting_glucose": 117,
+          "blood_sugar": 117,
+          "postprandial_glucose": 145,
+          "pulse": 68
+        },
+        "notes": "안정.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-16",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "131/71",
+          "fasting_glucose": 107,
+          "blood_sugar": 106,
+          "postprandial_glucose": 166,
+          "pulse": 65
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "비대면",
+      "stratum": "set_c",
+      "archetype": "SETC_orthopedic_pain",
+      "difficulty": "fresh_hard_negative",
+      "variant": "plain",
+      "decisive_factor": "퇴행성 무릎관절염 통증 (정형외과 추적, 당뇨족과 무관)",
+      "factor_source": "Fresh held-out hard-negative (CDS modifications frozen)",
+      "baseline_should_miss": false,
+      "comparison_axis": 0
+    }
+  },
+  {
+    "patient_id": "SETC-F3-0002",
+    "name": "환자002",
+    "age": 76,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압",
+      "퇴행성무릎관절염"
+    ],
+    "medications": [
+      "메트포르민",
+      "암로디핀",
+      "아세트아미노펜"
+    ],
+    "medication_adherence_days": 28,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "퇴행성무릎관절염",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-05-16",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "120/75",
+          "fasting_glucose": 103,
+          "blood_sugar": 104,
+          "postprandial_glucose": 141,
+          "pulse": 76,
+          "hba1c": 6.9
+        },
+        "notes": "걸을 때 무릎이 아프다고 함. 정형외과에서 관절염 진단·물리치료 중.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-04-18",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "127/73",
+          "fasting_glucose": 111,
+          "blood_sugar": 116,
+          "postprandial_glucose": 174,
+          "pulse": 65
+        },
+        "notes": "안정.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-16",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "125/75",
+          "fasting_glucose": 104,
+          "blood_sugar": 91,
+          "postprandial_glucose": 160,
+          "pulse": 75
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "비대면",
+      "stratum": "set_c",
+      "archetype": "SETC_orthopedic_pain",
+      "difficulty": "fresh_hard_negative",
+      "variant": "plain",
+      "decisive_factor": "퇴행성 무릎관절염 통증 (정형외과 추적, 당뇨족과 무관)",
+      "factor_source": "Fresh held-out hard-negative (CDS modifications frozen)",
+      "baseline_should_miss": false,
+      "comparison_axis": 0
+    }
+  },
+  {
+    "patient_id": "SETC-F3-0003",
+    "name": "환자003",
+    "age": 72,
+    "gender": "M",
+    "conditions": [
+      "당뇨병",
+      "고혈압",
+      "퇴행성무릎관절염"
+    ],
+    "medications": [
+      "메트포르민",
+      "암로디핀",
+      "아세트아미노펜"
+    ],
+    "medication_adherence_days": 25,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "퇴행성무릎관절염",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-05-16",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "127/77",
+          "fasting_glucose": 109,
+          "blood_sugar": 91,
+          "postprandial_glucose": 147,
+          "pulse": 80,
+          "hba1c": 7.2
+        },
+        "notes": "무릎 통증 호소. 정형외과 follow 중. X-ray에서 관절염 확인. DM과 무관.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-04-18",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "118/77",
+          "fasting_glucose": 95,
+          "blood_sugar": 91,
+          "postprandial_glucose": 143,
+          "pulse": 74
+        },
+        "notes": "안정.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-16",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "121/76",
+          "fasting_glucose": 93,
+          "blood_sugar": 104,
+          "postprandial_glucose": 171,
+          "pulse": 80
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "비대면",
+      "stratum": "set_c",
+      "archetype": "SETC_orthopedic_pain",
+      "difficulty": "fresh_hard_negative",
+      "variant": "plain",
+      "decisive_factor": "퇴행성 무릎관절염 통증 (정형외과 추적, 당뇨족과 무관)",
+      "factor_source": "Fresh held-out hard-negative (CDS modifications frozen)",
+      "baseline_should_miss": false,
+      "comparison_axis": 0
+    }
+  },
+  {
+    "patient_id": "SETC-F3-0004",
+    "name": "환자004",
+    "age": 71,
+    "gender": "M",
+    "conditions": [
+      "당뇨병",
+      "고혈압",
+      "퇴행성무릎관절염"
+    ],
+    "medications": [
+      "메트포르민",
+      "암로디핀",
+      "아세트아미노펜"
+    ],
+    "medication_adherence_days": 28,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "퇴행성무릎관절염",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-05-16",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "125/79",
+          "fasting_glucose": 115,
+          "blood_sugar": 95,
+          "postprandial_glucose": 164,
+          "pulse": 72,
+          "hba1c": 7.2
+        },
+        "notes": "무릎 통증 호소. 정형외과 follow 중. X-ray에서 관절염 확인. DM과 무관.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-04-18",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "130/70",
+          "fasting_glucose": 118,
+          "blood_sugar": 96,
+          "postprandial_glucose": 175,
+          "pulse": 71
+        },
+        "notes": "안정.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-16",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "120/78",
+          "fasting_glucose": 113,
+          "blood_sugar": 104,
+          "postprandial_glucose": 140,
+          "pulse": 71
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "비대면",
+      "stratum": "set_c",
+      "archetype": "SETC_orthopedic_pain",
+      "difficulty": "fresh_hard_negative",
+      "variant": "plain",
+      "decisive_factor": "퇴행성 무릎관절염 통증 (정형외과 추적, 당뇨족과 무관)",
+      "factor_source": "Fresh held-out hard-negative (CDS modifications frozen)",
+      "baseline_should_miss": false,
+      "comparison_axis": 0
+    }
+  },
+  {
+    "patient_id": "SETC-F3-0005",
+    "name": "환자005",
+    "age": 80,
+    "gender": "M",
+    "conditions": [
+      "당뇨병",
+      "고혈압",
+      "퇴행성무릎관절염"
+    ],
+    "medications": [
+      "메트포르민",
+      "암로디핀",
+      "아세트아미노펜"
+    ],
+    "medication_adherence_days": 26,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "퇴행성무릎관절염",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-05-16",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "132/80",
+          "fasting_glucose": 93,
+          "blood_sugar": 93,
+          "postprandial_glucose": 156,
+          "pulse": 72,
+          "hba1c": 6.6
+        },
+        "notes": "왼쪽 무릎 시큰함. 정형외과 외래에서 퇴행성 무릎관절염 진단. 진통제 처방받음.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-04-18",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "123/71",
+          "fasting_glucose": 105,
+          "blood_sugar": 101,
+          "postprandial_glucose": 168,
+          "pulse": 77
+        },
+        "notes": "안정.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-16",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "132/71",
+          "fasting_glucose": 110,
+          "blood_sugar": 104,
+          "postprandial_glucose": 172,
+          "pulse": 68
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "비대면",
+      "stratum": "set_c",
+      "archetype": "SETC_orthopedic_pain",
+      "difficulty": "fresh_hard_negative",
+      "variant": "plain",
+      "decisive_factor": "퇴행성 무릎관절염 통증 (정형외과 추적, 당뇨족과 무관)",
+      "factor_source": "Fresh held-out hard-negative (CDS modifications frozen)",
+      "baseline_should_miss": false,
+      "comparison_axis": 0
+    }
+  },
+  {
+    "patient_id": "SETC-F4-0001",
+    "name": "환자001",
+    "age": 72,
+    "gender": "M",
+    "conditions": [
+      "당뇨병",
+      "고혈압",
+      "알레르기성비염"
+    ],
+    "medications": [
+      "메트포르민",
+      "암로디핀",
+      "세티리진"
+    ],
+    "medication_adherence_days": 27,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "알레르기성비염",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-05-14",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "122/74",
+          "fasting_glucose": 105,
+          "blood_sugar": 111,
+          "postprandial_glucose": 145,
+          "pulse": 78,
+          "hba1c": 6.8
+        },
+        "notes": "최근 알레르기 증상 (눈 가려움, 재채기). 이비인후과 외래 follow. 안정.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-04-16",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "125/71",
+          "fasting_glucose": 104,
+          "blood_sugar": 99,
+          "postprandial_glucose": 167,
+          "pulse": 68
+        },
+        "notes": "안정.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-14",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "120/71",
+          "fasting_glucose": 113,
+          "blood_sugar": 109,
+          "postprandial_glucose": 164,
+          "pulse": 73
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "비대면",
+      "stratum": "set_c",
+      "archetype": "SETC_allergic_rhinitis",
+      "difficulty": "fresh_hard_negative",
+      "variant": "plain",
+      "decisive_factor": "계절성 알레르기 비염 (안정, DM/HTN과 무관)",
+      "factor_source": "Fresh held-out hard-negative (CDS modifications frozen)",
+      "baseline_should_miss": false,
+      "comparison_axis": 0
+    }
+  },
+  {
+    "patient_id": "SETC-F4-0002",
+    "name": "환자002",
+    "age": 64,
+    "gender": "M",
+    "conditions": [
+      "당뇨병",
+      "고혈압",
+      "알레르기성비염"
+    ],
+    "medications": [
+      "메트포르민",
+      "암로디핀",
+      "세티리진"
+    ],
+    "medication_adherence_days": 28,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "알레르기성비염",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-05-14",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "123/68",
+          "fasting_glucose": 115,
+          "blood_sugar": 120,
+          "postprandial_glucose": 170,
+          "pulse": 75,
+          "hba1c": 7.0
+        },
+        "notes": "꽃가루 알레르기. 항히스타민 복용 시작 후 호전. 다른 변화 없음.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-04-16",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "121/80",
+          "fasting_glucose": 110,
+          "blood_sugar": 99,
+          "postprandial_glucose": 141,
+          "pulse": 77
+        },
+        "notes": "안정.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-14",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "126/71",
+          "fasting_glucose": 119,
+          "blood_sugar": 107,
+          "postprandial_glucose": 156,
+          "pulse": 72
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "비대면",
+      "stratum": "set_c",
+      "archetype": "SETC_allergic_rhinitis",
+      "difficulty": "fresh_hard_negative",
+      "variant": "plain",
+      "decisive_factor": "계절성 알레르기 비염 (안정, DM/HTN과 무관)",
+      "factor_source": "Fresh held-out hard-negative (CDS modifications frozen)",
+      "baseline_should_miss": false,
+      "comparison_axis": 0
+    }
+  },
+  {
+    "patient_id": "SETC-F4-0003",
+    "name": "환자003",
+    "age": 67,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압",
+      "알레르기성비염"
+    ],
+    "medications": [
+      "메트포르민",
+      "암로디핀",
+      "세티리진"
+    ],
+    "medication_adherence_days": 26,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "알레르기성비염",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-05-14",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "132/68",
+          "fasting_glucose": 90,
+          "blood_sugar": 94,
+          "postprandial_glucose": 148,
+          "pulse": 75,
+          "hba1c": 6.6
+        },
+        "notes": "최근 알레르기 증상 (눈 가려움, 재채기). 이비인후과 외래 follow. 안정.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-04-16",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "124/76",
+          "fasting_glucose": 99,
+          "blood_sugar": 90,
+          "postprandial_glucose": 153,
+          "pulse": 78
+        },
+        "notes": "안정.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-14",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "127/78",
+          "fasting_glucose": 108,
+          "blood_sugar": 102,
+          "postprandial_glucose": 168,
+          "pulse": 73
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "비대면",
+      "stratum": "set_c",
+      "archetype": "SETC_allergic_rhinitis",
+      "difficulty": "fresh_hard_negative",
+      "variant": "plain",
+      "decisive_factor": "계절성 알레르기 비염 (안정, DM/HTN과 무관)",
+      "factor_source": "Fresh held-out hard-negative (CDS modifications frozen)",
+      "baseline_should_miss": false,
+      "comparison_axis": 0
+    }
+  },
+  {
+    "patient_id": "SETC-F4-0004",
+    "name": "환자004",
+    "age": 65,
+    "gender": "M",
+    "conditions": [
+      "당뇨병",
+      "고혈압",
+      "알레르기성비염"
+    ],
+    "medications": [
+      "메트포르민",
+      "암로디핀",
+      "세티리진"
+    ],
+    "medication_adherence_days": 26,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "알레르기성비염",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-05-14",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "130/78",
+          "fasting_glucose": 95,
+          "blood_sugar": 118,
+          "postprandial_glucose": 167,
+          "pulse": 66,
+          "hba1c": 7.0
+        },
+        "notes": "계절 알레르기 시즌. 가벼운 코막힘, 재채기. 일상에 큰 지장 없음.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-04-16",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "118/72",
+          "fasting_glucose": 111,
+          "blood_sugar": 100,
+          "postprandial_glucose": 166,
+          "pulse": 77
+        },
+        "notes": "안정.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-14",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "130/69",
+          "fasting_glucose": 102,
+          "blood_sugar": 112,
+          "postprandial_glucose": 147,
+          "pulse": 78
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "비대면",
+      "stratum": "set_c",
+      "archetype": "SETC_allergic_rhinitis",
+      "difficulty": "fresh_hard_negative",
+      "variant": "plain",
+      "decisive_factor": "계절성 알레르기 비염 (안정, DM/HTN과 무관)",
+      "factor_source": "Fresh held-out hard-negative (CDS modifications frozen)",
+      "baseline_should_miss": false,
+      "comparison_axis": 0
+    }
+  },
+  {
+    "patient_id": "SETC-F4-0005",
+    "name": "환자005",
+    "age": 64,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압",
+      "알레르기성비염"
+    ],
+    "medications": [
+      "메트포르민",
+      "암로디핀",
+      "세티리진"
+    ],
+    "medication_adherence_days": 27,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "알레르기성비염",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-05-14",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "119/78",
+          "fasting_glucose": 90,
+          "blood_sugar": 101,
+          "postprandial_glucose": 150,
+          "pulse": 73,
+          "hba1c": 7.1
+        },
+        "notes": "계절 알레르기 시즌. 가벼운 코막힘, 재채기. 일상에 큰 지장 없음.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-04-16",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "127/70",
+          "fasting_glucose": 99,
+          "blood_sugar": 100,
+          "postprandial_glucose": 160,
+          "pulse": 78
+        },
+        "notes": "안정.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-14",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "116/73",
+          "fasting_glucose": 97,
+          "blood_sugar": 112,
+          "postprandial_glucose": 169,
+          "pulse": 65
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "비대면",
+      "stratum": "set_c",
+      "archetype": "SETC_allergic_rhinitis",
+      "difficulty": "fresh_hard_negative",
+      "variant": "plain",
+      "decisive_factor": "계절성 알레르기 비염 (안정, DM/HTN과 무관)",
+      "factor_source": "Fresh held-out hard-negative (CDS modifications frozen)",
+      "baseline_should_miss": false,
+      "comparison_axis": 0
+    }
+  },
+  {
+    "patient_id": "SETC-F5-0001",
+    "name": "환자001",
+    "age": 71,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압",
+      "양성돌발성체위성어지럼"
+    ],
+    "medications": [
+      "메트포르민",
+      "암로디핀",
+      "베타히스틴"
+    ],
+    "medication_adherence_days": 24,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "양성돌발성체위성어지럼",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-05-12",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "119/77",
+          "fasting_glucose": 114,
+          "blood_sugar": 114,
+          "postprandial_glucose": 163,
+          "pulse": 74,
+          "hba1c": 7.0
+        },
+        "notes": "전정 기능 회복 중. 처음보다 어지럼 빈도 1/3로 감소. 보호자 없이도 활동 가능.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-04-14",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "119/75",
+          "fasting_glucose": 104,
+          "blood_sugar": 112,
+          "postprandial_glucose": 140,
+          "pulse": 79
+        },
+        "notes": "안정.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-12",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "126/71",
+          "fasting_glucose": 103,
+          "blood_sugar": 105,
+          "postprandial_glucose": 154,
+          "pulse": 75
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "비대면",
+      "stratum": "set_c",
+      "archetype": "SETC_vertigo_recovery",
+      "difficulty": "fresh_hard_negative",
+      "variant": "plain",
+      "decisive_factor": "전정/이석증 회복기 어지럼 (이비인후과 추적, 호전 중)",
+      "factor_source": "Fresh held-out hard-negative (CDS modifications frozen)",
+      "baseline_should_miss": false,
+      "comparison_axis": 0
+    }
+  },
+  {
+    "patient_id": "SETC-F5-0002",
+    "name": "환자002",
+    "age": 78,
+    "gender": "M",
+    "conditions": [
+      "당뇨병",
+      "고혈압",
+      "양성돌발성체위성어지럼"
+    ],
+    "medications": [
+      "메트포르민",
+      "암로디핀",
+      "베타히스틴"
+    ],
+    "medication_adherence_days": 24,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "양성돌발성체위성어지럼",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-05-12",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "122/74",
+          "fasting_glucose": 100,
+          "blood_sugar": 119,
+          "postprandial_glucose": 146,
+          "pulse": 69,
+          "hba1c": 6.5
+        },
+        "notes": "이석증 진단 후 epley maneuver로 호전. 가끔 미세 어지럼만 남음. 낙상 없음.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-04-14",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "116/80",
+          "fasting_glucose": 112,
+          "blood_sugar": 111,
+          "postprandial_glucose": 147,
+          "pulse": 77
+        },
+        "notes": "안정.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-12",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "119/73",
+          "fasting_glucose": 92,
+          "blood_sugar": 96,
+          "postprandial_glucose": 153,
+          "pulse": 65
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "비대면",
+      "stratum": "set_c",
+      "archetype": "SETC_vertigo_recovery",
+      "difficulty": "fresh_hard_negative",
+      "variant": "plain",
+      "decisive_factor": "전정/이석증 회복기 어지럼 (이비인후과 추적, 호전 중)",
+      "factor_source": "Fresh held-out hard-negative (CDS modifications frozen)",
+      "baseline_should_miss": false,
+      "comparison_axis": 0
+    }
+  },
+  {
+    "patient_id": "SETC-F5-0003",
+    "name": "환자003",
+    "age": 69,
+    "gender": "M",
+    "conditions": [
+      "당뇨병",
+      "고혈압",
+      "양성돌발성체위성어지럼"
+    ],
+    "medications": [
+      "메트포르민",
+      "암로디핀",
+      "베타히스틴"
+    ],
+    "medication_adherence_days": 26,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "양성돌발성체위성어지럼",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-05-12",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "122/78",
+          "fasting_glucose": 107,
+          "blood_sugar": 109,
+          "postprandial_glucose": 157,
+          "pulse": 74,
+          "hba1c": 6.7
+        },
+        "notes": "이석증 진단 후 epley maneuver로 호전. 가끔 미세 어지럼만 남음. 낙상 없음.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-04-14",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "127/68",
+          "fasting_glucose": 108,
+          "blood_sugar": 93,
+          "postprandial_glucose": 168,
+          "pulse": 79
+        },
+        "notes": "안정.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-12",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "125/71",
+          "fasting_glucose": 98,
+          "blood_sugar": 93,
+          "postprandial_glucose": 150,
+          "pulse": 74
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "비대면",
+      "stratum": "set_c",
+      "archetype": "SETC_vertigo_recovery",
+      "difficulty": "fresh_hard_negative",
+      "variant": "plain",
+      "decisive_factor": "전정/이석증 회복기 어지럼 (이비인후과 추적, 호전 중)",
+      "factor_source": "Fresh held-out hard-negative (CDS modifications frozen)",
+      "baseline_should_miss": false,
+      "comparison_axis": 0
+    }
+  },
+  {
+    "patient_id": "SETC-F5-0004",
+    "name": "환자004",
+    "age": 67,
+    "gender": "M",
+    "conditions": [
+      "당뇨병",
+      "고혈압",
+      "양성돌발성체위성어지럼"
+    ],
+    "medications": [
+      "메트포르민",
+      "암로디핀",
+      "베타히스틴"
+    ],
+    "medication_adherence_days": 25,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "양성돌발성체위성어지럼",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-05-12",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "131/71",
+          "fasting_glucose": 112,
+          "blood_sugar": 98,
+          "postprandial_glucose": 153,
+          "pulse": 73,
+          "hba1c": 7.1
+        },
+        "notes": "이석증 진단 후 자세 변경 운동으로 호전. 빈도 줄어듦. 신경과 follow.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-04-14",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "116/69",
+          "fasting_glucose": 119,
+          "blood_sugar": 112,
+          "postprandial_glucose": 149,
+          "pulse": 72
+        },
+        "notes": "안정.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-12",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "116/80",
+          "fasting_glucose": 116,
+          "blood_sugar": 94,
+          "postprandial_glucose": 141,
+          "pulse": 66
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "비대면",
+      "stratum": "set_c",
+      "archetype": "SETC_vertigo_recovery",
+      "difficulty": "fresh_hard_negative",
+      "variant": "plain",
+      "decisive_factor": "전정/이석증 회복기 어지럼 (이비인후과 추적, 호전 중)",
+      "factor_source": "Fresh held-out hard-negative (CDS modifications frozen)",
+      "baseline_should_miss": false,
+      "comparison_axis": 0
+    }
+  },
+  {
+    "patient_id": "SETC-F5-0005",
+    "name": "환자005",
+    "age": 71,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압",
+      "양성돌발성체위성어지럼"
+    ],
+    "medications": [
+      "메트포르민",
+      "암로디핀",
+      "베타히스틴"
+    ],
+    "medication_adherence_days": 23,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "양성돌발성체위성어지럼",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-05-12",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "128/68",
+          "fasting_glucose": 95,
+          "blood_sugar": 120,
+          "postprandial_glucose": 149,
+          "pulse": 69,
+          "hba1c": 6.8
+        },
+        "notes": "이석증 진단 후 epley maneuver로 호전. 가끔 미세 어지럼만 남음. 낙상 없음.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-04-14",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "118/73",
+          "fasting_glucose": 113,
+          "blood_sugar": 92,
+          "postprandial_glucose": 149,
+          "pulse": 65
+        },
+        "notes": "안정.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-12",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "117/80",
+          "fasting_glucose": 117,
+          "blood_sugar": 101,
+          "postprandial_glucose": 148,
+          "pulse": 76
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "비대면",
+      "stratum": "set_c",
+      "archetype": "SETC_vertigo_recovery",
+      "difficulty": "fresh_hard_negative",
+      "variant": "plain",
+      "decisive_factor": "전정/이석증 회복기 어지럼 (이비인후과 추적, 호전 중)",
+      "factor_source": "Fresh held-out hard-negative (CDS modifications frozen)",
+      "baseline_should_miss": false,
+      "comparison_axis": 0
+    }
+  },
+  {
+    "patient_id": "SETC-F6-0001",
+    "name": "환자001",
+    "age": 68,
+    "gender": "M",
+    "conditions": [
+      "당뇨병",
+      "고혈압",
+      "우울증"
+    ],
+    "medications": [
+      "메트포르민",
+      "암로디핀",
+      "에스시탈로프람"
+    ],
+    "medication_adherence_days": 26,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "우울증",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-05-10",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "132/73",
+          "fasting_glucose": 102,
+          "blood_sugar": 92,
+          "postprandial_glucose": 161,
+          "pulse": 70,
+          "hba1c": 6.6
+        },
+        "notes": "우울증 SSRI 복용 중. 식욕 약간 저하 호소. 정신과 follow 중. 자살 사고 없음.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-04-12",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "132/70",
+          "fasting_glucose": 107,
+          "blood_sugar": 112,
+          "postprandial_glucose": 148,
+          "pulse": 77
+        },
+        "notes": "안정.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-10",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "115/75",
+          "fasting_glucose": 94,
+          "blood_sugar": 118,
+          "postprandial_glucose": 156,
+          "pulse": 69
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "비대면",
+      "stratum": "set_c",
+      "archetype": "SETC_stable_depression",
+      "difficulty": "fresh_hard_negative",
+      "variant": "plain",
+      "decisive_factor": "안정기 우울증 추적 (정신과 외래)",
+      "factor_source": "Fresh held-out hard-negative (CDS modifications frozen)",
+      "baseline_should_miss": false,
+      "comparison_axis": 0
+    }
+  },
+  {
+    "patient_id": "SETC-F6-0002",
+    "name": "환자002",
+    "age": 75,
+    "gender": "M",
+    "conditions": [
+      "당뇨병",
+      "고혈압",
+      "우울증"
+    ],
+    "medications": [
+      "메트포르민",
+      "암로디핀",
+      "에스시탈로프람"
+    ],
+    "medication_adherence_days": 25,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "우울증",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-05-10",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "123/79",
+          "fasting_glucose": 98,
+          "blood_sugar": 99,
+          "postprandial_glucose": 140,
+          "pulse": 76,
+          "hba1c": 7.0
+        },
+        "notes": "정신과 외래 follow 중인 우울증. 본인 호소: 가끔 잠 못 잠. 큰 변화 없음.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-04-12",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "132/71",
+          "fasting_glucose": 102,
+          "blood_sugar": 93,
+          "postprandial_glucose": 146,
+          "pulse": 70
+        },
+        "notes": "안정.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-10",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "129/80",
+          "fasting_glucose": 106,
+          "blood_sugar": 95,
+          "postprandial_glucose": 144,
+          "pulse": 68
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "비대면",
+      "stratum": "set_c",
+      "archetype": "SETC_stable_depression",
+      "difficulty": "fresh_hard_negative",
+      "variant": "plain",
+      "decisive_factor": "안정기 우울증 추적 (정신과 외래)",
+      "factor_source": "Fresh held-out hard-negative (CDS modifications frozen)",
+      "baseline_should_miss": false,
+      "comparison_axis": 0
+    }
+  },
+  {
+    "patient_id": "SETC-F6-0003",
+    "name": "환자003",
+    "age": 66,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압",
+      "우울증"
+    ],
+    "medications": [
+      "메트포르민",
+      "암로디핀",
+      "에스시탈로프람"
+    ],
+    "medication_adherence_days": 26,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "우울증",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-05-10",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "129/78",
+          "fasting_glucose": 93,
+          "blood_sugar": 102,
+          "postprandial_glucose": 156,
+          "pulse": 74,
+          "hba1c": 6.5
+        },
+        "notes": "안정기 우울증 약 복용 중. 가끔 불면 호소하나 일상 유지. 정신과 정기 외래.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-04-12",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "131/71",
+          "fasting_glucose": 115,
+          "blood_sugar": 119,
+          "postprandial_glucose": 151,
+          "pulse": 68
+        },
+        "notes": "안정.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-10",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "128/70",
+          "fasting_glucose": 98,
+          "blood_sugar": 97,
+          "postprandial_glucose": 147,
+          "pulse": 75
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "비대면",
+      "stratum": "set_c",
+      "archetype": "SETC_stable_depression",
+      "difficulty": "fresh_hard_negative",
+      "variant": "plain",
+      "decisive_factor": "안정기 우울증 추적 (정신과 외래)",
+      "factor_source": "Fresh held-out hard-negative (CDS modifications frozen)",
+      "baseline_should_miss": false,
+      "comparison_axis": 0
+    }
+  },
+  {
+    "patient_id": "SETC-F6-0004",
+    "name": "환자004",
+    "age": 76,
+    "gender": "M",
+    "conditions": [
+      "당뇨병",
+      "고혈압",
+      "우울증"
+    ],
+    "medications": [
+      "메트포르민",
+      "암로디핀",
+      "에스시탈로프람"
+    ],
+    "medication_adherence_days": 23,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "우울증",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-05-10",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "123/71",
+          "fasting_glucose": 101,
+          "blood_sugar": 102,
+          "postprandial_glucose": 159,
+          "pulse": 65,
+          "hba1c": 6.6
+        },
+        "notes": "정신과 외래 follow 중인 우울증. 본인 호소: 가끔 잠 못 잠. 큰 변화 없음.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-04-12",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "128/75",
+          "fasting_glucose": 103,
+          "blood_sugar": 105,
+          "postprandial_glucose": 146,
+          "pulse": 80
+        },
+        "notes": "안정.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-10",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "130/71",
+          "fasting_glucose": 108,
+          "blood_sugar": 91,
+          "postprandial_glucose": 162,
+          "pulse": 70
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "비대면",
+      "stratum": "set_c",
+      "archetype": "SETC_stable_depression",
+      "difficulty": "fresh_hard_negative",
+      "variant": "plain",
+      "decisive_factor": "안정기 우울증 추적 (정신과 외래)",
+      "factor_source": "Fresh held-out hard-negative (CDS modifications frozen)",
+      "baseline_should_miss": false,
+      "comparison_axis": 0
+    }
+  },
+  {
+    "patient_id": "SETC-F6-0005",
+    "name": "환자005",
+    "age": 76,
+    "gender": "M",
+    "conditions": [
+      "당뇨병",
+      "고혈압",
+      "우울증"
+    ],
+    "medications": [
+      "메트포르민",
+      "암로디핀",
+      "에스시탈로프람"
+    ],
+    "medication_adherence_days": 24,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "우울증",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-05-10",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "132/71",
+          "fasting_glucose": 95,
+          "blood_sugar": 94,
+          "postprandial_glucose": 151,
+          "pulse": 65,
+          "hba1c": 7.1
+        },
+        "notes": "안정기 우울증 약 복용 중. 가끔 불면 호소하나 일상 유지. 정신과 정기 외래.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-04-12",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "118/70",
+          "fasting_glucose": 90,
+          "blood_sugar": 119,
+          "postprandial_glucose": 143,
+          "pulse": 73
+        },
+        "notes": "안정.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-10",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "118/76",
+          "fasting_glucose": 99,
+          "blood_sugar": 120,
+          "postprandial_glucose": 140,
+          "pulse": 80
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "비대면",
+      "stratum": "set_c",
+      "archetype": "SETC_stable_depression",
+      "difficulty": "fresh_hard_negative",
+      "variant": "plain",
+      "decisive_factor": "안정기 우울증 추적 (정신과 외래)",
+      "factor_source": "Fresh held-out hard-negative (CDS modifications frozen)",
+      "baseline_should_miss": false,
+      "comparison_axis": 0
+    }
+  }
+]

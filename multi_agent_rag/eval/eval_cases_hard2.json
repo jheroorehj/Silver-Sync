@@ -1,0 +1,4262 @@
+[
+  {
+    "patient_id": "HARD2-W2-0001",
+    "name": "오경자",
+    "age": 80,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "메트포르민",
+      "암로디핀",
+      "아토르바스타틴"
+    ],
+    "medication_adherence_days": 24,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-05",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "126/73",
+          "fasting_glucose": 118,
+          "blood_sugar": 118,
+          "pulse": 73
+        },
+        "notes": "자가 혈압측정 꾸준히 기록, 대체로 안정적이라 함.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-10",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "123/78",
+          "fasting_glucose": 105,
+          "blood_sugar": 105,
+          "pulse": 67
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-15",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "118/76",
+          "fasting_glucose": 117,
+          "blood_sugar": 117,
+          "pulse": 64
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-01-18",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "113/75",
+          "fasting_glucose": 101,
+          "blood_sugar": 101,
+          "pulse": 74
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2025-12-12",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "110/73",
+          "fasting_glucose": 104,
+          "blood_sugar": 104,
+          "pulse": 71
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "W2_trend",
+      "difficulty": "hard",
+      "decisive_factor": "수축기혈압 110→126 우상향 추세(최신 126<130이라 단발로는 정상) → 조절 악화 추세",
+      "factor_source": "만성질환 조절 추세",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD2-W2-0002",
+    "name": "김복순",
+    "age": 72,
+    "gender": "M",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "메트포르민",
+      "에포니디핀",
+      "아토르바스타틴"
+    ],
+    "medication_adherence_days": 22,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-05-03",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "109/74",
+          "fasting_glucose": 120,
+          "blood_sugar": 120,
+          "postprandial_glucose": 190,
+          "pulse": 63
+        },
+        "notes": "자가 혈압측정 꾸준히 기록, 대체로 안정적이라 함.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-28",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "112/70",
+          "fasting_glucose": 115,
+          "blood_sugar": 115,
+          "postprandial_glucose": 195,
+          "pulse": 77
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-26",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "127/65",
+          "fasting_glucose": 110,
+          "blood_sugar": 110,
+          "postprandial_glucose": 180,
+          "pulse": 73
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-03",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "121/78",
+          "fasting_glucose": 102,
+          "blood_sugar": 102,
+          "postprandial_glucose": 184,
+          "pulse": 80
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-01-06",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "121/76",
+          "fasting_glucose": 99,
+          "blood_sugar": 99,
+          "postprandial_glucose": 174,
+          "pulse": 77
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "W2_trend",
+      "difficulty": "hard",
+      "decisive_factor": "공복혈당 99→120 우상향 추세(최신 120<126이라 단발로는 정상) → 조절 악화 추세",
+      "factor_source": "만성질환 조절 추세",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD2-W2-0003",
+    "name": "신만수",
+    "age": 69,
+    "gender": "M",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "메트포르민",
+      "니페디핀",
+      "로수바스타틴"
+    ],
+    "medication_adherence_days": 30,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-14",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "117/78",
+          "fasting_glucose": 124,
+          "blood_sugar": 124,
+          "postprandial_glucose": 183,
+          "pulse": 64
+        },
+        "notes": "지난달 독감 예방접종 완료, 금연 6개월째 유지.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-27",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "115/65",
+          "fasting_glucose": 118,
+          "blood_sugar": 118,
+          "postprandial_glucose": 192,
+          "pulse": 76
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-27",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "115/72",
+          "fasting_glucose": 112,
+          "blood_sugar": 112,
+          "postprandial_glucose": 192,
+          "pulse": 74
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-08",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "109/71",
+          "fasting_glucose": 106,
+          "blood_sugar": 106,
+          "postprandial_glucose": 187,
+          "pulse": 65
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-01-12",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "124/78",
+          "fasting_glucose": 103,
+          "blood_sugar": 103,
+          "postprandial_glucose": 172,
+          "pulse": 79
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "W2_trend",
+      "difficulty": "hard",
+      "decisive_factor": "공복혈당 103→124 우상향 추세(최신 124<126이라 단발로는 정상) → 조절 악화 추세",
+      "factor_source": "만성질환 조절 추세",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD2-W2-0004",
+    "name": "윤정자",
+    "age": 77,
+    "gender": "M",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "메트포르민",
+      "니페디핀",
+      "아토르바스타틴"
+    ],
+    "medication_adherence_days": 24,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-04",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "115/75",
+          "fasting_glucose": 119,
+          "blood_sugar": 119,
+          "postprandial_glucose": 174,
+          "pulse": 62
+        },
+        "notes": "자가 혈압측정 꾸준히 기록, 대체로 안정적이라 함.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-14",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "118/66",
+          "fasting_glucose": 113,
+          "blood_sugar": 113,
+          "postprandial_glucose": 167,
+          "pulse": 76
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-22",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "122/77",
+          "fasting_glucose": 107,
+          "blood_sugar": 107,
+          "postprandial_glucose": 181,
+          "pulse": 74
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-01",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "112/69",
+          "fasting_glucose": 105,
+          "blood_sugar": 105,
+          "postprandial_glucose": 187,
+          "pulse": 80
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2025-12-29",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "115/64",
+          "fasting_glucose": 98,
+          "blood_sugar": 98,
+          "postprandial_glucose": 174,
+          "pulse": 62
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "W2_trend",
+      "difficulty": "hard",
+      "decisive_factor": "공복혈당 98→119 우상향 추세(최신 119<126이라 단발로는 정상) → 조절 악화 추세",
+      "factor_source": "만성질환 조절 추세",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD2-W2-0005",
+    "name": "임화자",
+    "age": 81,
+    "gender": "M",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "메트포르민",
+      "암로디핀",
+      "아토르바스타틴"
+    ],
+    "medication_adherence_days": 25,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-28",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "127/72",
+          "fasting_glucose": 103,
+          "blood_sugar": 103,
+          "pulse": 71
+        },
+        "notes": "지난달 독감 예방접종 완료, 금연 6개월째 유지.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-31",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "122/77",
+          "fasting_glucose": 110,
+          "blood_sugar": 110,
+          "pulse": 70
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-02",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "118/78",
+          "fasting_glucose": 113,
+          "blood_sugar": 113,
+          "pulse": 66
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-01-28",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "116/74",
+          "fasting_glucose": 114,
+          "blood_sugar": 114,
+          "pulse": 75
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-01-10",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "112/72",
+          "fasting_glucose": 105,
+          "blood_sugar": 105,
+          "pulse": 69
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "W2_trend",
+      "difficulty": "hard",
+      "decisive_factor": "수축기혈압 112→127 우상향 추세(최신 127<130이라 단발로는 정상) → 조절 악화 추세",
+      "factor_source": "만성질환 조절 추세",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD2-W2-0006",
+    "name": "조경자",
+    "age": 71,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "메트포르민",
+      "니페디핀",
+      "로수바스타틴"
+    ],
+    "medication_adherence_days": 30,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-17",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "110/71",
+          "fasting_glucose": 122,
+          "blood_sugar": 122,
+          "postprandial_glucose": 167,
+          "pulse": 76
+        },
+        "notes": "손주 돌보느라 바쁘지만 컨디션은 괜찮다고 진술.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-14",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "124/65",
+          "fasting_glucose": 118,
+          "blood_sugar": 118,
+          "postprandial_glucose": 181,
+          "pulse": 63
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-21",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "108/73",
+          "fasting_glucose": 112,
+          "blood_sugar": 112,
+          "postprandial_glucose": 183,
+          "pulse": 71
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-01-16",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "125/68",
+          "fasting_glucose": 106,
+          "blood_sugar": 106,
+          "postprandial_glucose": 178,
+          "pulse": 80
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2025-12-13",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "110/66",
+          "fasting_glucose": 102,
+          "blood_sugar": 102,
+          "postprandial_glucose": 174,
+          "pulse": 68
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "W2_trend",
+      "difficulty": "hard",
+      "decisive_factor": "공복혈당 102→122 우상향 추세(최신 122<126이라 단발로는 정상) → 조절 악화 추세",
+      "factor_source": "만성질환 조절 추세",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD2-W2-0007",
+    "name": "송순자",
+    "age": 71,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "메트포르민",
+      "암로디핀",
+      "로수바스타틴"
+    ],
+    "medication_adherence_days": 29,
+    "regular_care": false,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-05-10",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "117/72",
+          "fasting_glucose": 123,
+          "blood_sugar": 123,
+          "postprandial_glucose": 191,
+          "pulse": 82
+        },
+        "notes": "손주 돌보느라 바쁘지만 컨디션은 괜찮다고 진술.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-04-07",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "124/75",
+          "fasting_glucose": 118,
+          "blood_sugar": 118,
+          "postprandial_glucose": 195,
+          "pulse": 79
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-19",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "113/73",
+          "fasting_glucose": 111,
+          "blood_sugar": 111,
+          "postprandial_glucose": 189,
+          "pulse": 67
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-24",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "111/73",
+          "fasting_glucose": 109,
+          "blood_sugar": 109,
+          "postprandial_glucose": 178,
+          "pulse": 69
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-04",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "122/72",
+          "fasting_glucose": 100,
+          "blood_sugar": 100,
+          "postprandial_glucose": 189,
+          "pulse": 70
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "W2_trend",
+      "difficulty": "hard",
+      "decisive_factor": "공복혈당 100→123 우상향 추세(최신 123<126이라 단발로는 정상) → 조절 악화 추세",
+      "factor_source": "만성질환 조절 추세",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD2-W2-0008",
+    "name": "송현숙",
+    "age": 84,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "메트포르민",
+      "니페디핀",
+      "아토르바스타틴"
+    ],
+    "medication_adherence_days": 26,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-04",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "126/77",
+          "fasting_glucose": 108,
+          "blood_sugar": 108,
+          "pulse": 62
+        },
+        "notes": "자가 혈압측정 꾸준히 기록, 대체로 안정적이라 함.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-03",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "121/72",
+          "fasting_glucose": 103,
+          "blood_sugar": 103,
+          "pulse": 67
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-08",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "118/76",
+          "fasting_glucose": 117,
+          "blood_sugar": 117,
+          "pulse": 80
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-01-11",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "114/78",
+          "fasting_glucose": 107,
+          "blood_sugar": 107,
+          "pulse": 81
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2025-12-20",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "109/73",
+          "fasting_glucose": 101,
+          "blood_sugar": 101,
+          "pulse": 71
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "W2_trend",
+      "difficulty": "hard",
+      "decisive_factor": "수축기혈압 109→126 우상향 추세(최신 126<130이라 단발로는 정상) → 조절 악화 추세",
+      "factor_source": "만성질환 조절 추세",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD2-W2-0009",
+    "name": "한길동",
+    "age": 82,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "메트포르민",
+      "에포니디핀",
+      "심바스타틴"
+    ],
+    "medication_adherence_days": 29,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-16",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "129/74",
+          "fasting_glucose": 106,
+          "blood_sugar": 106,
+          "pulse": 63
+        },
+        "notes": "손주 돌보느라 바쁘지만 컨디션은 괜찮다고 진술.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-21",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "126/73",
+          "fasting_glucose": 115,
+          "blood_sugar": 115,
+          "pulse": 81
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-24",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "121/73",
+          "fasting_glucose": 104,
+          "blood_sugar": 104,
+          "pulse": 76
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-01",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "117/76",
+          "fasting_glucose": 101,
+          "blood_sugar": 101,
+          "pulse": 62
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2025-12-30",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "112/73",
+          "fasting_glucose": 113,
+          "blood_sugar": 113,
+          "pulse": 78
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "W2_trend",
+      "difficulty": "hard",
+      "decisive_factor": "수축기혈압 112→129 우상향 추세(최신 129<130이라 단발로는 정상) → 조절 악화 추세",
+      "factor_source": "만성질환 조절 추세",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD2-W2-0010",
+    "name": "송순옥",
+    "age": 81,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "메트포르민",
+      "에포니디핀",
+      "로수바스타틴"
+    ],
+    "medication_adherence_days": 22,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-22",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "129/74",
+          "fasting_glucose": 106,
+          "blood_sugar": 106,
+          "pulse": 63
+        },
+        "notes": "자가 혈압측정 꾸준히 기록, 대체로 안정적이라 함.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-27",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "126/73",
+          "fasting_glucose": 112,
+          "blood_sugar": 112,
+          "pulse": 80
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-06",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "122/77",
+          "fasting_glucose": 101,
+          "blood_sugar": 101,
+          "pulse": 72
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-01-30",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "117/76",
+          "fasting_glucose": 118,
+          "blood_sugar": 118,
+          "pulse": 67
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-01-05",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "113/75",
+          "fasting_glucose": 112,
+          "blood_sugar": 112,
+          "pulse": 68
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "W2_trend",
+      "difficulty": "hard",
+      "decisive_factor": "수축기혈압 113→129 우상향 추세(최신 129<130이라 단발로는 정상) → 조절 악화 추세",
+      "factor_source": "만성질환 조절 추세",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD2-W2-0011",
+    "name": "이미경",
+    "age": 79,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "메트포르민",
+      "에포니디핀",
+      "로수바스타틴"
+    ],
+    "medication_adherence_days": 24,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-10",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "128/78",
+          "fasting_glucose": 115,
+          "blood_sugar": 115,
+          "pulse": 68
+        },
+        "notes": "지난달 독감 예방접종 완료, 금연 6개월째 유지.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-17",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "124/76",
+          "fasting_glucose": 112,
+          "blood_sugar": 112,
+          "pulse": 75
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-15",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "120/72",
+          "fasting_glucose": 101,
+          "blood_sugar": 101,
+          "pulse": 70
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-01-22",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "116/74",
+          "fasting_glucose": 108,
+          "blood_sugar": 108,
+          "pulse": 81
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2025-12-16",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "113/72",
+          "fasting_glucose": 116,
+          "blood_sugar": 116,
+          "pulse": 67
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "W2_trend",
+      "difficulty": "hard",
+      "decisive_factor": "수축기혈압 113→128 우상향 추세(최신 128<130이라 단발로는 정상) → 조절 악화 추세",
+      "factor_source": "만성질환 조절 추세",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD2-W2-0012",
+    "name": "류병철",
+    "age": 72,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "메트포르민",
+      "에포니디핀",
+      "로수바스타틴"
+    ],
+    "medication_adherence_days": 27,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-05-02",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "124/74",
+          "fasting_glucose": 125,
+          "blood_sugar": 125,
+          "postprandial_glucose": 166,
+          "pulse": 71
+        },
+        "notes": "산책을 매일 30분씩 한다고 자랑스럽게 말함.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-04-07",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "120/73",
+          "fasting_glucose": 121,
+          "blood_sugar": 121,
+          "postprandial_glucose": 172,
+          "pulse": 77
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-17",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "109/67",
+          "fasting_glucose": 113,
+          "blood_sugar": 113,
+          "postprandial_glucose": 169,
+          "pulse": 78
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-27",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "127/66",
+          "fasting_glucose": 109,
+          "blood_sugar": 109,
+          "postprandial_glucose": 166,
+          "pulse": 68
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-01-30",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "117/70",
+          "fasting_glucose": 104,
+          "blood_sugar": 104,
+          "postprandial_glucose": 178,
+          "pulse": 77
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "W2_trend",
+      "difficulty": "hard",
+      "decisive_factor": "공복혈당 104→125 우상향 추세(최신 125<126이라 단발로는 정상) → 조절 악화 추세",
+      "factor_source": "만성질환 조절 추세",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD2-W2-0013",
+    "name": "안성진",
+    "age": 83,
+    "gender": "M",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "메트포르민",
+      "에포니디핀",
+      "아토르바스타틴"
+    ],
+    "medication_adherence_days": 29,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-27",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "129/74",
+          "fasting_glucose": 111,
+          "blood_sugar": 111,
+          "pulse": 73
+        },
+        "notes": "손주 돌보느라 바쁘지만 컨디션은 괜찮다고 진술.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-04-01",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "124/76",
+          "fasting_glucose": 106,
+          "blood_sugar": 106,
+          "pulse": 66
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-25",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "121/72",
+          "fasting_glucose": 100,
+          "blood_sugar": 100,
+          "pulse": 82
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-01-24",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "118/75",
+          "fasting_glucose": 118,
+          "blood_sugar": 118,
+          "pulse": 62
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2025-12-25",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "115/78",
+          "fasting_glucose": 109,
+          "blood_sugar": 109,
+          "pulse": 64
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "W2_trend",
+      "difficulty": "hard",
+      "decisive_factor": "수축기혈압 115→129 우상향 추세(최신 129<130이라 단발로는 정상) → 조절 악화 추세",
+      "factor_source": "만성질환 조절 추세",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD2-W2-0014",
+    "name": "오광수",
+    "age": 69,
+    "gender": "M",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "메트포르민",
+      "에포니디핀",
+      "로수바스타틴"
+    ],
+    "medication_adherence_days": 26,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-05-03",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "113/78",
+          "fasting_glucose": 123,
+          "blood_sugar": 123,
+          "postprandial_glucose": 177,
+          "pulse": 68
+        },
+        "notes": "지난달 독감 예방접종 완료, 금연 6개월째 유지.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-04-03",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "123/76",
+          "fasting_glucose": 118,
+          "blood_sugar": 118,
+          "postprandial_glucose": 170,
+          "pulse": 73
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-01",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "115/72",
+          "fasting_glucose": 111,
+          "blood_sugar": 111,
+          "postprandial_glucose": 167,
+          "pulse": 72
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-10",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "121/76",
+          "fasting_glucose": 107,
+          "blood_sugar": 107,
+          "postprandial_glucose": 169,
+          "pulse": 77
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-01-08",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "126/68",
+          "fasting_glucose": 103,
+          "blood_sugar": 103,
+          "postprandial_glucose": 187,
+          "pulse": 79
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "W2_trend",
+      "difficulty": "hard",
+      "decisive_factor": "공복혈당 103→123 우상향 추세(최신 123<126이라 단발로는 정상) → 조절 악화 추세",
+      "factor_source": "만성질환 조절 추세",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD2-W2-0015",
+    "name": "김철수",
+    "age": 69,
+    "gender": "M",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "메트포르민",
+      "에포니디핀",
+      "로수바스타틴"
+    ],
+    "medication_adherence_days": 28,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-09",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "119/73",
+          "fasting_glucose": 119,
+          "blood_sugar": 119,
+          "postprandial_glucose": 174,
+          "pulse": 70
+        },
+        "notes": "산책을 매일 30분씩 한다고 자랑스럽게 말함.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-04",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "113/74",
+          "fasting_glucose": 115,
+          "blood_sugar": 115,
+          "postprandial_glucose": 180,
+          "pulse": 74
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-05",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "127/69",
+          "fasting_glucose": 110,
+          "blood_sugar": 110,
+          "postprandial_glucose": 195,
+          "pulse": 73
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-01-03",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "108/73",
+          "fasting_glucose": 103,
+          "blood_sugar": 103,
+          "postprandial_glucose": 187,
+          "pulse": 68
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2025-12-06",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "110/74",
+          "fasting_glucose": 98,
+          "blood_sugar": 98,
+          "postprandial_glucose": 166,
+          "pulse": 81
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "W2_trend",
+      "difficulty": "hard",
+      "decisive_factor": "공복혈당 98→119 우상향 추세(최신 119<126이라 단발로는 정상) → 조절 악화 추세",
+      "factor_source": "만성질환 조절 추세",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD2-W2-0016",
+    "name": "신정자",
+    "age": 74,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "메트포르민",
+      "암로디핀",
+      "아토르바스타틴"
+    ],
+    "medication_adherence_days": 29,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-05-08",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "114/68",
+          "fasting_glucose": 123,
+          "blood_sugar": 123,
+          "postprandial_glucose": 172,
+          "pulse": 70
+        },
+        "notes": "지난달 독감 예방접종 완료, 금연 6개월째 유지.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-04-16",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "115/67",
+          "fasting_glucose": 118,
+          "blood_sugar": 118,
+          "postprandial_glucose": 181,
+          "pulse": 62
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-13",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "125/70",
+          "fasting_glucose": 114,
+          "blood_sugar": 114,
+          "postprandial_glucose": 165,
+          "pulse": 69
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-15",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "125/71",
+          "fasting_glucose": 108,
+          "blood_sugar": 108,
+          "postprandial_glucose": 192,
+          "pulse": 82
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-01-19",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "125/65",
+          "fasting_glucose": 100,
+          "blood_sugar": 100,
+          "postprandial_glucose": 184,
+          "pulse": 79
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "W2_trend",
+      "difficulty": "hard",
+      "decisive_factor": "공복혈당 100→123 우상향 추세(최신 123<126이라 단발로는 정상) → 조절 악화 추세",
+      "factor_source": "만성질환 조절 추세",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD2-W2-0017",
+    "name": "최순자",
+    "age": 76,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "메트포르민",
+      "니페디핀",
+      "로수바스타틴"
+    ],
+    "medication_adherence_days": 28,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-30",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "128/77",
+          "fasting_glucose": 117,
+          "blood_sugar": 117,
+          "pulse": 77
+        },
+        "notes": "혈압약 잘 챙겨 드시고 식사도 규칙적이라고 함.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-04-07",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "124/73",
+          "fasting_glucose": 107,
+          "blood_sugar": 107,
+          "pulse": 73
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-10",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "120/74",
+          "fasting_glucose": 105,
+          "blood_sugar": 105,
+          "pulse": 78
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-01",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "116/77",
+          "fasting_glucose": 104,
+          "blood_sugar": 104,
+          "pulse": 64
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2025-12-30",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "112/72",
+          "fasting_glucose": 103,
+          "blood_sugar": 103,
+          "pulse": 71
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "W2_trend",
+      "difficulty": "hard",
+      "decisive_factor": "수축기혈압 112→128 우상향 추세(최신 128<130이라 단발로는 정상) → 조절 악화 추세",
+      "factor_source": "만성질환 조절 추세",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD2-W2-0018",
+    "name": "안광수",
+    "age": 81,
+    "gender": "M",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "메트포르민",
+      "암로디핀",
+      "로수바스타틴"
+    ],
+    "medication_adherence_days": 28,
+    "regular_care": false,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-18",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "128/73",
+          "fasting_glucose": 110,
+          "blood_sugar": 110,
+          "pulse": 68
+        },
+        "notes": "손주 돌보느라 바쁘지만 컨디션은 괜찮다고 진술.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-23",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "124/78",
+          "fasting_glucose": 118,
+          "blood_sugar": 118,
+          "pulse": 66
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-21",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "119/76",
+          "fasting_glucose": 113,
+          "blood_sugar": 113,
+          "pulse": 82
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-01-18",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "115/77",
+          "fasting_glucose": 104,
+          "blood_sugar": 104,
+          "pulse": 81
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2025-12-19",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "112/77",
+          "fasting_glucose": 108,
+          "blood_sugar": 108,
+          "pulse": 67
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "W2_trend",
+      "difficulty": "hard",
+      "decisive_factor": "수축기혈압 112→128 우상향 추세(최신 128<130이라 단발로는 정상) → 조절 악화 추세",
+      "factor_source": "만성질환 조절 추세",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD2-W2-0019",
+    "name": "홍광수",
+    "age": 75,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "메트포르민",
+      "암로디핀",
+      "심바스타틴"
+    ],
+    "medication_adherence_days": 24,
+    "regular_care": false,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-03",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "111/77",
+          "fasting_glucose": 124,
+          "blood_sugar": 124,
+          "postprandial_glucose": 166,
+          "pulse": 68
+        },
+        "notes": "지난달 독감 예방접종 완료, 금연 6개월째 유지.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-12",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "117/69",
+          "fasting_glucose": 119,
+          "blood_sugar": 119,
+          "postprandial_glucose": 188,
+          "pulse": 79
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-14",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "111/70",
+          "fasting_glucose": 114,
+          "blood_sugar": 114,
+          "postprandial_glucose": 175,
+          "pulse": 62
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-01-19",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "125/77",
+          "fasting_glucose": 110,
+          "blood_sugar": 110,
+          "postprandial_glucose": 180,
+          "pulse": 67
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2025-12-19",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "119/65",
+          "fasting_glucose": 104,
+          "blood_sugar": 104,
+          "postprandial_glucose": 174,
+          "pulse": 76
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "W2_trend",
+      "difficulty": "hard",
+      "decisive_factor": "공복혈당 104→124 우상향 추세(최신 124<126이라 단발로는 정상) → 조절 악화 추세",
+      "factor_source": "만성질환 조절 추세",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD2-W2-0020",
+    "name": "홍만수",
+    "age": 70,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "메트포르민",
+      "니페디핀",
+      "아토르바스타틴"
+    ],
+    "medication_adherence_days": 25,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-12",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "129/74",
+          "fasting_glucose": 118,
+          "blood_sugar": 118,
+          "pulse": 80
+        },
+        "notes": "지난달 독감 예방접종 완료, 금연 6개월째 유지.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-20",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "126/73",
+          "fasting_glucose": 108,
+          "blood_sugar": 108,
+          "pulse": 82
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-27",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "122/75",
+          "fasting_glucose": 108,
+          "blood_sugar": 108,
+          "pulse": 72
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-01-23",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "117/73",
+          "fasting_glucose": 102,
+          "blood_sugar": 102,
+          "pulse": 77
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2025-12-28",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "115/73",
+          "fasting_glucose": 111,
+          "blood_sugar": 111,
+          "pulse": 79
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "W2_trend",
+      "difficulty": "hard",
+      "decisive_factor": "수축기혈압 115→129 우상향 추세(최신 129<130이라 단발로는 정상) → 조절 악화 추세",
+      "factor_source": "만성질환 조절 추세",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD2-W2-0021",
+    "name": "정정자",
+    "age": 66,
+    "gender": "M",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "메트포르민",
+      "에포니디핀",
+      "심바스타틴"
+    ],
+    "medication_adherence_days": 23,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-10",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "114/72",
+          "fasting_glucose": 124,
+          "blood_sugar": 124,
+          "postprandial_glucose": 184,
+          "pulse": 81
+        },
+        "notes": "지난달 독감 예방접종 완료, 금연 6개월째 유지.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-19",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "116/68",
+          "fasting_glucose": 119,
+          "blood_sugar": 119,
+          "postprandial_glucose": 171,
+          "pulse": 71
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-23",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "115/76",
+          "fasting_glucose": 112,
+          "blood_sugar": 112,
+          "postprandial_glucose": 179,
+          "pulse": 80
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-01-23",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "109/66",
+          "fasting_glucose": 106,
+          "blood_sugar": 106,
+          "postprandial_glucose": 192,
+          "pulse": 62
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2025-12-21",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "113/72",
+          "fasting_glucose": 105,
+          "blood_sugar": 105,
+          "postprandial_glucose": 168,
+          "pulse": 64
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "W2_trend",
+      "difficulty": "hard",
+      "decisive_factor": "공복혈당 105→124 우상향 추세(최신 124<126이라 단발로는 정상) → 조절 악화 추세",
+      "factor_source": "만성질환 조절 추세",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD2-W2-0022",
+    "name": "송순옥",
+    "age": 68,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "메트포르민",
+      "니페디핀",
+      "아토르바스타틴"
+    ],
+    "medication_adherence_days": 22,
+    "regular_care": false,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-17",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "129/75",
+          "fasting_glucose": 112,
+          "blood_sugar": 112,
+          "pulse": 75
+        },
+        "notes": "자가 혈압측정 꾸준히 기록, 대체로 안정적이라 함.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-30",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "125/74",
+          "fasting_glucose": 100,
+          "blood_sugar": 100,
+          "pulse": 62
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-24",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "120/76",
+          "fasting_glucose": 104,
+          "blood_sugar": 104,
+          "pulse": 69
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-01-29",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "116/74",
+          "fasting_glucose": 112,
+          "blood_sugar": 112,
+          "pulse": 73
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-01-04",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "115/76",
+          "fasting_glucose": 108,
+          "blood_sugar": 108,
+          "pulse": 73
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "W2_trend",
+      "difficulty": "hard",
+      "decisive_factor": "수축기혈압 115→129 우상향 추세(최신 129<130이라 단발로는 정상) → 조절 악화 추세",
+      "factor_source": "만성질환 조절 추세",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD2-W2-0023",
+    "name": "장정자",
+    "age": 86,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "메트포르민",
+      "에포니디핀",
+      "심바스타틴"
+    ],
+    "medication_adherence_days": 23,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-03-24",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "128/72",
+          "fasting_glucose": 104,
+          "blood_sugar": 104,
+          "pulse": 66
+        },
+        "notes": "산책을 매일 30분씩 한다고 자랑스럽게 말함.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-01",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "123/74",
+          "fasting_glucose": 111,
+          "blood_sugar": 111,
+          "pulse": 67
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-05",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "121/75",
+          "fasting_glucose": 100,
+          "blood_sugar": 100,
+          "pulse": 62
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-01-17",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "117/75",
+          "fasting_glucose": 116,
+          "blood_sugar": 116,
+          "pulse": 63
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2025-12-26",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "112/75",
+          "fasting_glucose": 103,
+          "blood_sugar": 103,
+          "pulse": 72
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "W2_trend",
+      "difficulty": "hard",
+      "decisive_factor": "수축기혈압 112→128 우상향 추세(최신 128<130이라 단발로는 정상) → 조절 악화 추세",
+      "factor_source": "만성질환 조절 추세",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD2-W2-0024",
+    "name": "조순자",
+    "age": 71,
+    "gender": "M",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "메트포르민",
+      "에포니디핀",
+      "로수바스타틴"
+    ],
+    "medication_adherence_days": 23,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-13",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "119/72",
+          "fasting_glucose": 122,
+          "blood_sugar": 122,
+          "postprandial_glucose": 165,
+          "pulse": 66
+        },
+        "notes": "혈압약 잘 챙겨 드시고 식사도 규칙적이라고 함.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-11",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "120/78",
+          "fasting_glucose": 118,
+          "blood_sugar": 118,
+          "postprandial_glucose": 185,
+          "pulse": 63
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-14",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "114/73",
+          "fasting_glucose": 110,
+          "blood_sugar": 110,
+          "postprandial_glucose": 184,
+          "pulse": 73
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-01-12",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "122/77",
+          "fasting_glucose": 106,
+          "blood_sugar": 106,
+          "postprandial_glucose": 187,
+          "pulse": 82
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2025-12-12",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "121/72",
+          "fasting_glucose": 102,
+          "blood_sugar": 102,
+          "postprandial_glucose": 183,
+          "pulse": 65
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "W2_trend",
+      "difficulty": "hard",
+      "decisive_factor": "공복혈당 102→122 우상향 추세(최신 122<126이라 단발로는 정상) → 조절 악화 추세",
+      "factor_source": "만성질환 조절 추세",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD2-W2-0025",
+    "name": "권만수",
+    "age": 80,
+    "gender": "M",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "메트포르민",
+      "에포니디핀",
+      "아토르바스타틴"
+    ],
+    "medication_adherence_days": 30,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-08",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "128/74",
+          "fasting_glucose": 104,
+          "blood_sugar": 104,
+          "pulse": 79
+        },
+        "notes": "자가 혈압측정 꾸준히 기록, 대체로 안정적이라 함.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-20",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "123/75",
+          "fasting_glucose": 110,
+          "blood_sugar": 110,
+          "pulse": 70
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-14",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "121/77",
+          "fasting_glucose": 110,
+          "blood_sugar": 110,
+          "pulse": 68
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-01-07",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "115/77",
+          "fasting_glucose": 115,
+          "blood_sugar": 115,
+          "pulse": 79
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2025-12-06",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "114/75",
+          "fasting_glucose": 101,
+          "blood_sugar": 101,
+          "pulse": 66
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "W2_trend",
+      "difficulty": "hard",
+      "decisive_factor": "수축기혈압 114→128 우상향 추세(최신 128<130이라 단발로는 정상) → 조절 악화 추세",
+      "factor_source": "만성질환 조절 추세",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD2-W2-0026",
+    "name": "강병철",
+    "age": 70,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "메트포르민",
+      "암로디핀",
+      "로수바스타틴"
+    ],
+    "medication_adherence_days": 30,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-05-06",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "121/67",
+          "fasting_glucose": 123,
+          "blood_sugar": 123,
+          "postprandial_glucose": 180,
+          "pulse": 70
+        },
+        "notes": "혈압약 잘 챙겨 드시고 식사도 규칙적이라고 함.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-04-13",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "115/65",
+          "fasting_glucose": 118,
+          "blood_sugar": 118,
+          "postprandial_glucose": 168,
+          "pulse": 79
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-25",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "122/76",
+          "fasting_glucose": 113,
+          "blood_sugar": 113,
+          "postprandial_glucose": 189,
+          "pulse": 77
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-25",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "115/65",
+          "fasting_glucose": 105,
+          "blood_sugar": 105,
+          "postprandial_glucose": 190,
+          "pulse": 77
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-01-30",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "109/76",
+          "fasting_glucose": 104,
+          "blood_sugar": 104,
+          "postprandial_glucose": 192,
+          "pulse": 79
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "W2_trend",
+      "difficulty": "hard",
+      "decisive_factor": "공복혈당 104→123 우상향 추세(최신 123<126이라 단발로는 정상) → 조절 악화 추세",
+      "factor_source": "만성질환 조절 추세",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD2-W2-0027",
+    "name": "정춘자",
+    "age": 71,
+    "gender": "M",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "메트포르민",
+      "암로디핀",
+      "아토르바스타틴"
+    ],
+    "medication_adherence_days": 22,
+    "regular_care": false,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-22",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "126/72",
+          "fasting_glucose": 102,
+          "blood_sugar": 102,
+          "pulse": 82
+        },
+        "notes": "지난달 독감 예방접종 완료, 금연 6개월째 유지.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-04-01",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "121/73",
+          "fasting_glucose": 117,
+          "blood_sugar": 117,
+          "pulse": 82
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-01",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "117/74",
+          "fasting_glucose": 106,
+          "blood_sugar": 106,
+          "pulse": 79
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-06",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "114/77",
+          "fasting_glucose": 113,
+          "blood_sugar": 113,
+          "pulse": 74
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2025-12-31",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "109/72",
+          "fasting_glucose": 110,
+          "blood_sugar": 110,
+          "pulse": 72
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "W2_trend",
+      "difficulty": "hard",
+      "decisive_factor": "수축기혈압 109→126 우상향 추세(최신 126<130이라 단발로는 정상) → 조절 악화 추세",
+      "factor_source": "만성질환 조절 추세",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD2-W2-0028",
+    "name": "조성진",
+    "age": 72,
+    "gender": "M",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "메트포르민",
+      "암로디핀",
+      "로수바스타틴"
+    ],
+    "medication_adherence_days": 24,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-05-08",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "114/75",
+          "fasting_glucose": 123,
+          "blood_sugar": 123,
+          "postprandial_glucose": 187,
+          "pulse": 73
+        },
+        "notes": "산책을 매일 30분씩 한다고 자랑스럽게 말함.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-04-16",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "117/76",
+          "fasting_glucose": 118,
+          "blood_sugar": 118,
+          "postprandial_glucose": 178,
+          "pulse": 68
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-21",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "112/65",
+          "fasting_glucose": 113,
+          "blood_sugar": 113,
+          "postprandial_glucose": 185,
+          "pulse": 70
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-28",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "121/69",
+          "fasting_glucose": 109,
+          "blood_sugar": 109,
+          "postprandial_glucose": 191,
+          "pulse": 81
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-02",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "121/68",
+          "fasting_glucose": 104,
+          "blood_sugar": 104,
+          "postprandial_glucose": 179,
+          "pulse": 66
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "W2_trend",
+      "difficulty": "hard",
+      "decisive_factor": "공복혈당 104→123 우상향 추세(최신 123<126이라 단발로는 정상) → 조절 악화 추세",
+      "factor_source": "만성질환 조절 추세",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD2-W2-0029",
+    "name": "최춘자",
+    "age": 82,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "메트포르민",
+      "니페디핀",
+      "아토르바스타틴"
+    ],
+    "medication_adherence_days": 25,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-22",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "127/76",
+          "fasting_glucose": 107,
+          "blood_sugar": 107,
+          "pulse": 76
+        },
+        "notes": "손주 돌보느라 바쁘지만 컨디션은 괜찮다고 진술.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-04-01",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "123/77",
+          "fasting_glucose": 102,
+          "blood_sugar": 102,
+          "pulse": 73
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-05",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "119/75",
+          "fasting_glucose": 110,
+          "blood_sugar": 110,
+          "pulse": 71
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-13",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "116/76",
+          "fasting_glucose": 114,
+          "blood_sugar": 114,
+          "pulse": 70
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-01-06",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "110/74",
+          "fasting_glucose": 100,
+          "blood_sugar": 100,
+          "pulse": 81
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "W2_trend",
+      "difficulty": "hard",
+      "decisive_factor": "수축기혈압 110→127 우상향 추세(최신 127<130이라 단발로는 정상) → 조절 악화 추세",
+      "factor_source": "만성질환 조절 추세",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD2-W2-0030",
+    "name": "오금자",
+    "age": 84,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "메트포르민",
+      "에포니디핀",
+      "아토르바스타틴"
+    ],
+    "medication_adherence_days": 28,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-03-22",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "127/72",
+          "fasting_glucose": 118,
+          "blood_sugar": 118,
+          "pulse": 73
+        },
+        "notes": "산책을 매일 30분씩 한다고 자랑스럽게 말함.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-14",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "124/78",
+          "fasting_glucose": 100,
+          "blood_sugar": 100,
+          "pulse": 82
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-01-24",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "119/73",
+          "fasting_glucose": 115,
+          "blood_sugar": 115,
+          "pulse": 64
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2025-12-20",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "116/74",
+          "fasting_glucose": 105,
+          "blood_sugar": 105,
+          "pulse": 76
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2025-11-29",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "111/76",
+          "fasting_glucose": 110,
+          "blood_sugar": 110,
+          "pulse": 77
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "W2_trend",
+      "difficulty": "hard",
+      "decisive_factor": "수축기혈압 111→127 우상향 추세(최신 127<130이라 단발로는 정상) → 조절 악화 추세",
+      "factor_source": "만성질환 조절 추세",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD2-W2-0031",
+    "name": "윤순자",
+    "age": 78,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "메트포르민",
+      "에포니디핀",
+      "로수바스타틴"
+    ],
+    "medication_adherence_days": 30,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-05-06",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "127/72",
+          "fasting_glucose": 102,
+          "blood_sugar": 102,
+          "pulse": 62
+        },
+        "notes": "혈압약 잘 챙겨 드시고 식사도 규칙적이라고 함.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-04-04",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "123/73",
+          "fasting_glucose": 108,
+          "blood_sugar": 108,
+          "pulse": 77
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-25",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "119/78",
+          "fasting_glucose": 103,
+          "blood_sugar": 103,
+          "pulse": 75
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-01-26",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "116/75",
+          "fasting_glucose": 104,
+          "blood_sugar": 104,
+          "pulse": 62
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2025-12-19",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "110/74",
+          "fasting_glucose": 111,
+          "blood_sugar": 111,
+          "pulse": 62
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "W2_trend",
+      "difficulty": "hard",
+      "decisive_factor": "수축기혈압 110→127 우상향 추세(최신 127<130이라 단발로는 정상) → 조절 악화 추세",
+      "factor_source": "만성질환 조절 추세",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD2-W2-0032",
+    "name": "송상철",
+    "age": 83,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "메트포르민",
+      "암로디핀",
+      "로수바스타틴"
+    ],
+    "medication_adherence_days": 26,
+    "regular_care": false,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-05-06",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "128/76",
+          "fasting_glucose": 113,
+          "blood_sugar": 113,
+          "pulse": 76
+        },
+        "notes": "손주 돌보느라 바쁘지만 컨디션은 괜찮다고 진술.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-31",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "124/72",
+          "fasting_glucose": 106,
+          "blood_sugar": 106,
+          "pulse": 80
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-06",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "120/75",
+          "fasting_glucose": 105,
+          "blood_sugar": 105,
+          "pulse": 79
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-12",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "117/72",
+          "fasting_glucose": 114,
+          "blood_sugar": 114,
+          "pulse": 66
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-01-23",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "113/78",
+          "fasting_glucose": 103,
+          "blood_sugar": 103,
+          "pulse": 78
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "W2_trend",
+      "difficulty": "hard",
+      "decisive_factor": "수축기혈압 113→128 우상향 추세(최신 128<130이라 단발로는 정상) → 조절 악화 추세",
+      "factor_source": "만성질환 조절 추세",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD2-W2-0033",
+    "name": "류대호",
+    "age": 71,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "메트포르민",
+      "에포니디핀",
+      "심바스타틴"
+    ],
+    "medication_adherence_days": 23,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-26",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "126/76",
+          "fasting_glucose": 101,
+          "blood_sugar": 101,
+          "pulse": 74
+        },
+        "notes": "산책을 매일 30분씩 한다고 자랑스럽게 말함.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-04-04",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "122/75",
+          "fasting_glucose": 109,
+          "blood_sugar": 109,
+          "pulse": 64
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-14",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "119/73",
+          "fasting_glucose": 108,
+          "blood_sugar": 108,
+          "pulse": 79
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-12",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "114/72",
+          "fasting_glucose": 113,
+          "blood_sugar": 113,
+          "pulse": 72
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-01-20",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "110/75",
+          "fasting_glucose": 106,
+          "blood_sugar": 106,
+          "pulse": 82
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "W2_trend",
+      "difficulty": "hard",
+      "decisive_factor": "수축기혈압 110→126 우상향 추세(최신 126<130이라 단발로는 정상) → 조절 악화 추세",
+      "factor_source": "만성질환 조절 추세",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD2-W2-0034",
+    "name": "류대호",
+    "age": 69,
+    "gender": "M",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "메트포르민",
+      "에포니디핀",
+      "심바스타틴"
+    ],
+    "medication_adherence_days": 26,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-26",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "111/64",
+          "fasting_glucose": 123,
+          "blood_sugar": 123,
+          "postprandial_glucose": 174,
+          "pulse": 78
+        },
+        "notes": "산책을 매일 30분씩 한다고 자랑스럽게 말함.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-28",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "109/66",
+          "fasting_glucose": 117,
+          "blood_sugar": 117,
+          "postprandial_glucose": 181,
+          "pulse": 74
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-08",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "125/69",
+          "fasting_glucose": 111,
+          "blood_sugar": 111,
+          "postprandial_glucose": 177,
+          "pulse": 69
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-05",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "111/75",
+          "fasting_glucose": 107,
+          "blood_sugar": 107,
+          "postprandial_glucose": 176,
+          "pulse": 63
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-01-03",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "118/69",
+          "fasting_glucose": 101,
+          "blood_sugar": 101,
+          "postprandial_glucose": 180,
+          "pulse": 69
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "W2_trend",
+      "difficulty": "hard",
+      "decisive_factor": "공복혈당 101→123 우상향 추세(최신 123<126이라 단발로는 정상) → 조절 악화 추세",
+      "factor_source": "만성질환 조절 추세",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD2-W2-0035",
+    "name": "황재훈",
+    "age": 66,
+    "gender": "M",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "메트포르민",
+      "에포니디핀",
+      "아토르바스타틴"
+    ],
+    "medication_adherence_days": 23,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-25",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "124/76",
+          "fasting_glucose": 118,
+          "blood_sugar": 118,
+          "postprandial_glucose": 189,
+          "pulse": 73
+        },
+        "notes": "자가 혈압측정 꾸준히 기록, 대체로 안정적이라 함.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-27",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "109/77",
+          "fasting_glucose": 113,
+          "blood_sugar": 113,
+          "postprandial_glucose": 167,
+          "pulse": 68
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-18",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "116/73",
+          "fasting_glucose": 108,
+          "blood_sugar": 108,
+          "postprandial_glucose": 173,
+          "pulse": 75
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-01-20",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "119/70",
+          "fasting_glucose": 101,
+          "blood_sugar": 101,
+          "postprandial_glucose": 167,
+          "pulse": 71
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2025-12-24",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "126/74",
+          "fasting_glucose": 99,
+          "blood_sugar": 99,
+          "postprandial_glucose": 168,
+          "pulse": 64
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "W2_trend",
+      "difficulty": "hard",
+      "decisive_factor": "공복혈당 99→118 우상향 추세(최신 118<126이라 단발로는 정상) → 조절 악화 추세",
+      "factor_source": "만성질환 조절 추세",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD2-W2-0036",
+    "name": "장화자",
+    "age": 67,
+    "gender": "M",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "메트포르민",
+      "에포니디핀",
+      "로수바스타틴"
+    ],
+    "medication_adherence_days": 24,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-05-07",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "114/73",
+          "fasting_glucose": 120,
+          "blood_sugar": 120,
+          "postprandial_glucose": 182,
+          "pulse": 62
+        },
+        "notes": "혈압약 잘 챙겨 드시고 식사도 규칙적이라고 함.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-04-04",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "123/70",
+          "fasting_glucose": 115,
+          "blood_sugar": 115,
+          "postprandial_glucose": 175,
+          "pulse": 82
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-16",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "110/66",
+          "fasting_glucose": 111,
+          "blood_sugar": 111,
+          "postprandial_glucose": 190,
+          "pulse": 64
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-14",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "122/74",
+          "fasting_glucose": 102,
+          "blood_sugar": 102,
+          "postprandial_glucose": 189,
+          "pulse": 66
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-01-08",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "120/76",
+          "fasting_glucose": 96,
+          "blood_sugar": 96,
+          "postprandial_glucose": 179,
+          "pulse": 75
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "W2_trend",
+      "difficulty": "hard",
+      "decisive_factor": "공복혈당 96→120 우상향 추세(최신 120<126이라 단발로는 정상) → 조절 악화 추세",
+      "factor_source": "만성질환 조절 추세",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD2-W2-0037",
+    "name": "박말순",
+    "age": 77,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "메트포르민",
+      "니페디핀",
+      "심바스타틴"
+    ],
+    "medication_adherence_days": 23,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-21",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "116/71",
+          "fasting_glucose": 124,
+          "blood_sugar": 124,
+          "postprandial_glucose": 178,
+          "pulse": 63
+        },
+        "notes": "산책을 매일 30분씩 한다고 자랑스럽게 말함.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-14",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "121/78",
+          "fasting_glucose": 119,
+          "blood_sugar": 119,
+          "postprandial_glucose": 177,
+          "pulse": 68
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-07",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "123/71",
+          "fasting_glucose": 114,
+          "blood_sugar": 114,
+          "postprandial_glucose": 178,
+          "pulse": 74
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-01-17",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "124/76",
+          "fasting_glucose": 110,
+          "blood_sugar": 110,
+          "postprandial_glucose": 180,
+          "pulse": 65
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2025-12-24",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "125/75",
+          "fasting_glucose": 104,
+          "blood_sugar": 104,
+          "postprandial_glucose": 192,
+          "pulse": 67
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "W2_trend",
+      "difficulty": "hard",
+      "decisive_factor": "공복혈당 104→124 우상향 추세(최신 124<126이라 단발로는 정상) → 조절 악화 추세",
+      "factor_source": "만성질환 조절 추세",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD2-W2-0038",
+    "name": "김춘자",
+    "age": 71,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "메트포르민",
+      "니페디핀",
+      "아토르바스타틴"
+    ],
+    "medication_adherence_days": 28,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-04-12",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "123/67",
+          "fasting_glucose": 120,
+          "blood_sugar": 120,
+          "postprandial_glucose": 185,
+          "pulse": 70
+        },
+        "notes": "산책을 매일 30분씩 한다고 자랑스럽게 말함.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-07",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "119/75",
+          "fasting_glucose": 115,
+          "blood_sugar": 115,
+          "postprandial_glucose": 178,
+          "pulse": 80
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-01-30",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "109/68",
+          "fasting_glucose": 108,
+          "blood_sugar": 108,
+          "postprandial_glucose": 194,
+          "pulse": 64
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2025-12-29",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "116/70",
+          "fasting_glucose": 104,
+          "blood_sugar": 104,
+          "postprandial_glucose": 172,
+          "pulse": 68
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2025-11-30",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "121/78",
+          "fasting_glucose": 101,
+          "blood_sugar": 101,
+          "postprandial_glucose": 184,
+          "pulse": 64
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "W2_trend",
+      "difficulty": "hard",
+      "decisive_factor": "공복혈당 101→120 우상향 추세(최신 120<126이라 단발로는 정상) → 조절 악화 추세",
+      "factor_source": "만성질환 조절 추세",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD2-W2-0039",
+    "name": "신대호",
+    "age": 80,
+    "gender": "F",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "메트포르민",
+      "에포니디핀",
+      "아토르바스타틴"
+    ],
+    "medication_adherence_days": 23,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-03-28",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "127/73",
+          "fasting_glucose": 114,
+          "blood_sugar": 114,
+          "pulse": 73
+        },
+        "notes": "손주 돌보느라 바쁘지만 컨디션은 괜찮다고 진술.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-01",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "122/78",
+          "fasting_glucose": 109,
+          "blood_sugar": 109,
+          "pulse": 65
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-01-26",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "119/73",
+          "fasting_glucose": 104,
+          "blood_sugar": 104,
+          "pulse": 68
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-01-04",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "115/73",
+          "fasting_glucose": 117,
+          "blood_sugar": 117,
+          "pulse": 81
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2025-12-16",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "110/74",
+          "fasting_glucose": 103,
+          "blood_sugar": 103,
+          "pulse": 67
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "W2_trend",
+      "difficulty": "hard",
+      "decisive_factor": "수축기혈압 110→127 우상향 추세(최신 127<130이라 단발로는 정상) → 조절 악화 추세",
+      "factor_source": "만성질환 조절 추세",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  },
+  {
+    "patient_id": "HARD2-W2-0040",
+    "name": "오성진",
+    "age": 76,
+    "gender": "M",
+    "conditions": [
+      "당뇨병",
+      "고혈압"
+    ],
+    "medications": [
+      "메트포르민",
+      "에포니디핀",
+      "로수바스타틴"
+    ],
+    "medication_adherence_days": 26,
+    "regular_care": true,
+    "diagnoses": [
+      {
+        "name": "당뇨병",
+        "diagnosed": true,
+        "treated": true
+      },
+      {
+        "name": "고혈압",
+        "diagnosed": true,
+        "treated": true
+      }
+    ],
+    "visit_records": [
+      {
+        "visit_date": "2026-05-03",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "125/66",
+          "fasting_glucose": 122,
+          "blood_sugar": 122,
+          "postprandial_glucose": 173,
+          "pulse": 77
+        },
+        "notes": "손주 돌보느라 바쁘지만 컨디션은 괜찮다고 진술.",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-04-08",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "110/68",
+          "fasting_glucose": 116,
+          "blood_sugar": 116,
+          "postprandial_glucose": 165,
+          "pulse": 71
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-03-10",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "116/72",
+          "fasting_glucose": 111,
+          "blood_sugar": 111,
+          "postprandial_glucose": 169,
+          "pulse": 74
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-02-20",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "113/77",
+          "fasting_glucose": 106,
+          "blood_sugar": 106,
+          "postprandial_glucose": 192,
+          "pulse": 79
+        },
+        "notes": "",
+        "symptoms": []
+      },
+      {
+        "visit_date": "2026-01-28",
+        "chief_complaint": "정기 재진",
+        "vital_signs": {
+          "blood_pressure": "112/73",
+          "fasting_glucose": 101,
+          "blood_sugar": 101,
+          "postprandial_glucose": 167,
+          "pulse": 79
+        },
+        "notes": "",
+        "symptoms": []
+      }
+    ],
+    "overrides": [],
+    "_eval": {
+      "label": "대면",
+      "stratum": "edge",
+      "archetype": "W2_trend",
+      "difficulty": "hard",
+      "decisive_factor": "공복혈당 101→122 우상향 추세(최신 122<126이라 단발로는 정상) → 조절 악화 추세",
+      "factor_source": "만성질환 조절 추세",
+      "baseline_should_miss": true,
+      "comparison_axis": 1,
+      "implicit": true,
+      "single_llm_missed": true
+    }
+  }
+]

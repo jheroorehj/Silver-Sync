@@ -1,12 +1,35 @@
+# Secrets
 .env
-.venv/
-.idea/
+.env.*
+!.env.example
+*.pem
+*.key
+*credentials*
+
+# Python
 __pycache__/
-*.pdf
-*.csv
-*.tar.gz
-*.zip
-data/
-data_csv/
-data_except/
-data_plus/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual envs
+.venv/
+venv/
+env/
+ENV/
+
+# IDE
+.idea/
+.vscode/
+.claude/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs (build/runtime - keep agent/log/ which is meaningful run output)
+*.log
+
+# 참고용 안내서 PDF (저작권+용량)
+eval_refs/
