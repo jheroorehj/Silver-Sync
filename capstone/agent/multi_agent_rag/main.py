@@ -53,6 +53,11 @@ def main() -> None:
     print("\n[판정 근거]")
     print(judge.rationale)
 
+    if result.guardian.medication_alerts:
+        print("\n" + "🚨" * 3 + " [DUR 위험 알림] " + "🚨" * 3)
+        for alert in result.guardian.medication_alerts:
+            print(f"- {alert}")
+
     if result.guardian.reasons:
         print("\n[Guardian 알림]")
         for reason in result.guardian.reasons:

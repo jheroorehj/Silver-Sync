@@ -1,48 +1,17 @@
 from __future__ import annotations
 import os
 import sys
-
-# 1. 람다 읽기 전용 에러 원천 차단
-os.environ["PYTHONDONTWRITEBYTECODE"] = "1" 
-os.environ["TRANSFORMERS_CACHE"] = "/tmp"
-os.environ["HF_HOME"] = "/tmp"
-
-print("--- [디버그] PyTorch Import 시도 ---")
-try:
-    import torch
-    print(f"✅ PyTorch 로드 성공: {torch.__version__}")
-except Exception as e:
-    print(f"🚨 PyTorch 로드 실패: {e}")
-    sys.exit(1) # 여기서 강제로 멈춥니다!
-
-print("--- [디버그] SentenceTransformers Import 시도 ---")
-try:
-    import sentence_transformers
-    print(f"✅ SentenceTransformers 로드 성공: {sentence_transformers.__version__}")
-except Exception as e:
-    print(f"🚨 SentenceTransformers 로드 실패: {e}")
-    sys.exit(1)
-
-# --- (이 아래부터 원래 작성하신 import json 등 기존 코드 시작) ---
 import json
-#import os
 import boto3
 from datetime import datetime
 from decimal import Decimal
 
-from agent.multi_agent_rag.pipeline import MultiAgentRevisitPipeline
-from agent.multi_agent_rag.schemas import to_jsonable
-from agent.multi_agent_rag.dynamo_repository import DynamoRepository
+# 람다 환경 최적화 설정 (PYTHONDONTWRITEBYTECODE는 .zip 배포에도 유효)
+os.environ["PYTHONDONTWRITEBYTECODE"] = "1" 
 
-print("Initializing MultiAgentRevisitPipeline for Lambda...")
-repository = DynamoRepository()
-pipeline = MultiAgentRevisitPipeline(repository=repository)
-s3_client = boto3.client("s3")
-
-RESULT_BUCKET = os.environ.get("S3_RESULT_BUCKET", "silversync-results-379995600109")
-print(f"Pipeline initialized. Target S3 Bucket: {RESULT_BUCKET}")
 
 def convert_decimal(obj):
+    """DynamoDB에서 읽어온 Decimal 객체들을 파이썬 내장 데이터 타입으로 안전하게 변환합니다."""
     if isinstance(obj, list):
         return [convert_decimal(i) for i in obj]
     elif isinstance(obj, dict):
@@ -51,45 +20,75 @@ def convert_decimal(obj):
         return float(obj) if obj % 1 else int(obj)
     return obj
 
+
 class DecimalEncoder(json.JSONEncoder):
+    """JSON 직렬화 중 발생할 수 있는 Decimal 에러를 방지하는 엔코더입니다."""
     def default(self, obj):
         if isinstance(obj, Decimal):
             return float(obj) if obj % 1 else int(obj)
         return super(DecimalEncoder, self).default(obj)
 
+# --- (이 아래부터 원래 작성하신 import json 등 기존 코드 시작) ---
+
+from agent.multi_agent_rag.pipeline import MultiAgentRevisitPipeline
+from agent.multi_agent_rag.schemas import to_jsonable
+from agent.multi_agent_rag.dynamo_repository import DynamoRepository
+
+print("Initializing MultiAgentRevisitPipeline for Lambda...")
+# 리포지토리와 파이프라인 인스턴스를 핸들러 외부(Global)에서 한 번만 생성하여 Warm Start 효율 극대화
+repository = DynamoRepository()
+pipeline = MultiAgentRevisitPipeline(repository=repository)
+s3_client = boto3.client("s3")
+
+RESULT_BUCKET = os.environ.get("S3_RESULT_BUCKET", "silversync-results-YOUR_AWS_ACCOUNT_ID") # YOUR_AWS_ACCOUNT_ID로 변경
+print(f"Pipeline initialized. Target S3 Bucket: {RESULT_BUCKET}")
+
 def handler(event: dict, context) -> dict:
     print(f"Received event: {json.dumps(event)}")
 
     try:
-        body = json.loads(event.get("body", "{}"))
+        # API Gateway 연동 또는 직접 호출 이벤트에 따른 바디 파싱 리스크 방어
+        if "body" in event and isinstance(event["body"], str):
+            body = json.loads(event["body"])
+        else:
+            body = event.get("body", event)  # 직결 호출일 경우 event 자체가 body일 수 있음
+
         patient_id = body.get("patient_id")
 
         if not patient_id:
             return {
                 "statusCode": 400,
+                "headers": {
+                    "Content-Type": "application/json",
+                    "Access-Control-Allow-Origin": "*"
+                },
                 "body": json.dumps({"error": "patient_id is required in the request body"}),
             }
 
-        # 🚨 [수술 완료] pipeline.py 명세서에 적힌 그대로 'patient_search' 이름표를 붙여줍니다!
+        # 멀티 에이전트 재진 추론 파이프라인 구동
         result = pipeline.run(patient_search=patient_id)
         
+        # 소수점 데이터 정제 및 JSON 변환
         cleaned_result = convert_decimal(result)
         json_result = to_jsonable(cleaned_result)
 
+        # 저장용 타임스탬프 파일명 생성
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         file_key = f"results/{patient_id}/{timestamp}.json"
         
+        # 히스토리 추적을 위해 S3 버킷에 추론 결과 업로드
         try:
             s3_client.put_object(
                 Bucket=RESULT_BUCKET,
                 Key=file_key,
                 Body=json.dumps(json_result, cls=DecimalEncoder, ensure_ascii=False, indent=2),
-                ContentType="application/json"
+                ContentType="application/json; charset=utf-8"
             )
             print(f"Successfully uploaded result to s3://{RESULT_BUCKET}/{file_key}")
         except Exception as s3_err:
-            print(f"S3 Upload Failed: {s3_err}")
+            print(f"🚨 S3 Upload Failed: {s3_err}")
 
+        # 정상 응답 반환 (CORS 헤더 포함)
         return {
             "statusCode": 200,
             "headers": {
@@ -105,8 +104,12 @@ def handler(event: dict, context) -> dict:
 
     except Exception as e:
         error_message = f"An internal server error occurred: {type(e).__name__}: {e}"
-        print(error_message)
+        print(f"🚨 Handler Exception: {error_message}")
         return {
             "statusCode": 500,
+            "headers": {
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*"
+            },
             "body": json.dumps({"error": error_message}),
         }

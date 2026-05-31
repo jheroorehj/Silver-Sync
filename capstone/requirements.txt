@@ -1,16 +1,5 @@
-langchain-ollama
-langchain-huggingface
-langchain-text-splitters
-pandas
-PyMuPDF
-pypdf
-sentence-transformers
-requests
-tiktoken
-tqdm
 boto3
-langchain
-supabase
+requests
 pydantic
 python-dotenv
 httpx
