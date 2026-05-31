@@ -1,79 +1,47 @@
-# Silver-Sync
+# 🛠 SilverSync RAG Engine (`ss_service_2.py`)
 
-고령 고혈압·당뇨 환자 추적관찰 자동 스크리닝 시스템.
-강원도 지역 65세 이상 만성질환 환자를 대상으로 AI 멀티에이전트가 생성한 트리아지 결과를 의료진에게 제공하고, 합병증 위험도를 시각화하는 의료 협업 플랫폼 데모입니다.
-
----
-
-## 프로젝트 구조
-
-| 폴더 | 설명 |
-|------|------|
-| `FE_DEMO/` | 의사·간호사·환자 역할별 뷰를 포함한 프론트엔드 데모 |
-| `genticsimlaw-flowchart/` | 유전 심폐소생술 법 RAG 처리 흐름 Mermaid 다이어그램 시각화 |
+`ss_service_2.py`는 SilverSync 프로젝트의 핵심 백엔드 로직으로, **검색 증강 생성(RAG, Retrieval-Augmented Generation)** 파이프라인을 구현한 엔진입니다. 
 
 ---
 
-## 빠른 시작
+## 🏗 System Architecture
 
-각 폴더로 이동 후 실행합니다.
-
-```bash
-# FE 데모
-cd FE_DEMO
-npm install
-npm run dev   # → http://localhost:3000
-
-# 플로우차트
-cd genticsimlaw-flowchart
-npm install
-npm run dev   # → http://localhost:3000
-```
-
-자세한 내용은 각 폴더의 `README.md`를 참고하세요.
+1. **Query Embedding**: 사용자의 자연어 질문을 `SentenceTransformer`를 통해 768차원의 고밀도 벡터로 변환합니다.
+2. **Vector Retrieval**: Supabase의 `pgvector` 기반 RPC 함수(`match_knowledge_emergency`)를 호출하여 `HNSW` 인덱스로 최적화된 고속 유사도 검색을 수행합니다.
+3. **Prompt Augmentation**: 검색된 상위 K개의 텍스트 컨텍스트를 시스템 프롬프트에 동적으로 삽입합니다.
+4. **Answer Generation**: Ollama 서버에서 구동되는 `gemma:4b` 모델이 컨텍스트에 한정된 정답을 생성하여 Hallucination(환각 현상)을 최소화합니다.
 
 ---
 
-## FE_DEMO 주요 구현 현황
+## 🔍 핵심 기능 (Core Functions)
 
-### 역할별 뷰
+### 1. `search_knowledge`
+- **목적**: Supabase 데이터베이스 내 의료 지침 검색.
+- **특징**: `cosine similarity`를 사용하여 질의와 가장 연관성이 높은 [지침] 데이터 추출.
+- **최적화**: 임계값(Threshold) 설정을 통해 연관성이 낮은 데이터의 간섭을 차단.
 
-| 탭 | 주요 기능 |
-|----|---------|
-| 의사 | AI 분석 결과, SOAP 노트, CGM 인트라데이 혈당 차트, 에이전트 메타 패널 |
-| 간호사 | 방문 일정 관리, 건강 스크리닝 체크리스트, AI 대화 요약 |
-| 환자 | 개인 건강 데이터·자가 문진 뷰 |
-
-### 임상 안전 및 보안
-
-- AI 생성 콘텐츠 면책 배너 (`본 내용은 AI 에이전트가 생성한 참고 자료이며...`)
-- 환자 식별번호 마스킹 (`720315-1******`)
-- 세션 타임아웃 (10분 미사용 → 경고 → 화면 잠금)
-- FHIR 어댑터 레이어 분리 (API 전환 시 `patientAdapter.ts`만 수정)
-
-### 접근성 (WCAG AA)
-
-- `role="tablist/tab"`, `aria-selected`, `aria-expanded`, `aria-controls`, `aria-label` 적용
-- 아이콘 단독 사용 금지, 텍스트 라벨 병기
-- 버튼 최소 44×44 px 클릭 영역
+### 2. `get_gemma_response`
+- **목적**: LLM 기반의 전문적인 의료 응답 생성.
+- **프롬프트 엔지니어링**:
+    - **Role**: 실버케어 전문 의료 보조 AI 페르소나 부여.
+    - **Strictness**: 제공된 지침 외의 정보에 대해서는 "정보 부재"를 알리도록 강제.
+    - **UX**: 보호자와 간호 인력이 이해하기 쉬운 친절한 전문 용어 사용(해요체).
 
 ---
 
-## 기술 스택
+## 🛠 기술 스택 (Tech Stack)
 
-| 영역 | 기술 |
-|------|------|
-| 프론트엔드 | React 19, TypeScript ~5.8, Vite 6, Tailwind CSS 4 |
-| 차트 | recharts 3 |
-| 애니메이션 | motion/react 12 |
-| 아이콘 | lucide-react |
-| 백엔드 (예정) | FastAPI, KR Core FHIR |
+| 구분 | 기술 | 비고 |
+| :--- | :--- | :--- |
+| **Vector DB** | Supabase | PostgreSQL + `pgvector` |
+| **Embedding** | `jhgan/ko-sroberta-multitask` | 한국어 문장 임베딩 최적화 |
+| **LLM** | Ollama (Gemma:4b) | 로컬 기반 고성능 언어 모델 |
+| **Backend** | Python 3.10+ | Requests, Sentence-Transformers |
 
 ---
 
-## 브랜치 전략
+## ⚙️ 실행 방법 (Usage)
 
-| 브랜치 | 용도 |
-|--------|------|
-| `main` | 안정 배포 브랜치 |
-| `feature/main-rag-registry` | Main RAG 및 임상 금기 레지스터 개발 |
+1. **필수 라이브러리 설치**
+   ```bash
+   pip install supabase sentence-transformers requests python-dotenv
