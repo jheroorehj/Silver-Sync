@@ -20,7 +20,11 @@ for env_path in (
 ):
     load_dotenv(env_path)
 
-BEDROCK_API_KEY = os.getenv("BEDROCK_API") or os.getenv("AWS_BEARER_TOKEN_BEDROCK")
+BEDROCK_API_KEY = (
+    os.getenv("BEDROCK_API")
+    or os.getenv("BEDROCK_API_KEY")
+    or os.getenv("AWS_BEARER_TOKEN_BEDROCK")
+)
 if BEDROCK_API_KEY and not os.getenv("AWS_BEARER_TOKEN_BEDROCK"):
     os.environ["AWS_BEARER_TOKEN_BEDROCK"] = BEDROCK_API_KEY
 
@@ -30,13 +34,13 @@ if not LLM_PROVIDER:
 
 BEDROCK_MODEL_ID = os.getenv(
     "BEDROCK_MODEL_ID",
-    os.getenv("AWS_BEDROCK_MODEL_ID", "amazon.nova-pro-v1:0"),
+    os.getenv("AWS_BEDROCK_MODEL_ID", "amazon.nova-lite-v1:0"),
 )
 OLLAMA_MODEL = os.getenv("GEMMA_MODEL", os.getenv("OLLAMA_MODEL", "gemma3:4b"))
 DEFAULT_CHAT_MODEL = BEDROCK_MODEL_ID if LLM_PROVIDER == "bedrock" else OLLAMA_MODEL
-DEFAULT_WORKER_MODEL = "amazon.nova-pro-v1:0" if LLM_PROVIDER == "bedrock" else DEFAULT_CHAT_MODEL
-DEFAULT_PLANNER_MODEL = "amazon.nova-pro-v1:0" if LLM_PROVIDER == "bedrock" else DEFAULT_CHAT_MODEL
-DEFAULT_JUDGE_MODEL = "amazon.nova-pro-v1:0" if LLM_PROVIDER == "bedrock" else DEFAULT_CHAT_MODEL
+DEFAULT_WORKER_MODEL = BEDROCK_MODEL_ID if LLM_PROVIDER == "bedrock" else DEFAULT_CHAT_MODEL
+DEFAULT_PLANNER_MODEL = BEDROCK_MODEL_ID if LLM_PROVIDER == "bedrock" else DEFAULT_CHAT_MODEL
+DEFAULT_JUDGE_MODEL = BEDROCK_MODEL_ID if LLM_PROVIDER == "bedrock" else DEFAULT_CHAT_MODEL
 GEMMA4_BACKEND = os.getenv("GEMMA4_BACKEND", os.getenv("GEMMA_BACKEND", "ollama")).lower()
 GEMMA4_MODEL = os.getenv(
     "GEMMA4_MODEL",
