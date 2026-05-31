@@ -1,18 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import {
-  HeartPulse, Activity, Pill, Check, Plus, Minus, Stethoscope,
+  HeartPulse, Pill, Check, Stethoscope,
   Sparkles, ClipboardEdit, CalendarSync, UserPlus, CheckCircle2, Clock,
-  ChevronLeft, ChevronRight, X, MessageSquare,
+  ChevronLeft, ChevronRight, X, MessageSquare, AlertTriangle,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import patientsData from '../data/patients.json';
+import { getNursePatientById } from '../adapters/patientAdapter';
 import { OBSERVATION_CHIPS } from '../constants';
 import { NurseStatusAvatar } from './ui/StatusBadge';
 import NumberSpinner from './ui/NumberSpinner';
-import type { NursePatient, DocPatient, ConversationSummary } from '../types';
-import { post } from 'aws-amplify/api';
-
-const docPatients = patientsData as DocPatient[];
+import type { NursePatient, ConversationSummary } from '../types';
 
 // ── Types ─────────────────────────────────────────────────────────────────
 
@@ -26,96 +23,47 @@ type ScheduleViewProps = {
 
 type AddPatientModalProps = {
   onClose: () => void;
-  onAdd: (patient: Omit<NursePatient, 'id' | 'status'>) => void;
+  onAdd: (patient: Omit<NursePatient, 'id' | 'status' | 'time'>) => void;
 };
 
 // ── Mock Data ─────────────────────────────────────────────────────────────
 
-// const INITIAL_PATIENTS: NursePatient[] = [
-//   { id: '1', name: '김덕배', age: 72, gender: '남', time: '09:30', status: 'completed' },
-//   { id: '2', name: '이순자', age: 68, gender: '여', time: '11:00', status: 'pending' },
-//   { id: '3', name: '박상철', age: 75, gender: '남', time: '13:30', status: 'pending' },
-// ];
+const INITIAL_PATIENTS: NursePatient[] = [
+  { id: '1', name: '김덕배', age: 72, gender: '남', time: '09:30', status: 'completed' },
+  { id: '2', name: '이순자', age: 68, gender: '여', time: '11:00', status: 'pending' },
+  { id: '3', name: '박상철', age: 75, gender: '남', time: '13:30', status: 'pending' },
+];
 
+// ── AI 면책 배너 ──────────────────────────────────────────────────────────
+
+function AiDisclaimerBanner() {
+  return (
+    <div
+      role="note"
+      className="flex items-start gap-2 bg-amber-50 border border-amber-200 rounded-2xl px-4 py-3 text-xs text-amber-700 font-medium"
+    >
+      <AlertTriangle className="w-4 h-4 shrink-0 mt-0.5 text-amber-500" />
+      본 내용은 AI 에이전트가 생성한 참고 자료이며, 최종 임상 판단은 담당 의료진의 책임입니다.
+    </div>
+  );
+}
 
 // ── Main Container ────────────────────────────────────────────────────────
 
 export default function NurseMain() {
   const [view, setView] = useState<'schedule' | 'checklist'>('schedule');
-  const [patients, setPatients] = useState<NursePatient[]>([]); // 한 번만 선언
+  const [patients, setPatients] = useState<NursePatient[]>([]);
   const [selectedPatient, setSelectedPatient] = useState<NursePatient | null>(null);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  // ── 데이터 불러오는 함수 ──
-  const fetchPatients = async () => {
-  setIsLoading(true);
-  try {
-    const API_URL = "https://ky1y2zdh68.execute-api.ap-northeast-2.amazonaws.com/dev/patients";
-    
-    const stepFunctionsInput = {
-      stateMachineArn: "arn:aws:states:ap-northeast-2:379995600109:stateMachine:SilverSync1",
-      input: JSON.stringify({
-        path: "/patients",
-        method: "GET"
-      })
-    };
-
-    const response = await fetch(API_URL, {
-      method: 'POST', 
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(stepFunctionsInput)
-    });
-
-    const executionResult = await response.json();
-    console.log("1. Step Functions 전체 응답:", executionResult);
-
-
-    const rootData = executionResult.output ? 
-      (typeof executionResult.output === 'string' ? JSON.parse(executionResult.output) : executionResult.output) 
-      : executionResult;
-
-    console.log("2. 루트 데이터 파싱 완료:", rootData);
-
-    // 람다 출력 결과(infohandler)를 보면 데이터가 rootData.body 안에 문자열로 들어있습니다.
-    if (rootData && rootData.body) {
-      const bodyObj = typeof rootData.body === 'string' 
-        ? JSON.parse(rootData.body) 
-        : rootData.body;
-      
-      const patientList = bodyObj.data || [];
-      console.log("3. 최종 추출된 환자 리스트:", patientList);
-
-      const formatted = patientList.map((p: any) => ({
-        id: p.patientCode || Math.random().toString(),
-        name: p.name || "이름 없음",
-        age: p.age || (p.birthDate ? (2026 - parseInt(p.birthDate.split('-')[0])) : 75),
-        gender: p.gender || '남',
-        time: p.createdAt 
-          ? new Date(parseInt(p.createdAt) * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) 
-          : "방문 예정",
-        status: 'pending' as const
-      }));
-
-      setPatients(formatted);
-    }
-  } catch (error) {
-    console.error("데이터 로딩 실패:", error);
-  } finally {
-    setIsLoading(false);
-  }
-};
-
-  // ── 초기 로드 및 동기화 ──
-  useEffect(() => {
-    fetchPatients();
-  }, []);
+  useEffect(() => { loadSchedule(); }, []);
 
   const loadSchedule = () => {
-    fetchPatients(); // 기존 Mock 로직 대신 DB 호출로 변경
+    setIsLoading(true);
+    setTimeout(() => { setPatients(INITIAL_PATIENTS); setIsLoading(false); }, 600);
   };
 
-  // ── 환자 관리 로직 ──
   const handleStartChecklist = (patient: NursePatient) => {
     setSelectedPatient(patient);
     setView('checklist');
@@ -129,50 +77,18 @@ export default function NurseMain() {
     setSelectedPatient(null);
   };
 
-  const handleAddPatient = async (newPatientData: { name: string, birthdate: string, gender: string }) => {
-  const now = new Date();
-  const newId = Math.random().toString(36).substring(2, 11);
-  
-  // 2026년 기준 나이 계산
-  const birthYear = parseInt(newPatientData.birthdate.split('-')[0]);
-  const calculatedAge = 2026 - birthYear;
-
-  try {
-    const API_URL = "https://ky1y2zdh68.execute-api.ap-northeast-2.amazonaws.com/dev/patients";
-    
-    const stepFunctionsInput = {
-      stateMachineArn: "arn:aws:states:ap-northeast-2:379995600109:stateMachine:SilverSync1",
-      input: JSON.stringify({
-        path: "/patients",
-        method: "POST",
-        data: {
-          patientCode: newId,
-          name: newPatientData.name,
-          age: calculatedAge, 
-          birthDate: newPatientData.birthdate, 
-          gender: newPatientData.gender,
-          timestamp: Math.floor(now.getTime() / 1000)
-        }
-      })
+  const handleAddPatient = (newPatient: Omit<NursePatient, 'id' | 'status' | 'time'>) => {
+    const now = new Date();
+    const timeString = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+    const patient: NursePatient = {
+      ...newPatient,
+      time: `현장추가 (${timeString})`,
+      id: Math.random().toString(36).substring(2, 11),
+      status: 'pending',
     };
-
-    const response = await fetch(API_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(stepFunctionsInput)
-    });
-
-    if (response.ok) {
-      console.log("데이터 저장 성공!");
-      fetchPatients(); 
-      setIsAddModalOpen(false);
-    }
-  } catch (error) {
-    console.error("추가 에러:", error);
-  }
-};
-
-
+    setPatients(prev => [...prev, patient]);
+    setIsAddModalOpen(false);
+  };
 
   return (
     <div className="min-h-screen bg-sky-50 font-sans selection:bg-cyan-100">
@@ -271,16 +187,13 @@ function ScheduleView({ patients, onLoadSchedule, onStartChecklist, onOpenAddMod
 
 function AddPatientModal({ onClose, onAdd }: AddPatientModalProps) {
   const [name, setName] = useState('');
-  const [birthdate, setBirthdate] = useState(''); // age 대신 birthdate 사용
+  const [age, setAge] = useState('');
   const [gender, setGender] = useState('남');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name || birthdate.length !== 8) return; // 8자리 체크
-    
-    // YYYYMMDD -> YYYY-MM-DD 형식 변환
-    const formattedDate = `${birthdate.slice(0, 4)}-${birthdate.slice(4, 6)}-${birthdate.slice(6, 8)}`;
-    onAdd({ name, birthdate: formattedDate, gender });
+    if (!name || !age) return;
+    onAdd({ name, age: Number(age), gender });
   };
 
   return (
@@ -296,26 +209,24 @@ function AddPatientModal({ onClose, onAdd }: AddPatientModalProps) {
           <div>
             <label className="block text-slate-700 font-bold mb-2">환자 성함</label>
             <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="예: 홍길동"
-              className="w-full h-16 bg-sky-50/50 border border-sky-100 rounded-2xl px-6 text-xl font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-sky-400 transition-all" autoFocus />
+              className="w-full h-16 bg-sky-50/50 border border-sky-100 rounded-2xl px-6 text-xl font-bold text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:bg-white transition-all" autoFocus />
           </div>
           <div className="flex gap-4">
-            <div className="flex-[1.5]">
-              <label className="block text-slate-700 font-bold mb-2">생년월일</label>
-              <input type="number" value={birthdate} 
-                onChange={(e) => setBirthdate(e.target.value.slice(0, 8))} // 8자리 제한
-                placeholder="19500101"
-                className="w-full h-16 bg-sky-50/50 border border-sky-100 rounded-2xl px-6 text-xl font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-sky-400 transition-all" />
+            <div className="flex-1">
+              <label className="block text-slate-700 font-bold mb-2">연령</label>
+              <input type="number" value={age} onChange={(e) => setAge(e.target.value)} placeholder="예: 75"
+                className="w-full h-16 bg-sky-50/50 border border-sky-100 rounded-2xl px-6 text-xl font-bold text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:bg-white transition-all" />
             </div>
             <div className="flex-1">
               <label className="block text-slate-700 font-bold mb-2">성별</label>
               <div className="flex bg-sky-50/50 border border-sky-100 rounded-2xl p-1.5 h-16">
-                <button type="button" onClick={() => setGender('남')} className={`flex-1 rounded-xl font-bold ${gender === '남' ? 'bg-white text-sky-600 shadow-sm' : 'text-slate-500'}`}>남</button>
-                <button type="button" onClick={() => setGender('여')} className={`flex-1 rounded-xl font-bold ${gender === '여' ? 'bg-white text-sky-600 shadow-sm' : 'text-slate-500'}`}>여</button>
+                <button type="button" onClick={() => setGender('남')} className={`flex-1 rounded-xl font-bold text-lg transition-all ${gender === '남' ? 'bg-white text-sky-600 shadow-sm' : 'text-slate-500'}`}>남</button>
+                <button type="button" onClick={() => setGender('여')} className={`flex-1 rounded-xl font-bold text-lg transition-all ${gender === '여' ? 'bg-white text-sky-600 shadow-sm' : 'text-slate-500'}`}>여</button>
               </div>
             </div>
           </div>
-          <button type="submit" disabled={!name || birthdate.length !== 8}
-            className="w-full h-16 mt-4 bg-sky-500 hover:bg-sky-600 disabled:bg-slate-200 text-white rounded-2xl text-xl font-extrabold transition-all">
+          <button type="submit" disabled={!name || !age}
+            className="w-full h-16 mt-4 bg-sky-500 hover:bg-sky-600 disabled:bg-slate-200 disabled:text-slate-400 text-white rounded-2xl text-xl font-extrabold shadow-lg shadow-sky-200/50 transition-all">
             추가하기
           </button>
         </form>
@@ -430,7 +341,11 @@ function ConversationSummaryResult({
       {/* Sticky Header */}
       <div className="bg-white px-4 sm:px-8 py-6 rounded-b-[40px] shadow-sm shadow-sky-100/50 mb-6 sticky top-0 z-40">
         <div className="max-w-3xl mx-auto flex items-center gap-4">
-          <button onClick={onBack} className="w-12 h-12 bg-slate-50 hover:bg-slate-100 rounded-2xl flex items-center justify-center text-slate-600 transition-colors">
+          <button
+            onClick={onBack}
+            aria-label="이전 화면으로 돌아가기"
+            className="w-12 h-12 bg-slate-50 hover:bg-slate-100 rounded-2xl flex items-center justify-center text-slate-600 transition-colors"
+          >
             <ChevronLeft className="w-7 h-7" strokeWidth={2.5} />
           </button>
           <div className="flex-1 flex items-center justify-between">
@@ -452,6 +367,9 @@ function ConversationSummaryResult({
           <p className="text-cyan-100 font-medium">환자와의 대화 내용이 분석되었습니다.</p>
         </div>
 
+        {/* AI 면책 배너 */}
+        <AiDisclaimerBanner />
+
         {/* Summary Card */}
         <section className="bg-white rounded-[32px] p-6 sm:p-8 shadow-sm shadow-sky-100/40 border border-sky-100">
           <div className="flex items-center justify-between mb-5">
@@ -463,6 +381,8 @@ function ConversationSummaryResult({
             </div>
             <button
               onClick={() => setTranscriptExpanded(v => !v)}
+              aria-expanded={transcriptExpanded}
+              aria-controls="transcript-content"
               className="flex items-center gap-1.5 text-sky-600 font-bold text-sm hover:text-sky-700 transition-colors px-3 py-1.5 bg-sky-50 rounded-xl"
             >
               {transcriptExpanded ? <ChevronLeft className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
@@ -480,6 +400,8 @@ function ConversationSummaryResult({
           <AnimatePresence>
             {transcriptExpanded && (
               <motion.div
+                id="transcript-content"
+                key="transcript"
                 initial={{ height: 0, opacity: 0 }}
                 animate={{ height: 'auto', opacity: 1 }}
                 exit={{ height: 0, opacity: 0 }}
@@ -516,8 +438,11 @@ function ConversationSummaryResult({
       {/* Fixed Bottom FAB */}
       <div className="fixed bottom-0 left-0 right-0 p-4 sm:p-6 bg-white/80 backdrop-blur-xl border-t border-sky-100/50 z-50">
         <div className="max-w-3xl mx-auto">
-          <button onClick={onFinalize}
-            className="w-full h-16 sm:h-20 bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-600 hover:to-cyan-600 text-white rounded-[28px] text-xl sm:text-2xl font-extrabold shadow-xl shadow-teal-200/50 flex items-center justify-center gap-3 transition-all transform active:scale-[0.98]">
+          <button
+            onClick={onFinalize}
+            aria-label="기록 완료 및 의사 전달"
+            className="w-full h-16 sm:h-20 bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-600 hover:to-cyan-600 text-white rounded-[28px] text-xl sm:text-2xl font-extrabold shadow-xl shadow-teal-200/50 flex items-center justify-center gap-3 transition-all transform active:scale-[0.98]"
+          >
             <CheckCircle2 className="w-7 h-7" strokeWidth={2.5} />
             기록 완료 및 의사 전달
           </button>
@@ -542,48 +467,11 @@ function ChecklistForm({ patient, onBack, onComplete }: {
   const [observations, setObservations] = useState<string[]>([]);
   const [notes, setNotes] = useState('');
 
-  // NurseChecklist.tsx 내의 saveToAWS 함수 수정
-const saveToAWS = async () => {
-  const API_URL = "https://ky1y2zdh68.execute-api.ap-northeast-2.amazonaws.com/dev/patients";
-  
-  // Step Functions API 규격에 맞게 상자를 씌웁니다.
-  const stepFunctionsInput = {
-    stateMachineArn: "arn:aws:states:ap-northeast-2:379995600109:stateMachine:SilverSync1",
-    input: JSON.stringify({
-      path: "/vitals",
-      method: "POST",
-      data: {
-        patientCode: patient.id,
-        systolic: Number(systolic),
-        diastolic: Number(diastolic),
-        bloodSugar: Number(bloodSugar),
-        note: notes,
-        timestamp: Math.floor(Date.now() / 1000)
-      }
-    })
-  };
-
-  await fetch(API_URL, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' }, 
-    body: JSON.stringify(stepFunctionsInput)
-  });
-};
-  const handleFinalSubmit = async () => {
-    saveToAWS(); 
-
-    if (conversationSummary) {
-      setFormStep('result');
-    } else {
-      onComplete();
-    }
-  };
   const toggleObservation = (chip: string) => {
     setObservations(prev => prev.includes(chip) ? prev.filter(c => c !== chip) : [...prev, chip]);
   };
 
-  // Look up conversation summary from mock data by patient name
-  const docPatient = docPatients.find(p => p.name === patient.name);
+  const docPatient = getNursePatientById(patient.name);
   const conversationSummary = docPatient?.conversationSummary ?? null;
 
   if (formStep === 'result' && conversationSummary) {
@@ -602,7 +490,11 @@ const saveToAWS = async () => {
       {/* Header */}
       <div className="bg-white px-4 sm:px-8 py-6 rounded-b-[40px] shadow-sm shadow-sky-100/50 mb-6 sticky top-0 z-40">
         <div className="max-w-3xl mx-auto flex items-center gap-4">
-          <button onClick={onBack} className="w-12 h-12 bg-slate-50 hover:bg-slate-100 rounded-2xl flex items-center justify-center text-slate-600 transition-colors">
+          <button
+            onClick={onBack}
+            aria-label="이전 화면으로 돌아가기"
+            className="w-12 h-12 bg-slate-50 hover:bg-slate-100 rounded-2xl flex items-center justify-center text-slate-600 transition-colors"
+          >
             <ChevronLeft className="w-7 h-7" strokeWidth={2.5} />
           </button>
           <div className="flex-1 flex items-center justify-between">
@@ -637,8 +529,8 @@ const saveToAWS = async () => {
       <div className="fixed bottom-0 left-0 right-0 p-4 sm:p-6 bg-white/80 backdrop-blur-xl border-t border-sky-100/50 z-50">
         <div className="max-w-3xl mx-auto">
           <button
-            onClick={handleFinalSubmit} 
-            className="w-full h-16 sm:h-20 bg-gradient-to-r from-cyan-500 ..."
+            onClick={() => conversationSummary ? setFormStep('result') : onComplete()}
+            className="w-full h-16 sm:h-20 bg-gradient-to-r from-cyan-500 to-sky-500 hover:from-cyan-600 hover:to-sky-600 text-white rounded-[28px] text-xl sm:text-2xl font-extrabold shadow-xl shadow-cyan-200/50 flex items-center justify-center gap-3 transition-all transform active:scale-[0.98]"
           >
             <Sparkles className="w-7 h-7" strokeWidth={2.5} />
             기록 완료 및 AI 분석 요청
@@ -648,3 +540,4 @@ const saveToAWS = async () => {
     </div>
   );
 }
+
