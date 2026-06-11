@@ -48,6 +48,8 @@ export type DocPatient = {
   gender: string;
   time: string;
   status: DocPatientStatus;
+  lambdaPatientId?: string;
+  daysUntilDeadline?: number;
   disease: string;
   aiRecommendation: {
     title: string;
@@ -69,6 +71,7 @@ export type DocPatient = {
 // ── Nurse Patient ─────────────────────────────────────────────────────────
 export type NursePatient = {
   id: string;
+  lambdaPatientId?: string;
   name: string;
   age: number;
   gender: string;

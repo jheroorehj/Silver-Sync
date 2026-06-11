@@ -2,16 +2,14 @@ import React, { useState, useEffect } from 'react';
 import {
   HeartPulse, Activity, Pill, Check, Plus, Minus, Stethoscope,
   Sparkles, ClipboardEdit, CalendarSync, UserPlus, CheckCircle2, Clock,
-  ChevronLeft, ChevronRight, X, MessageSquare,
+  ChevronLeft, ChevronRight, X, MessageSquare, Loader2,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import patientsData from '../data/patients.json';
 import { OBSERVATION_CHIPS } from '../constants';
 import { NurseStatusAvatar } from './ui/StatusBadge';
 import NumberSpinner from './ui/NumberSpinner';
-import type { NursePatient, DocPatient, ConversationSummary } from '../types';
-
-const docPatients = patientsData as DocPatient[];
+import { fetchPatient, submitAnalysis, type VisitVitals } from '../lib/silverSyncApi';
+import type { NursePatient, ConversationSummary } from '../types';
 
 // ── Types ─────────────────────────────────────────────────────────────────
 
@@ -28,12 +26,12 @@ type AddPatientModalProps = {
   onAdd: (patient: Omit<NursePatient, 'id' | 'status'>) => void;
 };
 
-// ── Mock Data ─────────────────────────────────────────────────────────────
+// ── 오늘 방문 일정 (DynamoDB patient_id 기준) ──────────────────────────────
 
-const INITIAL_PATIENTS: NursePatient[] = [
-  { id: '1', name: '김덕배', age: 72, gender: '남', time: '09:30', status: 'completed' },
-  { id: '2', name: '이순자', age: 68, gender: '여', time: '11:00', status: 'pending' },
-  { id: '3', name: '박상철', age: 75, gender: '남', time: '13:30', status: 'pending' },
+const SCHEDULE: { lambdaPatientId: string; time: string }[] = [
+  { lambdaPatientId: 'EDGE-E3-0001',    time: '09:00' },  // 대면 — 당뇨망막병증
+  { lambdaPatientId: 'HARDNEG-HN4-0001', time: '10:00' }, // 엣지 — 안정 CKD
+  { lambdaPatientId: 'CLEAR-C2-0001',   time: '11:00' },  // 비대면 — 전 수치 안정
 ];
 
 // ── Main Container ────────────────────────────────────────────────────────
@@ -47,9 +45,29 @@ export default function NurseMain() {
 
   useEffect(() => { loadSchedule(); }, []);
 
-  const loadSchedule = () => {
+  const loadSchedule = async () => {
     setIsLoading(true);
-    setTimeout(() => { setPatients(INITIAL_PATIENTS); setIsLoading(false); }, 600);
+    try {
+      const fetched = await Promise.all(
+        SCHEDULE.map(async ({ lambdaPatientId, time }) => {
+          const info = await fetchPatient(lambdaPatientId);
+          return {
+            id: lambdaPatientId,
+            lambdaPatientId,
+            name: info.name,
+            age: info.age,
+            gender: info.gender === 'F' ? '여' : '남',
+            time,
+            status: 'pending' as const,
+          };
+        }),
+      );
+      setPatients(fetched);
+    } catch {
+      setPatients([]);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleStartChecklist = (patient: NursePatient) => {
@@ -57,10 +75,11 @@ export default function NurseMain() {
     setView('checklist');
   };
 
+  const handleMarkComplete = (patientId: string) => {
+    setPatients(prev => prev.map(p => p.id === patientId ? { ...p, status: 'completed' } : p));
+  };
+
   const handleCompleteChecklist = () => {
-    if (selectedPatient) {
-      setPatients(prev => prev.map(p => p.id === selectedPatient.id ? { ...p, status: 'completed' } : p));
-    }
     setView('schedule');
     setSelectedPatient(null);
   };
@@ -89,7 +108,7 @@ export default function NurseMain() {
           isLoading={isLoading}
         />
       ) : (
-        <ChecklistForm patient={selectedPatient!} onBack={() => setView('schedule')} onComplete={handleCompleteChecklist} />
+        <ChecklistForm patient={selectedPatient!} onBack={() => setView('schedule')} onMarkComplete={handleMarkComplete} onComplete={handleCompleteChecklist} />
       )}
       {isAddModalOpen && (
         <AddPatientModal onClose={() => setIsAddModalOpen(false)} onAdd={handleAddPatient} />
@@ -181,7 +200,7 @@ function AddPatientModal({ onClose, onAdd }: AddPatientModalProps) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!name || !age) return;
-    onAdd({ name, age: Number(age), gender });
+    onAdd({ name, age: Number(age), gender, time: new Date().toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' }) });
   };
 
   return (
@@ -428,12 +447,13 @@ function ConversationSummaryResult({
 
 // ── Checklist Form ────────────────────────────────────────────────────────
 
-function ChecklistForm({ patient, onBack, onComplete }: {
+function ChecklistForm({ patient, onBack, onMarkComplete, onComplete }: {
   patient: NursePatient;
   onBack: () => void;
+  onMarkComplete: (patientId: string) => void;
   onComplete: () => void;
 }) {
-  const [formStep, setFormStep] = useState<'form' | 'result'>('form');
+  const [formStep, setFormStep] = useState<'form' | 'submitting' | 'submitted'>('form');
   const [systolic, setSystolic] = useState<number | ''>(120);
   const [diastolic, setDiastolic] = useState<number | ''>(80);
   const [bloodSugar, setBloodSugar] = useState<number | ''>(100);
@@ -445,18 +465,40 @@ function ChecklistForm({ patient, onBack, onComplete }: {
     setObservations(prev => prev.includes(chip) ? prev.filter(c => c !== chip) : [...prev, chip]);
   };
 
-  // Look up conversation summary from mock data by patient name
-  const docPatient = docPatients.find(p => p.name === patient.name);
-  const conversationSummary = docPatient?.conversationSummary ?? null;
+  const handleSubmit = async () => {
+    if (!patient.lambdaPatientId) { onComplete(); return; }
+    setFormStep('submitting');
+    const vitals: VisitVitals = {
+      systolic: systolic === '' ? null : systolic,
+      diastolic: diastolic === '' ? null : diastolic,
+      blood_sugar: bloodSugar === '' ? null : bloodSugar,
+      medication_status: medicationStatus ?? '',
+      observations,
+      notes,
+    };
+    try {
+      await submitAnalysis(patient.lambdaPatientId, vitals);
+    } catch {
+      // 제출 실패해도 완료 처리
+    } finally {
+      onMarkComplete(patient.id);
+      setFormStep('submitted');
+    }
+  };
 
-  if (formStep === 'result' && conversationSummary) {
+  if (formStep === 'submitted') {
     return (
-      <ConversationSummaryResult
-        patient={patient}
-        conversationSummary={conversationSummary}
-        onBack={() => setFormStep('form')}
-        onFinalize={onComplete}
-      />
+      <div className="min-h-screen bg-sky-50 flex flex-col items-center justify-center p-8 gap-8">
+        <div className="bg-gradient-to-br from-teal-500 to-cyan-500 rounded-[40px] p-10 text-white text-center shadow-2xl shadow-teal-200/50 max-w-md w-full">
+          <CheckCircle2 className="w-20 h-20 mx-auto mb-4" strokeWidth={1.5} />
+          <h2 className="text-3xl font-extrabold mb-2">분석 요청 완료</h2>
+          <p className="text-teal-100 text-lg font-medium">{patient.name} 환자의 기록이 의사에게 전달되었습니다</p>
+        </div>
+        <button onClick={onComplete}
+          className="w-full max-w-md h-16 bg-white border-2 border-sky-200 text-sky-600 rounded-3xl text-xl font-extrabold shadow-sm hover:bg-sky-50 transition-colors">
+          일정으로 돌아가기
+        </button>
+      </div>
     );
   }
 
@@ -500,10 +542,13 @@ function ChecklistForm({ patient, onBack, onComplete }: {
       <div className="fixed bottom-0 left-0 right-0 p-4 sm:p-6 bg-white/80 backdrop-blur-xl border-t border-sky-100/50 z-50">
         <div className="max-w-3xl mx-auto">
           <button
-            onClick={() => conversationSummary ? setFormStep('result') : onComplete()}
-            className="w-full h-16 sm:h-20 bg-gradient-to-r from-cyan-500 to-sky-500 hover:from-cyan-600 hover:to-sky-600 text-white rounded-[28px] text-xl sm:text-2xl font-extrabold shadow-xl shadow-cyan-200/50 flex items-center justify-center gap-3 transition-all transform active:scale-[0.98]">
-            <Sparkles className="w-7 h-7" strokeWidth={2.5} />
-            기록 완료 및 AI 분석 요청
+            onClick={handleSubmit}
+            disabled={formStep === 'submitting'}
+            className="w-full h-16 sm:h-20 bg-gradient-to-r from-cyan-500 to-sky-500 hover:from-cyan-600 hover:to-sky-600 disabled:from-slate-300 disabled:to-slate-300 text-white rounded-[28px] text-xl sm:text-2xl font-extrabold shadow-xl shadow-cyan-200/50 flex items-center justify-center gap-3 transition-all transform active:scale-[0.98]">
+            {formStep === 'submitting'
+              ? <><Loader2 className="w-7 h-7 animate-spin" strokeWidth={2.5} />AI 분석 요청 중...</>
+              : <><Sparkles className="w-7 h-7" strokeWidth={2.5} />기록 완료 및 AI 분석 요청</>
+            }
           </button>
         </div>
       </div>

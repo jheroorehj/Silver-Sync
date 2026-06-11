@@ -21,15 +21,50 @@ import {
   Download,
   MessageSquare,
   ClipboardList,
+  Loader2,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { LineChart, Line, ResponsiveContainer, XAxis, YAxis, Tooltip } from 'recharts';
-import patientsData from '../data/patients.json';
+import { demoPatients } from '../data/demoPatients';
+import { getNurseQueue, getNurseVitals, runAndPoll } from '../lib/silverSyncApi';
+import type { NurseVitalsSnapshot } from '../lib/silverSyncApi';
 import { DAYS, STATUS_THEME_MAP } from '../constants';
 import { DocStatusBadge } from './ui/StatusBadge';
-import type { DocPatient, StatusTheme, SoapNote } from '../types';
+import type { DocPatient, DocPatientStatus, StatusTheme, SoapNote } from '../types';
+import type { LambdaStatus, LambdaVerdict } from '../lib/silverSyncApi';
 
-const patients = patientsData as DocPatient[];
+const patients = [...demoPatients].sort(
+  (a, b) => (a.daysUntilDeadline ?? 99) - (b.daysUntilDeadline ?? 99),
+);
+
+// ── Lambda helpers ────────────────────────────────────────────────────────
+
+function verdictToStatus(verdict: LambdaVerdict): DocPatientStatus {
+  return verdict.verdictLevel === 'red' ? 'orange'
+    : verdict.verdictLevel === 'yellow' ? 'amber'
+    : 'teal';
+}
+
+function effectiveStatus(patient: DocPatient, ls?: LambdaStatus): DocPatientStatus {
+  if (ls?.type === 'done') return verdictToStatus(ls.verdict);
+  return patient.status;
+}
+
+function DeadlineBadge({ days }: { days: number }) {
+  const label = days === 0 ? 'D-day' : `D-${days}`;
+  const cls = days === 0
+    ? 'bg-red-100 text-red-700 border border-red-200'
+    : days <= 2
+    ? 'bg-orange-100 text-orange-700 border border-orange-200'
+    : days <= 4
+    ? 'bg-amber-100 text-amber-700 border border-amber-200'
+    : 'bg-slate-100 text-slate-500 border border-slate-200';
+  return (
+    <span className={`text-xs font-extrabold px-2 py-0.5 rounded-full shrink-0 ${cls}`}>
+      {label}
+    </span>
+  );
+}
 
 // ── Helpers ───────────────────────────────────────────────────────────────
 
@@ -200,11 +235,73 @@ function SoapNoteView({ patient, theme }: { patient: DocPatient; theme: StatusTh
 
 // ── AI Recommendation Section ──────────────────────────────────────────────
 
+function LambdaVerdictBanner({ lambdaState }: { lambdaState?: LambdaStatus }) {
+  if (!lambdaState || lambdaState.type === 'idle') return null;
+
+  if (lambdaState.type === 'loading') {
+    return (
+      <div className="flex items-center gap-3 px-5 py-4 rounded-2xl bg-sky-50 border border-sky-200 mb-5">
+        <Loader2 className="w-5 h-5 text-sky-500 animate-spin shrink-0" />
+        <div>
+          <p className="font-bold text-sky-700 text-sm">Silver-Sync 멀티에이전트 분석 중...</p>
+          <p className="text-sky-500 text-xs mt-0.5">AI 에이전트가 진료 지침 및 임상 데이터를 검토하고 있습니다</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (lambdaState.type === 'error') {
+    return (
+      <div className="flex items-center gap-3 px-5 py-4 rounded-2xl bg-slate-50 border border-slate-200 mb-5">
+        <AlertCircle className="w-5 h-5 text-slate-400 shrink-0" />
+        <p className="text-slate-500 text-sm font-medium">AI 분석 결과를 불러오지 못했습니다</p>
+      </div>
+    );
+  }
+
+  if (lambdaState.type === 'done') {
+    const { verdict } = lambdaState;
+    const isInPerson = verdict.consultationType === '대면';
+    return (
+      <div className={`flex items-center justify-between px-5 py-4 rounded-2xl border mb-5 ${
+        isInPerson
+          ? 'bg-orange-50 border-orange-200'
+          : 'bg-teal-50 border-teal-200'
+      }`}>
+        <div className="flex items-center gap-3">
+          {isInPerson
+            ? <Stethoscope className="w-6 h-6 text-orange-600 shrink-0" strokeWidth={1.5} />
+            : <Video className="w-6 h-6 text-teal-600 shrink-0" strokeWidth={1.5} />
+          }
+          <div>
+            <p className={`font-extrabold text-lg leading-tight ${isInPerson ? 'text-orange-700' : 'text-teal-700'}`}>
+              {verdict.consultationType} 진료 {isInPerson ? '권고' : '가능'}
+            </p>
+            <p className="text-xs text-slate-500 mt-0.5">
+              신뢰도 {verdict.confidence}% · Silver-Sync AI
+            </p>
+          </div>
+        </div>
+        <div className="text-right">
+          <p className="text-3xl font-extrabold text-slate-800">
+            {verdict.riskScore}
+            <span className="text-base font-medium text-slate-400">/100</span>
+          </p>
+          <p className="text-xs text-slate-500">위험도 점수</p>
+        </div>
+      </div>
+    );
+  }
+
+  return null;
+}
+
 function AIRecommendationSection({
-  patient, theme, showAiDetails, onToggleDetails,
+  patient, theme, lambdaState, showAiDetails, onToggleDetails,
 }: {
   patient: DocPatient;
   theme: StatusTheme;
+  lambdaState?: LambdaStatus;
   showAiDetails: boolean;
   onToggleDetails: () => void;
 }) {
@@ -219,6 +316,7 @@ function AIRecommendationSection({
         }
       </div>
       <div className="relative z-10">
+        <LambdaVerdictBanner lambdaState={lambdaState} />
         <div className="flex items-center gap-2 mb-4">
           <Sparkles className={`w-5 h-5 ${theme.iconColor}`} strokeWidth={2} />
           <span className={`font-bold tracking-wide ${theme.labelColor}`}>AI 분석 결과</span>
@@ -276,34 +374,46 @@ function AIRecommendationSection({
 
 // ── Vitals Section ────────────────────────────────────────────────────────
 
-function VitalsSection({ patient, hoveredVital, onHover }: {
+function VitalsSection({ patient, hoveredVital, onHover, nurseSnapshot }: {
   patient: DocPatient;
   hoveredVital: string | null;
   onHover: (key: string | null) => void;
+  nurseSnapshot?: NurseVitalsSnapshot;
 }) {
+  const bpDisplay = nurseSnapshot?.bp || patient.vitals.bp.current;
+  const sugarDisplay = nurseSnapshot?.sugar || patient.vitals.sugar.current;
+  const isLive = !!nurseSnapshot;
+
   return (
     <div>
-      <h3 className="text-lg font-bold text-slate-800 mb-4 px-1">최근 바이탈 요약</h3>
+      <div className="flex items-center gap-3 mb-4 px-1">
+        <h3 className="text-lg font-bold text-slate-800">최근 바이탈 요약</h3>
+        {isLive && (
+          <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-sky-100 text-sky-700 border border-sky-200">
+            방문 측정값 반영
+          </span>
+        )}
+      </div>
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <VitalCard isHovered={hoveredVital === 'bp'} onMouseEnter={() => onHover('bp')} onMouseLeave={() => onHover(null)} chartLabel="혈압 추이 (5일)" chartData={patient.vitals.bp.data} yDomain={['dataMin - 10', 'dataMax + 10']}>
           <div className="flex items-center gap-2 mb-3 text-slate-500"><HeartPulse className="w-4 h-4" strokeWidth={2} /><span className="font-semibold text-sm">혈압 (mmHg)</span></div>
           <div className="flex items-end gap-2">
             <span className="text-3xl font-extrabold text-slate-900 tracking-tighter">
-              {patient.vitals.bp.current.split('/')[0]}
-              <span className="text-xl text-slate-400 font-medium">/{patient.vitals.bp.current.split('/')[1]}</span>
+              {bpDisplay.split('/')[0]}
+              <span className="text-xl text-slate-400 font-medium">/{bpDisplay.split('/')[1]}</span>
             </span>
           </div>
           <p className={`text-sm font-medium mt-2 flex items-center ${patient.vitals.bp.trendUp ? 'text-orange-500' : 'text-teal-500'}`}>
             {patient.vitals.bp.trendUp && <ArrowUpRight className="w-3 h-3 mr-1" strokeWidth={2.5} />}
-            {patient.vitals.bp.trend}
+            {isLive ? '방문 간호 측정값' : patient.vitals.bp.trend}
           </p>
         </VitalCard>
 
         <VitalCard isHovered={hoveredVital === 'sugar'} onMouseEnter={() => onHover('sugar')} onMouseLeave={() => onHover(null)} chartLabel="혈당 추이 (5일)" chartData={patient.vitals.sugar.data} yDomain={['dataMin - 10', 'dataMax + 10']}>
           <div className="flex items-center gap-2 mb-3 text-slate-500"><Activity className="w-4 h-4" strokeWidth={2} /><span className="font-semibold text-sm">공복혈당 (mg/dL)</span></div>
-          <div className="flex items-end gap-2"><span className="text-3xl font-extrabold text-slate-900 tracking-tighter">{patient.vitals.sugar.current}</span></div>
+          <div className="flex items-end gap-2"><span className="text-3xl font-extrabold text-slate-900 tracking-tighter">{sugarDisplay}</span></div>
           <p className={`text-sm font-medium mt-2 flex items-center ${patient.vitals.sugar.trendUp ? 'text-orange-500' : 'text-teal-500'}`}>
-            {patient.vitals.sugar.status}
+            {isLive ? '방문 간호 측정값' : patient.vitals.sugar.status}
           </p>
         </VitalCard>
 
@@ -324,44 +434,64 @@ function VitalsSection({ patient, hoveredVital, onHover }: {
 
 // ── Patient List Panel ────────────────────────────────────────────────────
 
-function PatientListPanel({ selectedPatientId, onSelect }: {
+function PatientListPanel({ selectedPatientId, onSelect, lambdaStates }: {
   selectedPatientId: number;
   onSelect: (id: number) => void;
+  lambdaStates: Record<number, LambdaStatus>;
 }) {
   return (
     <div className="w-full lg:w-1/3 flex flex-col h-full">
       <div className="flex items-center justify-between mb-6 px-2">
-        <h2 className="text-xl font-extrabold text-slate-800 tracking-tight">대기 환자</h2>
+        <h2 className="text-xl font-extrabold text-slate-800 tracking-tight">재진 대상 환자</h2>
         <span className="bg-cyan-100 text-cyan-700 px-3 py-1 rounded-full text-sm font-bold">총 {patients.length}명</span>
       </div>
       <div className="flex-1 overflow-y-auto pr-2 space-y-4 pb-8">
-        {patients.map((patient) => (
-          <button
-            key={patient.id}
-            onClick={() => onSelect(patient.id)}
-            className={`w-full text-left p-5 rounded-3xl transition-all duration-300 border ${
-              selectedPatientId === patient.id
-                ? 'bg-white border-sky-200 shadow-lg shadow-sky-100/60 ring-1 ring-sky-100'
-                : 'bg-white/40 border-transparent hover:bg-white/80 hover:shadow-md hover:shadow-sky-100/30'
-            }`}
-          >
-            <div className="flex justify-between items-start mb-3">
-              <div className="flex items-center gap-3">
-                <DocStatusBadge status={patient.status} />
-                <span className="text-lg font-bold text-slate-900">{patient.name}</span>
-                <span className="text-sm font-medium text-slate-500">{patient.gender}/{patient.age}</span>
+        {patients.map((patient) => {
+          const ls = lambdaStates[patient.id];
+          const status = effectiveStatus(patient, ls);
+          return (
+            <button
+              key={patient.id}
+              onClick={() => onSelect(patient.id)}
+              className={`w-full text-left p-5 rounded-3xl transition-all duration-300 border ${
+                selectedPatientId === patient.id
+                  ? 'bg-white border-sky-200 shadow-lg shadow-sky-100/60 ring-1 ring-sky-100'
+                  : 'bg-white/40 border-transparent hover:bg-white/80 hover:shadow-md hover:shadow-sky-100/30'
+              }`}
+            >
+              <div className="flex justify-between items-start mb-3">
+                <div className="flex items-center gap-2 min-w-0">
+                  <DocStatusBadge status={status} />
+                  <span className="text-lg font-bold text-slate-900 truncate">{patient.name}</span>
+                  <span className="text-sm font-medium text-slate-500 shrink-0">{patient.gender}/{patient.age}</span>
+                </div>
+                <div className="flex items-center gap-1.5 shrink-0 ml-2">
+                  {ls?.type === 'loading' && (
+                    <Loader2 className="w-3.5 h-3.5 text-sky-400 animate-spin" />
+                  )}
+                  {patient.daysUntilDeadline !== undefined && (
+                    <DeadlineBadge days={patient.daysUntilDeadline} />
+                  )}
+                </div>
               </div>
-              <div className="flex items-center text-slate-400 text-sm font-medium">
-                <Clock className="w-3.5 h-3.5 mr-1" strokeWidth={2} />
-                {patient.time}
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-slate-500 bg-slate-100/80 px-3 py-1 rounded-full">{patient.disease}</span>
+                {ls?.type === 'done' && (
+                  <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${
+                    ls.verdict.consultationType === '대면'
+                      ? 'bg-orange-100 text-orange-700'
+                      : 'bg-teal-100 text-teal-700'
+                  }`}>
+                    {ls.verdict.consultationType}
+                  </span>
+                )}
+                {selectedPatientId === patient.id && !ls?.type && (
+                  <ChevronRight className="w-5 h-5 text-cyan-500" strokeWidth={2} />
+                )}
               </div>
-            </div>
-            <div className="flex items-center justify-between">
-              <span className="text-sm text-slate-500 bg-slate-100/80 px-3 py-1 rounded-full">{patient.disease}</span>
-              {selectedPatientId === patient.id && <ChevronRight className="w-5 h-5 text-cyan-500" strokeWidth={2} />}
-            </div>
-          </button>
-        ))}
+            </button>
+          );
+        })}
       </div>
     </div>
   );
@@ -370,13 +500,46 @@ function PatientListPanel({ selectedPatientId, onSelect }: {
 // ── Main Dashboard ─────────────────────────────────────────────────────────
 
 export default function DoctorDashboard() {
-  const [selectedPatientId, setSelectedPatientId] = useState(1);
+  const [selectedPatientId, setSelectedPatientId] = useState(patients[0].id);
   const [showAiDetails, setShowAiDetails] = useState(false);
   const [hoveredVital, setHoveredVital] = useState<string | null>(null);
   const [activePanel, setActivePanel] = useState<'ai' | 'soap'>('ai');
+  const [lambdaStates, setLambdaStates] = useState<Record<number, LambdaStatus>>({});
+  const [nurseVitals, setNurseVitals] = useState<Record<number, NurseVitalsSnapshot>>({});
 
-  const selectedPatient = patients.find(p => p.id === selectedPatientId) || patients[0];
-  const theme = STATUS_THEME_MAP[selectedPatient.status];
+  // 간호사가 제출한 환자만 폴링 (nurse_queue 기반)
+  useEffect(() => {
+    const queue = getNurseQueue();
+    if (queue.length === 0) return;
+
+    const controllers: AbortController[] = [];
+    queue.forEach(({ patientId, s3Key }) => {
+      const patient = patients.find(p => p.lambdaPatientId === patientId);
+      if (!patient) return;
+      setLambdaStates(prev => ({ ...prev, [patient.id]: { type: 'loading' } }));
+      const ctrl = new AbortController();
+      controllers.push(ctrl);
+      runAndPoll(
+        patientId,
+        (verdict) => {
+          setLambdaStates(prev => ({ ...prev, [patient.id]: { type: 'done', verdict } }));
+          const snapshot = getNurseVitals(patientId);
+          if (snapshot) setNurseVitals(prev => ({ ...prev, [patient.id]: snapshot }));
+        },
+        ctrl.signal,
+      ).catch(() => {
+        if (!ctrl.signal.aborted) {
+          setLambdaStates(prev => ({ ...prev, [patient.id]: { type: 'error' } }));
+        }
+      });
+      void s3Key; // s3Key는 runAndPoll이 캐시에서 사용
+    });
+    return () => controllers.forEach(c => c.abort());
+  }, []);
+
+  const selectedPatient = patients.find(p => p.id === selectedPatientId) ?? patients[0];
+  const lambdaState = lambdaStates[selectedPatient.id];
+  const theme = STATUS_THEME_MAP[effectiveStatus(selectedPatient, lambdaState)];
 
   useEffect(() => {
     setShowAiDetails(false);
@@ -386,7 +549,7 @@ export default function DoctorDashboard() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 h-[calc(100vh-5rem)] flex flex-col lg:flex-row gap-8">
 
-      <PatientListPanel selectedPatientId={selectedPatientId} onSelect={setSelectedPatientId} />
+      <PatientListPanel selectedPatientId={selectedPatientId} onSelect={setSelectedPatientId} lambdaStates={lambdaStates} />
 
       {/* Right Column */}
       <div className="w-full lg:w-2/3 flex flex-col h-full">
@@ -442,10 +605,11 @@ export default function DoctorDashboard() {
                 <AIRecommendationSection
                   patient={selectedPatient}
                   theme={theme}
+                  lambdaState={lambdaState}
                   showAiDetails={showAiDetails}
                   onToggleDetails={() => setShowAiDetails(v => !v)}
                 />
-                <VitalsSection patient={selectedPatient} hoveredVital={hoveredVital} onHover={setHoveredVital} />
+                <VitalsSection patient={selectedPatient} hoveredVital={hoveredVital} onHover={setHoveredVital} nurseSnapshot={nurseVitals[selectedPatient.id]} />
               </>
             ) : selectedPatient.soapNote ? (
               <SoapNoteView patient={selectedPatient} theme={theme} />
