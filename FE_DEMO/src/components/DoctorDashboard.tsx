@@ -305,25 +305,45 @@ function AIRecommendationSection({
   showAiDetails: boolean;
   onToggleDetails: () => void;
 }) {
+  const isIdle = !lambdaState || lambdaState.type === 'idle';
+
+  // 간호사 제출 전 — 대기 화면
+  if (isIdle) {
+    return (
+      <div className="rounded-3xl p-10 border border-slate-100 bg-slate-50 flex flex-col items-center justify-center gap-4 min-h-[220px]">
+        <div className="w-14 h-14 rounded-full bg-slate-100 flex items-center justify-center">
+          <Sparkles className="w-7 h-7 text-slate-300" strokeWidth={1.5} />
+        </div>
+        <p className="text-slate-400 font-bold text-lg">방문 간호사의 기록 후 AI 분석이 시작됩니다</p>
+        <p className="text-slate-300 text-sm">간호사가 체크리스트를 제출하면 자동으로 분석이 요청됩니다</p>
+      </div>
+    );
+  }
+
+  // 분석 중 / 에러 / 완료 — 기존 LambdaVerdictBanner + 정적 내용
+  const effectiveTheme = lambdaState.type === 'done'
+    ? theme
+    : theme;
+
   return (
-    <div className={`rounded-3xl p-6 border relative overflow-hidden bg-gradient-to-br ${theme.gradient} ${theme.border}`}>
+    <div className={`rounded-3xl p-6 border relative overflow-hidden bg-gradient-to-br ${effectiveTheme.gradient} ${effectiveTheme.border}`}>
       <div className="absolute top-0 right-0 p-6 opacity-10">
         {patient.status === 'orange'
-          ? <Stethoscope className={`w-32 h-32 ${theme.iconColor}`} strokeWidth={1} />
+          ? <Stethoscope className={`w-32 h-32 ${effectiveTheme.iconColor}`} strokeWidth={1} />
           : patient.status === 'amber'
-          ? <AlertTriangle className={`w-32 h-32 ${theme.iconColor}`} strokeWidth={1} />
-          : <Video className={`w-32 h-32 ${theme.iconColor}`} strokeWidth={1} />
+          ? <AlertTriangle className={`w-32 h-32 ${effectiveTheme.iconColor}`} strokeWidth={1} />
+          : <Video className={`w-32 h-32 ${effectiveTheme.iconColor}`} strokeWidth={1} />
         }
       </div>
       <div className="relative z-10">
         <LambdaVerdictBanner lambdaState={lambdaState} />
         <div className="flex items-center gap-2 mb-4">
-          <Sparkles className={`w-5 h-5 ${theme.iconColor}`} strokeWidth={2} />
-          <span className={`font-bold tracking-wide ${theme.labelColor}`}>AI 분석 결과</span>
+          <Sparkles className={`w-5 h-5 ${effectiveTheme.iconColor}`} strokeWidth={2} />
+          <span className={`font-bold tracking-wide ${effectiveTheme.labelColor}`}>AI 분석 결과</span>
         </div>
         <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-4">
           {patient.aiRecommendation.title}<br/>
-          <span className={theme.highlightColor}>{patient.aiRecommendation.highlight}</span>됩니다.
+          <span className={effectiveTheme.highlightColor}>{patient.aiRecommendation.highlight}</span>됩니다.
         </h2>
         <div className="space-y-4">
           {patient.aiRecommendation.reasons.map((reason, idx) => (
@@ -340,7 +360,7 @@ function AIRecommendationSection({
         <div className="mt-2">
           <button
             onClick={onToggleDetails}
-            className={`flex items-center gap-2 font-bold transition-colors ml-auto bg-transparent px-2 py-1 rounded-xl ${theme.detailsButtonColor}`}
+            className={`flex items-center gap-2 font-bold transition-colors ml-auto bg-transparent px-2 py-1 rounded-xl ${effectiveTheme.detailsButtonColor}`}
           >
             {showAiDetails ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
             상세 보기
@@ -348,16 +368,16 @@ function AIRecommendationSection({
           <AnimatePresence>
             {showAiDetails && (
               <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden">
-                <div className={`mt-6 p-6 bg-white/60 rounded-2xl border space-y-4 ${theme.detailBorder}`}>
+                <div className={`mt-6 p-6 bg-white/60 rounded-2xl border space-y-4 ${effectiveTheme.detailBorder}`}>
                   <div className="flex items-center gap-2 text-slate-800 font-bold">
-                    <Info className={`w-4 h-4 ${theme.iconColor}`} />
+                    <Info className={`w-4 h-4 ${effectiveTheme.iconColor}`} />
                     <span>다변수 맥락 추론 상세</span>
                   </div>
                   <p className="text-slate-600 text-sm leading-relaxed">{patient.aiRecommendation.details}</p>
                   <div className="grid grid-cols-2 gap-4 pt-2">
                     {patient.aiRecommendation.stats.map((stat, idx) => (
-                      <div key={idx} className={`p-3 rounded-xl ${theme.detailBg}`}>
-                        <span className={`text-xs font-bold block mb-1 ${theme.detailStatColor}`}>{stat.label}</span>
+                      <div key={idx} className={`p-3 rounded-xl ${effectiveTheme.detailBg}`}>
+                        <span className={`text-xs font-bold block mb-1 ${effectiveTheme.detailStatColor}`}>{stat.label}</span>
                         <span className="text-sm font-bold text-slate-800">{stat.value}</span>
                       </div>
                     ))}

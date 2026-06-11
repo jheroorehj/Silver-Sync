@@ -8,7 +8,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { OBSERVATION_CHIPS } from '../constants';
 import { NurseStatusAvatar } from './ui/StatusBadge';
 import NumberSpinner from './ui/NumberSpinner';
-import { fetchPatient, submitAnalysis, type VisitVitals } from '../lib/silverSyncApi';
+import { fetchPatient, submitAnalysis, getCompletedPatients, markPatientCompleted, type VisitVitals } from '../lib/silverSyncApi';
 import type { NursePatient, ConversationSummary } from '../types';
 
 // ── Types ─────────────────────────────────────────────────────────────────
@@ -48,6 +48,7 @@ export default function NurseMain() {
   const loadSchedule = async () => {
     setIsLoading(true);
     try {
+      const completed = getCompletedPatients();
       const fetched = await Promise.all(
         SCHEDULE.map(async ({ lambdaPatientId, time }) => {
           const info = await fetchPatient(lambdaPatientId);
@@ -58,7 +59,7 @@ export default function NurseMain() {
             age: info.age,
             gender: info.gender === 'F' ? '여' : '남',
             time,
-            status: 'pending' as const,
+            status: (completed.has(lambdaPatientId) ? 'completed' : 'pending') as 'pending' | 'completed',
           };
         }),
       );
@@ -76,6 +77,7 @@ export default function NurseMain() {
   };
 
   const handleMarkComplete = (patientId: string) => {
+    markPatientCompleted(patientId);
     setPatients(prev => prev.map(p => p.id === patientId ? { ...p, status: 'completed' } : p));
   };
 

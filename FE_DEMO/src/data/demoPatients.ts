@@ -1,46 +1,6 @@
 import type { DocPatient } from '../types';
 
 export const demoPatients: DocPatient[] = [
-  // ── D-day: 류순옥 (EDGE-E4) — 대면 권고, HbA1c 8.4 ───────────────────────
-  {
-    id: 1,
-    lambdaPatientId: 'EDGE-E4-0001',
-    daysUntilDeadline: 0,
-    name: '류순옥',
-    age: 81,
-    gender: '여',
-    time: '09:00',
-    status: 'orange',
-    disease: '당뇨, 고혈압',
-    aiRecommendation: {
-      title: 'HbA1c 8.4% 및 반복적인 식후 혈당 급등으로',
-      highlight: '대면 진료가 권고',
-      reasons: [
-        { type: 'up',    text: 'HbA1c <span class="font-bold text-slate-900">8.4%</span>로 목표치(7.0%) 초과 지속' },
-        { type: 'alert', text: '식후 혈당 <span class="font-bold text-slate-900">200 mg/dL 이상</span> 반복 측정' },
-        { type: 'check', text: '공복혈당은 정상 범위이나 약제 용량 재검토 필요' },
-      ],
-      details: '고령(81세) 환자로 공복혈당은 정상이나 식후 혈당 급등 패턴이 지속되고 있습니다. HbA1c가 두 번 연속 상승하여 현재 약제 효과가 감소하고 있을 가능성이 있으며, 대면을 통한 임상적 재평가와 약제 조정이 권고됩니다.',
-      stats: [
-        { label: 'HbA1c', value: '8.4% (↑ 목표 초과)' },
-        { label: '식후 혈당', value: '≥ 200 mg/dL 반복' },
-      ],
-    },
-    vitals: {
-      bp:         { current: '134/86', trend: '소폭 상승 추세', trendUp: true,  data: [128, 130, 132, 135, 134] },
-      sugar:      { current: '142',    status: '식후 혈당 이상 (↑)',  trendUp: true,  data: [125, 130, 138, 148, 142] },
-      adherence:  { current: '98',     data: [100, 100, 95, 100, 100] },
-    },
-    footerAction: '대면 진료 예약하기',
-    soapNote: {
-      subjective: '정기 재진. 최근 식사 후 피로감 증가 호소. 복약 유지 중이나 간식 섭취 빈도 증가.',
-      objective:  '혈압 134/86 mmHg. 공복혈당 142 mg/dL, 식후혈당 약 230 mg/dL. HbA1c 8.4%. 복약 순응도 98%.',
-      assessment: '당뇨 혈당 조절 불량. 식후 고혈당 패턴 반복 및 HbA1c 연속 상승으로 약제 조정 필요.',
-      plan:       '1. 대면 진료 통해 약제 조절 검토. 2. 저GI 식단 및 식사 간격 교육. 3. 자가혈당 모니터링 강화.',
-      anomalies:  ['sugar'],
-    },
-  },
-
   // ── D-1: 홍길동001 (HARDNEG-HN4) — 비대면, 안정 CKD ─────────────────────
   {
     id: 2,
@@ -118,46 +78,6 @@ export const demoPatients: DocPatient[] = [
       assessment: '당뇨망막병증 진행 의심. 신규 시각 증상 발생으로 안과 협진 필요. 혈당 조절도 목표치 초과 지속.',
       plan:       '1. 즉시 안과 협진 의뢰. 2. 대면 진료 통해 혈당 조절 약제 재검토. 3. 혈압 조절 강화.',
       anomalies:  ['sugar'],
-    },
-  },
-
-  // ── D-3: 홍동석 (EDGE-E5) — 대면, 심부전+TZD 약물 주의 ──────────────────
-  {
-    id: 4,
-    lambdaPatientId: 'EDGE-E5-0001',
-    daysUntilDeadline: 3,
-    name: '홍동석',
-    age: 84,
-    gender: '남',
-    time: '10:30',
-    status: 'amber',
-    disease: '당뇨, 고혈압, 심부전',
-    aiRecommendation: {
-      title: '심부전 환자에서 TZD 계열 약제 사용으로',
-      highlight: '대면 약제 검토가 권고',
-      reasons: [
-        { type: 'alert', text: '<span class="font-bold text-slate-900">피오글리타존(TZD)</span> 복용 중 — 심부전 동반 시 부종·악화 위험' },
-        { type: 'up',    text: '최근 2주간 <span class="font-bold text-slate-900">발목 부종</span> 증가 보고' },
-        { type: 'check', text: '혈당 자체는 조절 범위 내 유지 중' },
-      ],
-      details: '심부전 동반 환자에서 피오글리타존(TZD 계열)은 체액 저류 및 심부전 악화 위험이 알려져 있습니다. 최근 발목 부종 증가 보고가 있어 약제 변경 또는 조정을 위한 대면 진료가 필요합니다.',
-      stats: [
-        { label: '약물 상호작용', value: 'TZD + 심부전 (주의)' },
-        { label: '발목 부종', value: '최근 2주 악화 보고' },
-      ],
-    },
-    vitals: {
-      bp:        { current: '142/90', trend: '다소 상승',  trendUp: true,  data: [135, 138, 140, 145, 142] },
-      sugar:     { current: '124',    status: '목표 범위 유지', trendUp: false, data: [128, 122, 126, 120, 124] },
-      adherence: { current: '88',     data: [100, 80, 90, 80, 100] },
-    },
-    footerAction: '대면 약제 검토 예약',
-    soapNote: {
-      subjective: '정기 재진. 최근 2주 발목 부종이 심해졌다고 호소. 숨이 조금 차는 느낌도 있다고 진술.',
-      objective:  '혈압 142/90 mmHg. 공복혈당 124 mg/dL. 피오글리타존 15 mg 복용 중. 하지 부종 관찰됨. 복약 순응도 88%.',
-      assessment: '심부전 동반 환자 TZD 투여 중 하지 부종 증가. 심부전 악화 가능성 배제를 위한 대면 평가 필요.',
-      plan:       '1. 피오글리타존 → 대체 약제(DPP-4i 또는 SGLT-2i) 변경 검토. 2. 흉부 청진 및 체중 변화 확인. 3. 필요 시 심장내과 협진.',
-      anomalies:  [],
     },
   },
 
