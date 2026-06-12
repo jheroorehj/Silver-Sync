@@ -22,6 +22,7 @@ import {
   MessageSquare,
   ClipboardList,
   Loader2,
+  BookOpen,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { LineChart, Line, ResponsiveContainer, XAxis, YAxis, Tooltip } from 'recharts';
@@ -209,6 +210,20 @@ function SoapNoteView({ patient, theme }: { patient: DocPatient; theme: StatusTh
               : section.content
             }
           </p>
+          {section.key === 'A' && soap.references && soap.references.length > 0 && (
+            <div className="mt-4 space-y-2">
+              <div className="flex items-center gap-1.5 text-xs font-bold text-slate-400 mb-2">
+                <BookOpen className="w-3.5 h-3.5" />
+                <span>RAG 기반 진료지침 근거</span>
+              </div>
+              {soap.references.map((ref, i) => (
+                <div key={i} className="bg-white/70 border border-slate-200 rounded-xl p-3">
+                  <p className="text-[11px] font-bold text-sky-600 mb-1">{ref.source}</p>
+                  <p className="text-xs text-slate-500 italic">"{ref.excerpt}"</p>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       ))}
 
@@ -320,10 +335,31 @@ function AIRecommendationSection({
     );
   }
 
-  // 분석 중 / 에러 / 완료 — 기존 LambdaVerdictBanner + 정적 내용
-  const effectiveTheme = lambdaState.type === 'done'
-    ? theme
-    : theme;
+  // 분석 중 — 로딩 전용 화면
+  if (lambdaState.type === 'loading') {
+    return (
+      <div className="rounded-3xl p-10 border border-sky-100 bg-sky-50/30 flex flex-col items-center justify-center gap-4 min-h-[220px]">
+        <Loader2 className="w-10 h-10 text-sky-500 animate-spin" />
+        <div className="text-center">
+          <p className="font-bold text-sky-700 text-lg">Silver-Sync 멀티에이전트 분석 중...</p>
+          <p className="text-sky-400 text-sm mt-1">AI 에이전트가 진료 지침 및 임상 데이터를 검토하고 있습니다</p>
+        </div>
+      </div>
+    );
+  }
+
+  // 에러 화면
+  if (lambdaState.type === 'error') {
+    return (
+      <div className="rounded-3xl p-10 border border-slate-100 bg-slate-50 flex flex-col items-center justify-center gap-4 min-h-[220px]">
+        <AlertCircle className="w-10 h-10 text-slate-400" />
+        <p className="text-slate-500 font-bold">AI 분석 결과를 불러오지 못했습니다</p>
+      </div>
+    );
+  }
+
+  // 완료 — 분석 결과 표시
+  const effectiveTheme = theme;
 
   return (
     <div className={`rounded-3xl p-6 border relative overflow-hidden bg-gradient-to-br ${effectiveTheme.gradient} ${effectiveTheme.border}`}>
@@ -481,7 +517,13 @@ function PatientListPanel({ selectedPatientId, onSelect, lambdaStates }: {
             >
               <div className="flex justify-between items-start mb-3">
                 <div className="flex items-center gap-2 min-w-0">
-                  <DocStatusBadge status={status} />
+                  {ls?.type === 'done'
+                    ? <DocStatusBadge status={effectiveStatus(patient, ls)} />
+                    : <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full border bg-slate-50 border-slate-200 text-slate-400">
+                        <div className="w-1.5 h-1.5 rounded-full bg-slate-300" />
+                        <span className="text-[10px] font-bold whitespace-nowrap">대기중</span>
+                      </div>
+                  }
                   <span className="text-lg font-bold text-slate-900 truncate">{patient.name}</span>
                   <span className="text-sm font-medium text-slate-500 shrink-0">{patient.gender}/{patient.age}</span>
                 </div>
@@ -643,12 +685,25 @@ export default function DoctorDashboard() {
 
           {/* Footer Actions */}
           <div className="p-6 border-t border-sky-50/50 bg-white/50 flex gap-4 print:hidden">
-            <button className={`flex-1 font-bold py-4 rounded-2xl transition-all text-lg border ${theme.footerBtn1}`}>
-              기존 처방 유지
-            </button>
-            <button className={`flex-1 font-bold py-4 rounded-2xl transition-all text-lg border ${theme.footerBtn2}`}>
-              {selectedPatient.footerAction}
-            </button>
+            {lambdaState?.type === 'done' ? (
+              <>
+                <button className={`flex-1 font-bold py-4 rounded-2xl transition-all text-lg border ${theme.footerBtn1}`}>
+                  기존 처방 유지
+                </button>
+                <button className={`flex-1 font-bold py-4 rounded-2xl transition-all text-lg border ${theme.footerBtn2}`}>
+                  {lambdaState.verdict.consultationType === '대면' ? '대면 진료 예약하기' : '비대면 상담 예약하기'}
+                </button>
+              </>
+            ) : (
+              <>
+                <button disabled className="flex-1 font-bold py-4 rounded-2xl text-lg border bg-slate-100 text-slate-300 border-slate-200 cursor-not-allowed">
+                  기존 처방 유지
+                </button>
+                <button disabled className="flex-1 font-bold py-4 rounded-2xl text-lg border bg-slate-100 text-slate-300 border-slate-200 cursor-not-allowed">
+                  AI 분석 후 활성화
+                </button>
+              </>
+            )}
           </div>
 
         </div>

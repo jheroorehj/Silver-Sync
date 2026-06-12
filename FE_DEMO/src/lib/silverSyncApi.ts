@@ -114,7 +114,7 @@ export async function runAndPoll(
   signal?: AbortSignal,
 ): Promise<void> {
   if (DEMO_MODE) {
-    // 데모: 5초 뒤 하드코딩된 판정 반환
+    // 데모: 10초 뒤 하드코딩된 판정 반환
     await sleep(5000);
     if (signal?.aborted) return;
     const verdict = DEMO_VERDICTS[patientId];
