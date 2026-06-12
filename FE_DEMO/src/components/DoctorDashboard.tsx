@@ -145,8 +145,14 @@ function VitalCard({
 
 // ── SOAP Note View ────────────────────────────────────────────────────────
 
-function SoapNoteView({ patient, theme }: { patient: DocPatient; theme: StatusTheme }) {
+function SoapNoteView({ patient, theme, guidelineEvidence }: {
+  patient: DocPatient;
+  theme: StatusTheme;
+  guidelineEvidence?: { source: string; content: string }[];
+}) {
   const soap = patient.soapNote as SoapNote;
+  // lambdaState에서 직접 내려온 값 우선, 없으면 soapNote 안의 값 사용
+  const evidence = (guidelineEvidence ?? soap.guidelineEvidence ?? []);
 
   const SOAP_SECTIONS = [
     {
@@ -204,6 +210,20 @@ function SoapNoteView({ patient, theme }: { patient: DocPatient; theme: StatusTh
               : section.content
             }
           </p>
+          {section.key === 'A' && evidence.length > 0 && (
+            <div className="mt-4 pt-4 border-t border-white/60 space-y-2">
+              <div className="flex items-center gap-1.5 text-xs font-bold text-slate-500">
+                <BookOpen className="w-3.5 h-3.5" />
+                <span>참조 근거 지침</span>
+              </div>
+              {evidence.map((ev, i) => (
+                <div key={i} className="p-3 bg-white/70 rounded-xl border border-white/80">
+                  <p className={`text-xs font-bold mb-1 ${theme.detailStatColor}`}>{ev.source}</p>
+                  <p className="text-xs text-slate-600 leading-relaxed line-clamp-3">"{ev.content}"</p>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       ))}
 
@@ -269,7 +289,7 @@ function LambdaVerdictBanner({ lambdaState }: { lambdaState?: LambdaStatus }) {
             : <Video className="w-6 h-6 text-teal-600 shrink-0" strokeWidth={1.5} />
           }
           <div>
-            <p className={`font-extrabold text-lg leading-tight ${isInPerson ? 'text-orange-700' : 'text-teal-700'}`}>
+            <p className={`font-bold text-base leading-tight ${isInPerson ? 'text-orange-700' : 'text-teal-700'}`}>
               {verdict.consultationType} 진료 {isInPerson ? '권고' : '가능'}
             </p>
             <p className="text-xs text-slate-500 mt-0.5">
@@ -278,9 +298,9 @@ function LambdaVerdictBanner({ lambdaState }: { lambdaState?: LambdaStatus }) {
           </div>
         </div>
         <div className="text-right">
-          <p className="text-3xl font-extrabold text-slate-800">
+          <p className="text-2xl font-bold text-slate-800">
             {verdict.riskScore}
-            <span className="text-base font-medium text-slate-400">/100</span>
+            <span className="text-sm font-normal text-slate-400">/100</span>
           </p>
           <p className="text-xs text-slate-500">위험도 점수</p>
         </div>
@@ -367,19 +387,19 @@ function AIRecommendationSection({
           <Sparkles className={`w-5 h-5 ${theme.iconColor}`} strokeWidth={2} />
           <span className={`font-bold tracking-wide ${theme.labelColor}`}>AI 분석 결과</span>
         </div>
-        <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-4">
+        <h2 className="text-xl sm:text-2xl font-bold text-slate-900 mb-4">
           {patient.aiRecommendation?.title}<br/>
           <span className={theme.highlightColor}>{patient.aiRecommendation?.highlight}</span>됩니다.
         </h2>
-        <div className="space-y-4">
+        <div className="space-y-3">
           {(patient.aiRecommendation?.reasons ?? []).map((reason, idx) => (
             <div key={idx} className="flex items-start gap-3">
-              <div className={`w-6 h-6 rounded-full flex items-center justify-center shrink-0 mt-0.5 ${reason.type === 'check' ? 'bg-teal-100' : 'bg-orange-100'}`}>
-                {reason.type === 'up'    && <ArrowUpRight className="w-3.5 h-3.5 text-orange-600" strokeWidth={2.5} />}
-                {reason.type === 'alert' && <AlertCircle  className="w-3.5 h-3.5 text-orange-600" strokeWidth={2.5} />}
-                {reason.type === 'check' && <CheckCircle2 className="w-3.5 h-3.5 text-teal-600"   strokeWidth={2.5} />}
+              <div className={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 mt-0.5 ${reason.type === 'check' ? 'bg-teal-100' : 'bg-orange-100'}`}>
+                {reason.type === 'up'    && <ArrowUpRight className="w-3 h-3 text-orange-600" strokeWidth={2.5} />}
+                {reason.type === 'alert' && <AlertCircle  className="w-3 h-3 text-orange-600" strokeWidth={2.5} />}
+                {reason.type === 'check' && <CheckCircle2 className="w-3 h-3 text-teal-600"   strokeWidth={2.5} />}
               </div>
-              <p className="text-slate-700 text-lg leading-relaxed"><SafeText html={reason.text} /></p>
+              <p className="text-slate-700 text-sm leading-relaxed"><SafeText html={reason.text} /></p>
             </div>
           ))}
         </div>
@@ -877,7 +897,11 @@ export default function DoctorDashboard() {
                 />
               </>
             ) : selectedPatient.soapNote ? (
-              <SoapNoteView patient={selectedPatient} theme={theme} />
+              <SoapNoteView
+                patient={selectedPatient}
+                theme={theme}
+                guidelineEvidence={lambdaState?.type === 'done' ? lambdaState.verdict.guidelineEvidence : undefined}
+              />
             ) : (
               <div className="flex flex-col items-center justify-center h-full text-slate-400 gap-3">
                 <ClipboardList className="w-12 h-12 opacity-30" />

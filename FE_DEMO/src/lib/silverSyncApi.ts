@@ -44,6 +44,7 @@ export type LambdaVerdict = {
     assessment: string;
     plan: string;
     anomalies: string[];
+    guidelineEvidence?: { source: string; content: string }[];
   };
   recommendation?: {
     title: string;
@@ -71,6 +72,42 @@ function arr<T>(v: unknown): T[] { return (v as T[] | undefined) ?? []; }
 function str(v: unknown, fallback = ''): string { return v != null ? String(v) : fallback; }
 function num(v: unknown, fallback = 0): number { return v != null ? Number(v) : fallback; }
 
+// ── 진료지침 소스명 정리 ─────────────────────────────────────────────────────
+// PDF 파일명 → 읽기 좋은 이름으로 변환
+// 예) "20250709_대한신장학회_고혈압콩팥병 진료지침_eggpr.pdf, p.142"
+//     → "대한신장학회 고혈압콩팥병 진료지침 (2025), p.142"
+function prettifyGuidelineSource(raw: string): string {
+  if (!raw || raw === 'offline_sample_guideline' || raw === 'supabase_knowledge_base' || raw === 'knowledge_base' || raw === 'SilverSyncGuidelines' || raw === 'dynamodb_guidelines') {
+    return '';
+  }
+
+  // DynamoDB title 형식: "2025 당뇨병 진료 지침 (Part 0)" — 그대로 반환
+  if (/^\d{4}\s/.test(raw) && !/\.(pdf|csv|json|txt)$/i.test(raw)) {
+    const parts2 = raw.replace(/\s*\(Part\s*\d+\)\s*$/i, '').trim();
+    return parts2;
+  }
+
+  // repository.py가 붙여주는 페이지 번호 분리: "filename.pdf, p.142"
+  const pageMatch = raw.match(/,\s*p\.?(\d+)\s*$/i);
+  const pageStr = pageMatch ? `, p.${pageMatch[1]}` : '';
+  const filename = pageMatch ? raw.slice(0, pageMatch.index) : raw;
+
+  // 확장자 제거
+  const noExt = filename.replace(/\.(pdf|csv|json|txt)$/i, '').trim();
+  // 날짜 접두사(YYYYMMDD 혹은 YYYY) 분리
+  const datePrefix = noExt.match(/^(\d{8})/);
+  const year = datePrefix ? datePrefix[1].substring(0, 4) : (noExt.match(/^(\d{4})[_\s]/)?.[1] ?? '');
+  const withoutDate = noExt.replace(/^\d{8}[_\s]?/, '').replace(/^\d{4}[_\s]?/, '');
+  // 언더스코어 → 공백, 짧은 알파벳 해시(≤4자 영문) 제거
+  // 소문자 해시(예: "eggpr") 제거, 대문자 약어(예: "KSS") 유지
+  const parts = withoutDate.split('_')
+    .map(p => p.trim())
+    .filter(p => p.length > 0 && !/^[a-z]{1,6}$/.test(p));
+  const name = parts.join(' ');
+  const yearSuffix = year ? ` (${year})` : '';
+  return `${name}${yearSuffix}${pageStr}`;
+}
+
 export function parseS3Full(data: R): LambdaVerdict {
   const meta = r(data._meta);
   // judge 먼저 파싱 — S3 포맷에 따라 verdict 필드가 judge 안에만 있을 수 있음
@@ -94,12 +131,8 @@ export function parseS3Full(data: R): LambdaVerdict {
   const conditions = arr<string>(patient.conditions);
   const signals = r(curatedCase.signals);
 
-  // visit_records: { vital_signs: { blood_pressure, blood_sugar } } 형식 — 현재 방문 측정값 포함
-  // patient.records: { blood_pressure, blood_sugar } 형식 — DynamoDB 과거 기록 (히스토리 차트용)
-  const visitRecords = arr<R>(raw.visit_records);
-  const patientRecords = arr<R>(patient.records);
-
-  // 두 가지 포맷 모두 지원하는 추출 헬퍼
+  // 세 소스 통합: visit_date 기준 중복제거, visit_records가 flat records보다 우선
+  // (visit_records는 vital_signs 중첩 + notes/symptoms 포함으로 더 완전한 데이터)
   function extractBpSystolic(record: R): number {
     const vs = r(record.vital_signs);
     const bp = str(vs.blood_pressure) || str(record.blood_pressure) || '120/80';
@@ -110,19 +143,24 @@ export function parseS3Full(data: R): LambdaVerdict {
     return num(vs.blood_sugar ?? vs.fasting_glucose ?? record.blood_sugar, 100);
   }
 
-  // 히스토리 차트: patient.records 우선 (DynamoDB 전체 기록), 없으면 visit_records
-  const historySource = patientRecords.length > 0 ? patientRecords : visitRecords;
-  // 현재값: visit_records 우선 (실제 측정 포함), 없으면 patient.records
-  const currentSource = visitRecords.length > 0 ? visitRecords : patientRecords;
+  const recordMap = new Map<string, R>();
+  // flat records 먼저 (낮은 우선순위)
+  for (const rec of [...arr<R>(patient.records), ...arr<R>(raw.records)]) {
+    const d = str(rec.visit_date);
+    if (d) recordMap.set(d, rec);
+  }
+  // visit_records로 덮어쓰기 (높은 우선순위 — vital_signs 포함)
+  for (const rec of arr<R>(raw.visit_records)) {
+    const d = str(rec.visit_date);
+    if (d) recordMap.set(d, rec);
+  }
+  // 날짜순 정렬, 최근 5개로 차트 사용
+  const allRecords = [...recordMap.values()]
+    .sort((a, b) => str(a.visit_date).localeCompare(str(b.visit_date)));
 
-  const sortedHistory = [...historySource]
-    .sort((a, b) => str(a.visit_date).localeCompare(str(b.visit_date)))
-    .slice(-5);
-
-  const latestCurrentEntry = [...currentSource]
-    .sort((a, b) => str(a.visit_date).localeCompare(str(b.visit_date)))
-    .at(-1) ?? {};
-  const latestVitals = r((latestCurrentEntry as R).vital_signs);
+  const sortedHistory = allRecords.slice(-5);
+  const latestCurrentEntry: R = allRecords.at(-1) ?? {};
+  const latestVitals = r(latestCurrentEntry.vital_signs);
 
   // 최신 방문 SOAP S 데이터용 (증상/노트)
   const latestVisit = latestCurrentEntry;
@@ -130,13 +168,13 @@ export function parseS3Full(data: R): LambdaVerdict {
   const bpData = sortedHistory.map(extractBpSystolic);
   const sugarData = sortedHistory.map(extractSugar);
 
-  // 현재값: visit_records 최신 측정값 우선
+  // 현재값: vital_signs 중첩 포맷 우선, flat 포맷 폴백
   const bpCurrent = str(latestVitals.blood_pressure)
-    || str((latestCurrentEntry as R).blood_pressure)
+    || str(latestCurrentEntry.blood_pressure)
     || '120/80';
   const sugarCurrent = String(
     num(latestVitals.blood_sugar ?? latestVitals.fasting_glucose, 0)
-    || num((latestCurrentEntry as R).blood_sugar, 100)
+    || num(latestCurrentEntry.blood_sugar, 100)
   );
   const bpTrendUp = num(signals.systolic_delta) > 0;
   const sugarTrendUp = num(signals.blood_sugar_delta) > 0;
@@ -152,12 +190,12 @@ export function parseS3Full(data: R): LambdaVerdict {
   const subjective = [chiefComplaint, symptoms, notes].filter(Boolean).join('. ');
 
   // HbA1c: 전체 히스토리에서 가장 최근 HbA1c 값 검색
-  const latestHba1cRecord = [...sortedHistory].reverse().find(v => {
+  const latestHba1cRecord = [...allRecords].reverse().find(v => {
     const vs = r(v.vital_signs);
-    return vs.hba1c != null || (v as R).hba1c != null;
+    return vs.hba1c != null || v.hba1c != null;
   });
   const hba1cValue = latestHba1cRecord
-    ? (num(r(latestHba1cRecord.vital_signs).hba1c) || num((latestHba1cRecord as R).hba1c))
+    ? (num(r(latestHba1cRecord.vital_signs).hba1c) || num(latestHba1cRecord.hba1c))
     : num(signals.latest_hba1c);
 
   const objective = [
@@ -182,11 +220,15 @@ export function parseS3Full(data: R): LambdaVerdict {
   const remoteArg = r(data.remote_argument);
   const reasoning = r(data.reasoning);
 
-  // RAG 근거 지침
-  const guidelineEvidence = arr<R>(reasoning.guideline_evidence).map(e => ({
-    source: str(e.source),
+  // RAG 근거 지침 — reasoning.guideline_evidence 우선, meta 폴백
+  const rawEvidence = arr<R>(reasoning.guideline_evidence).length > 0
+    ? arr<R>(reasoning.guideline_evidence)
+    : arr<R>((meta.reasoning as R | undefined)?.guideline_evidence);
+
+  const guidelineEvidence = rawEvidence.map(e => ({
+    source: prettifyGuidelineSource(str(e.source)),
     content: str(e.content),
-  })).filter(e => e.content.length > 0);
+  })).filter(e => e.content.length > 0 && e.source.length > 0);
 
   // Assessment: 여러 경로에서 순서대로 시도, 모두 없으면 위험도 기반으로 구성
   const rationaleBase =
@@ -239,7 +281,7 @@ export function parseS3Full(data: R): LambdaVerdict {
     adherenceRate,
     adherenceData,
     guidelineEvidence,
-    soapNote: { subjective, objective, assessment, plan, anomalies },
+    soapNote: { subjective, objective, assessment, plan, anomalies, guidelineEvidence },
     recommendation: {
       title: str(reasoning.summary),
       highlight: isInPerson ? '대면 진료가 권고' : '비대면 진료가 가능',

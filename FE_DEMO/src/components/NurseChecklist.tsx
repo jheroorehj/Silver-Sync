@@ -8,7 +8,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { OBSERVATION_CHIPS } from '../constants';
 import { NurseStatusAvatar } from './ui/StatusBadge';
 import NumberSpinner from './ui/NumberSpinner';
-import { fetchPatient, submitAnalysis, saveSchedule, type VisitVitals } from '../lib/silverSyncApi';
+import { fetchPatient, submitAnalysis, saveSchedule, getNurseQueue, type VisitVitals } from '../lib/silverSyncApi';
 import type { NursePatient, ConversationSummary } from '../types';
 
 // ── Types ─────────────────────────────────────────────────────────────────
@@ -63,7 +63,11 @@ export default function NurseMain() {
           };
         }),
       );
-      setPatients(fetched);
+      // 이미 제출된 환자는 완료 상태 복원 (의사 대시보드 갔다와도 유지)
+      const submittedIds = new Set(getNurseQueue().map(e => e.patientId));
+      setPatients(fetched.map(p =>
+        submittedIds.has(p.lambdaPatientId ?? '') ? { ...p, status: 'completed' as const } : p
+      ));
     } catch {
       setPatients([]);
     } finally {

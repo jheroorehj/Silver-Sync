@@ -38,6 +38,7 @@ export type SoapNote = {
   assessment: string;
   plan: string;
   anomalies: string[];
+  guidelineEvidence?: { source: string; content: string }[];
 };
 
 // ── Doctor Patient ────────────────────────────────────────────────────────
