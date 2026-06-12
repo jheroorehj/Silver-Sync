@@ -1,5 +1,5 @@
 // ── Status ──────────────────────────────────────────────────────────────
-export type DocPatientStatus = 'orange' | 'amber' | 'teal';
+export type DocPatientStatus = 'orange' | 'amber' | 'teal' | 'pending';
 export type NursePatientStatus = 'pending' | 'completed';
 
 // ── Theme ────────────────────────────────────────────────────────────────
@@ -51,19 +51,19 @@ export type DocPatient = {
   lambdaPatientId?: string;
   daysUntilDeadline?: number;
   disease: string;
-  aiRecommendation: {
+  aiRecommendation?: {
     title: string;
     highlight: string;
     reasons: { type: string; text: string }[];
     details: string;
     stats: { label: string; value: string }[];
   };
-  vitals: {
+  vitals?: {
     bp: VitalSeries;
     sugar: VitalSeries;
     adherence: VitalSeries;
   };
-  footerAction: string;
+  footerAction?: string;
   conversationSummary?: ConversationSummary;
   soapNote?: SoapNote;
 };

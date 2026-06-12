@@ -8,6 +8,19 @@ export const OBSERVATION_CHIPS = [
 ];
 
 export const STATUS_THEME_MAP: Record<string, StatusTheme> = {
+  pending: {
+    gradient: 'from-slate-50 to-slate-100/30',
+    border: 'border-slate-200/50',
+    iconColor: 'text-slate-400',
+    labelColor: 'text-slate-400',
+    highlightColor: 'text-slate-400',
+    detailsButtonColor: 'text-slate-400 hover:text-slate-500',
+    detailBorder: 'border-slate-200',
+    detailBg: 'bg-slate-50/50',
+    detailStatColor: 'text-slate-500',
+    footerBtn1: 'bg-white text-slate-400 border-slate-200',
+    footerBtn2: 'bg-slate-100 text-slate-400 border-slate-200',
+  },
   orange: {
     gradient: 'from-orange-50 to-amber-50/30',
     border: 'border-orange-100/50',

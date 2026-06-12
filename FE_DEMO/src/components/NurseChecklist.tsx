@@ -8,7 +8,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { OBSERVATION_CHIPS } from '../constants';
 import { NurseStatusAvatar } from './ui/StatusBadge';
 import NumberSpinner from './ui/NumberSpinner';
-import { fetchPatient, submitAnalysis, type VisitVitals } from '../lib/silverSyncApi';
+import { fetchPatient, submitAnalysis, saveSchedule, type VisitVitals } from '../lib/silverSyncApi';
 import type { NursePatient, ConversationSummary } from '../types';
 
 // ── Types ─────────────────────────────────────────────────────────────────
@@ -46,6 +46,7 @@ export default function NurseMain() {
   useEffect(() => { loadSchedule(); }, []);
 
   const loadSchedule = async () => {
+    saveSchedule(SCHEDULE); // 의사 대시보드용 브릿지
     setIsLoading(true);
     try {
       const fetched = await Promise.all(
@@ -163,7 +164,7 @@ function ScheduleView({ patients, onLoadSchedule, onStartChecklist, onOpenAddMod
             onClick={() => onStartChecklist(patient)}
             className={`w-full text-left p-6 rounded-[32px] transition-all duration-300 border-2 flex items-center justify-between ${
               patient.status === 'completed'
-                ? 'bg-slate-50 border-sky-100 hover:border-sky-300 hover:shadow-md hover:shadow-sky-100/50 active:scale-[0.98]'
+                ? 'bg-teal-50/30 border-teal-200 hover:border-teal-300 hover:shadow-md hover:shadow-teal-100/50 active:scale-[0.98]'
                 : 'bg-white border-sky-100 hover:border-sky-300 hover:shadow-md hover:shadow-sky-100/50 active:scale-[0.98]'
             }`}
           >
@@ -173,6 +174,9 @@ function ScheduleView({ patients, onLoadSchedule, onStartChecklist, onOpenAddMod
                 <div className="flex items-center gap-3 mb-1">
                   <span className="text-2xl font-extrabold text-slate-900">{patient.name}</span>
                   <span className="text-slate-500 font-semibold bg-slate-100 px-2 py-0.5 rounded-lg text-sm">{patient.gender}/{patient.age}</span>
+                  {patient.status === 'completed' && (
+                    <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-teal-500 text-white">완료</span>
+                  )}
                 </div>
                 <div className="flex items-center text-slate-500 font-medium">
                   <Clock className="w-4 h-4 mr-1.5" strokeWidth={2} />
@@ -180,8 +184,13 @@ function ScheduleView({ patients, onLoadSchedule, onStartChecklist, onOpenAddMod
                 </div>
               </div>
             </div>
-            <div className={`w-12 h-12 rounded-full flex items-center justify-center ${patient.status === 'completed' ? 'bg-slate-200/50 text-slate-500' : 'bg-sky-50 text-sky-500'}`}>
-              <ChevronRight className="w-6 h-6" strokeWidth={3} />
+            <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
+              patient.status === 'completed' ? 'bg-teal-100 text-teal-600' : 'bg-sky-50 text-sky-500'
+            }`}>
+              {patient.status === 'completed'
+                ? <CheckCircle2 className="w-6 h-6" strokeWidth={2.5} />
+                : <ChevronRight className="w-6 h-6" strokeWidth={3} />
+              }
             </div>
           </button>
         ))}

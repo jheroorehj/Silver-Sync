@@ -22,20 +22,15 @@ import {
   MessageSquare,
   ClipboardList,
   Loader2,
+  BookOpen,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { LineChart, Line, ResponsiveContainer, XAxis, YAxis, Tooltip } from 'recharts';
-import { demoPatients } from '../data/demoPatients';
-import { getNurseQueue, getNurseVitals, runAndPoll } from '../lib/silverSyncApi';
-import type { NurseVitalsSnapshot } from '../lib/silverSyncApi';
+import { getSchedule, fetchPatient, getNurseQueue, getNurseVitals, getNurseFullVitals, runAndPoll } from '../lib/silverSyncApi';
+import type { NurseVitalsSnapshot, LambdaStatus, LambdaVerdict, VisitVitals } from '../lib/silverSyncApi';
 import { DAYS, STATUS_THEME_MAP } from '../constants';
 import { DocStatusBadge } from './ui/StatusBadge';
 import type { DocPatient, DocPatientStatus, StatusTheme, SoapNote } from '../types';
-import type { LambdaStatus, LambdaVerdict } from '../lib/silverSyncApi';
-
-const patients = [...demoPatients].sort(
-  (a, b) => (a.daysUntilDeadline ?? 99) - (b.daysUntilDeadline ?? 99),
-);
 
 // ── Lambda helpers ────────────────────────────────────────────────────────
 
@@ -45,9 +40,9 @@ function verdictToStatus(verdict: LambdaVerdict): DocPatientStatus {
     : 'teal';
 }
 
-function effectiveStatus(patient: DocPatient, ls?: LambdaStatus): DocPatientStatus {
+function effectiveStatus(_patient: DocPatient, ls?: LambdaStatus): DocPatientStatus {
   if (ls?.type === 'done') return verdictToStatus(ls.verdict);
-  return patient.status;
+  return 'pending';
 }
 
 function DeadlineBadge({ days }: { days: number }) {
@@ -305,12 +300,63 @@ function AIRecommendationSection({
   showAiDetails: boolean;
   onToggleDetails: () => void;
 }) {
+  // Grey placeholder for all non-done states
+  if (!lambdaState || lambdaState.type !== 'done') {
+    return (
+      <div className="rounded-3xl p-8 border border-slate-200/50 bg-gradient-to-br from-slate-50 to-slate-100/30 relative overflow-hidden">
+        <div className="flex items-center gap-2 mb-6">
+          <Sparkles className="w-5 h-5 text-slate-300" strokeWidth={2} />
+          <span className="font-bold tracking-wide text-slate-400">AI 분석 결과</span>
+        </div>
+        <div className="flex flex-col items-center justify-center py-8 gap-4 text-center">
+          {lambdaState?.type === 'loading' ? (
+            <>
+              <div className="w-16 h-16 rounded-full bg-sky-50 flex items-center justify-center">
+                <Loader2 className="w-8 h-8 text-sky-400 animate-spin" strokeWidth={1.5} />
+              </div>
+              <div>
+                <p className="font-extrabold text-slate-500 text-xl">Silver-Sync 분석 중</p>
+                <p className="text-slate-400 text-sm mt-2 leading-relaxed">
+                  AI 에이전트가 진료 지침 및<br/>임상 데이터를 검토하고 있습니다
+                </p>
+              </div>
+            </>
+          ) : lambdaState?.type === 'error' ? (
+            <>
+              <div className="w-16 h-16 rounded-full bg-slate-100 flex items-center justify-center">
+                <AlertCircle className="w-8 h-8 text-slate-300" strokeWidth={1.5} />
+              </div>
+              <div>
+                <p className="font-extrabold text-slate-400 text-xl">분석 결과를 불러오지 못했습니다</p>
+                <p className="text-slate-400 text-sm mt-2">잠시 후 다시 시도해주세요</p>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="w-16 h-16 rounded-full bg-slate-100 flex items-center justify-center">
+                <Clock className="w-8 h-8 text-slate-300" strokeWidth={1.5} />
+              </div>
+              <div>
+                <p className="font-extrabold text-slate-400 text-xl">간호사 방문 측정 대기 중</p>
+                <p className="text-slate-400 text-sm mt-2 leading-relaxed">
+                  간호사가 환자 수치를 입력하면<br/>AI 분석이 자동으로 시작됩니다
+                </p>
+              </div>
+            </>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  // Full colored section when AI analysis is done
+  const verdict = lambdaState.verdict;
   return (
     <div className={`rounded-3xl p-6 border relative overflow-hidden bg-gradient-to-br ${theme.gradient} ${theme.border}`}>
       <div className="absolute top-0 right-0 p-6 opacity-10">
-        {patient.status === 'orange'
+        {verdict.verdictLevel === 'red'
           ? <Stethoscope className={`w-32 h-32 ${theme.iconColor}`} strokeWidth={1} />
-          : patient.status === 'amber'
+          : verdict.verdictLevel === 'yellow'
           ? <AlertTriangle className={`w-32 h-32 ${theme.iconColor}`} strokeWidth={1} />
           : <Video className={`w-32 h-32 ${theme.iconColor}`} strokeWidth={1} />
         }
@@ -322,11 +368,11 @@ function AIRecommendationSection({
           <span className={`font-bold tracking-wide ${theme.labelColor}`}>AI 분석 결과</span>
         </div>
         <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-4">
-          {patient.aiRecommendation.title}<br/>
-          <span className={theme.highlightColor}>{patient.aiRecommendation.highlight}</span>됩니다.
+          {patient.aiRecommendation?.title}<br/>
+          <span className={theme.highlightColor}>{patient.aiRecommendation?.highlight}</span>됩니다.
         </h2>
         <div className="space-y-4">
-          {patient.aiRecommendation.reasons.map((reason, idx) => (
+          {(patient.aiRecommendation?.reasons ?? []).map((reason, idx) => (
             <div key={idx} className="flex items-start gap-3">
               <div className={`w-6 h-6 rounded-full flex items-center justify-center shrink-0 mt-0.5 ${reason.type === 'check' ? 'bg-teal-100' : 'bg-orange-100'}`}>
                 {reason.type === 'up'    && <ArrowUpRight className="w-3.5 h-3.5 text-orange-600" strokeWidth={2.5} />}
@@ -353,15 +399,31 @@ function AIRecommendationSection({
                     <Info className={`w-4 h-4 ${theme.iconColor}`} />
                     <span>다변수 맥락 추론 상세</span>
                   </div>
-                  <p className="text-slate-600 text-sm leading-relaxed">{patient.aiRecommendation.details}</p>
+                  <p className="text-slate-600 text-sm leading-relaxed">{patient.aiRecommendation?.details}</p>
                   <div className="grid grid-cols-2 gap-4 pt-2">
-                    {patient.aiRecommendation.stats.map((stat, idx) => (
+                    {(patient.aiRecommendation?.stats ?? []).map((stat, idx) => (
                       <div key={idx} className={`p-3 rounded-xl ${theme.detailBg}`}>
                         <span className={`text-xs font-bold block mb-1 ${theme.detailStatColor}`}>{stat.label}</span>
                         <span className="text-sm font-bold text-slate-800">{stat.value}</span>
                       </div>
                     ))}
                   </div>
+                  {verdict.guidelineEvidence && verdict.guidelineEvidence.length > 0 && (
+                    <div className="mt-4 pt-4 border-t border-slate-100 space-y-3">
+                      <div className="flex items-center gap-2 text-slate-800 font-bold">
+                        <BookOpen className={`w-4 h-4 ${theme.iconColor}`} />
+                        <span>참조 근거 지침</span>
+                      </div>
+                      {verdict.guidelineEvidence.slice(0, 3).map((ev, i) => (
+                        <div key={i} className="p-3 bg-white/60 rounded-xl border border-slate-100">
+                          <p className={`text-xs font-bold mb-1 ${theme.detailStatColor}`}>
+                            {ev.source === 'dynamodb_guidelines' ? '당뇨병 진료지침 2025' : ev.source}
+                          </p>
+                          <p className="text-xs text-slate-600 leading-relaxed line-clamp-3">{ev.content}</p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </motion.div>
             )}
@@ -380,6 +442,17 @@ function VitalsSection({ patient, hoveredVital, onHover, nurseSnapshot }: {
   onHover: (key: string | null) => void;
   nurseSnapshot?: NurseVitalsSnapshot;
 }) {
+  if (!patient.vitals) {
+    return (
+      <div>
+        <h3 className="text-lg font-bold text-slate-800 mb-4 px-1">최근 바이탈 요약</h3>
+        <div className="flex items-center justify-center py-10 text-slate-300">
+          <p className="font-bold text-sm">바이탈 데이터 대기 중</p>
+        </div>
+      </div>
+    );
+  }
+
   const bpDisplay = nurseSnapshot?.bp || patient.vitals.bp.current;
   const sugarDisplay = nurseSnapshot?.sugar || patient.vitals.sugar.current;
   const isLive = !!nurseSnapshot;
@@ -434,8 +507,9 @@ function VitalsSection({ patient, hoveredVital, onHover, nurseSnapshot }: {
 
 // ── Patient List Panel ────────────────────────────────────────────────────
 
-function PatientListPanel({ selectedPatientId, onSelect, lambdaStates }: {
-  selectedPatientId: number;
+function PatientListPanel({ patients, selectedPatientId, onSelect, lambdaStates }: {
+  patients: DocPatient[];
+  selectedPatientId: number | null;
   onSelect: (id: number) => void;
   lambdaStates: Record<number, LambdaStatus>;
 }) {
@@ -469,9 +543,6 @@ function PatientListPanel({ selectedPatientId, onSelect, lambdaStates }: {
                   {ls?.type === 'loading' && (
                     <Loader2 className="w-3.5 h-3.5 text-sky-400 animate-spin" />
                   )}
-                  {patient.daysUntilDeadline !== undefined && (
-                    <DeadlineBadge days={patient.daysUntilDeadline} />
-                  )}
                 </div>
               </div>
               <div className="flex items-center justify-between">
@@ -497,59 +568,248 @@ function PatientListPanel({ selectedPatientId, onSelect, lambdaStates }: {
   );
 }
 
+// ── Patch verdict with nurse's actual submitted vitals ────────────────────
+// S3 파싱값보다 간호사가 직접 입력한 localStorage 값이 신뢰도 높음
+
+function patchVerdictWithNurse(verdict: LambdaVerdict, fv: VisitVitals): LambdaVerdict {
+  const bpStr = (fv.systolic && fv.diastolic)
+    ? `${fv.systolic}/${fv.diastolic}`
+    : verdict.bpCurrent;
+  const sugarStr = fv.blood_sugar != null
+    ? String(fv.blood_sugar)
+    : verdict.sugarCurrent;
+
+  // 히스토리 데이터의 마지막 포인트를 실제 측정값으로 교체 (더 신뢰 가능한 값)
+  const bpData = verdict.bpData ? [...verdict.bpData] : [];
+  if (fv.systolic) {
+    if (bpData.length > 0) bpData[bpData.length - 1] = fv.systolic;
+    else bpData.push(fv.systolic);
+  }
+  const sugarData = verdict.sugarData ? [...verdict.sugarData] : [];
+  if (fv.blood_sugar != null) {
+    if (sugarData.length > 0) sugarData[sugarData.length - 1] = fv.blood_sugar;
+    else sugarData.push(fv.blood_sugar);
+  }
+
+  // SOAP S: 간호사가 선택한 관찰 항목 + 메모
+  const subjectiveParts = [...fv.observations, fv.notes].filter(Boolean);
+  const nurseSubjective = subjectiveParts.join('. ');
+
+  // SOAP O: 간호사가 직접 측정한 수치
+  const objParts: string[] = [];
+  if (fv.systolic && fv.diastolic) objParts.push(`혈압 ${fv.systolic}/${fv.diastolic} mmHg`);
+  if (fv.blood_sugar != null) objParts.push(`공복혈당 ${fv.blood_sugar} mg/dL`);
+  if (fv.medication_status === 'well') objParts.push('복약 순응 양호');
+  else if (fv.medication_status === 'missed') objParts.push('복약 미순응');
+  // HbA1c/순응도는 S3 파싱값 유지
+  const originalObj = verdict.soapNote?.objective ?? '';
+  const hba1cMatch = originalObj.match(/HbA1c [\d.]+%/);
+  const adherenceMatch = originalObj.match(/복약 순응도 \d+%/);
+  if (hba1cMatch) objParts.push(hba1cMatch[0]);
+  if (adherenceMatch) objParts.push(adherenceMatch[0]);
+
+  // AI Recommendation stats 패치 (다변수 맥락 추론 상세 그리드)
+  const patchedStats = (verdict.recommendation?.stats ?? []).map(s => {
+    if (s.label === '혈압' && fv.systolic && fv.diastolic)
+      return { ...s, value: `${fv.systolic}/${fv.diastolic} mmHg` };
+    if (s.label === '공복혈당' && fv.blood_sugar != null)
+      return { ...s, value: `${fv.blood_sugar} mg/dL` };
+    return s;
+  });
+
+  return {
+    ...verdict,
+    bpCurrent: bpStr,
+    sugarCurrent: sugarStr,
+    bpTrendUp: fv.systolic != null && bpData.length >= 2
+      ? fv.systolic > bpData[bpData.length - 2]
+      : verdict.bpTrendUp,
+    sugarTrendUp: fv.blood_sugar != null && sugarData.length >= 2
+      ? fv.blood_sugar > sugarData[sugarData.length - 2]
+      : verdict.sugarTrendUp,
+    bpData,
+    sugarData,
+    soapNote: verdict.soapNote ? {
+      ...verdict.soapNote,
+      subjective: nurseSubjective || verdict.soapNote.subjective,
+      objective: objParts.length > 0 ? objParts.join('. ') : verdict.soapNote.objective,
+    } : undefined,
+    recommendation: verdict.recommendation ? {
+      ...verdict.recommendation,
+      stats: patchedStats,
+    } : undefined,
+  };
+}
+
+// fullVitals 없을 때 NurseVitalsSnapshot으로 최소한 bp/sugar 패치
+function snapshotToVisitVitals(snap: NurseVitalsSnapshot): VisitVitals {
+  const parts = snap.bp.split('/');
+  return {
+    systolic: parts[0] ? Number(parts[0]) : null,
+    diastolic: parts[1] ? Number(parts[1]) : null,
+    blood_sugar: snap.sugar ? Number(snap.sugar) : null,
+    medication_status: '',
+    observations: [],
+    notes: '',
+  };
+}
+
+// ── Apply verdict to patient state ────────────────────────────────────────
+
+function applyVerdictToPatient(patient: DocPatient, verdict: LambdaVerdict): DocPatient {
+  const status = verdict.verdictLevel === 'red' ? 'orange' : verdict.verdictLevel === 'yellow' ? 'amber' : 'teal';
+  return {
+    ...patient,
+    status,
+    disease: verdict.conditions?.join(', ') || patient.disease,
+    vitals: verdict.bpData ? {
+      bp: { current: verdict.bpCurrent!, trendUp: verdict.bpTrendUp, data: verdict.bpData },
+      sugar: { current: verdict.sugarCurrent!, trendUp: verdict.sugarTrendUp, data: verdict.sugarData! },
+      adherence: { current: String(verdict.adherenceRate ?? 0), data: verdict.adherenceData! },
+    } : patient.vitals,
+    soapNote: verdict.soapNote ?? patient.soapNote,
+    aiRecommendation: verdict.recommendation ?? patient.aiRecommendation,
+    footerAction: verdict.footerAction ?? patient.footerAction,
+  };
+}
+
 // ── Main Dashboard ─────────────────────────────────────────────────────────
 
 export default function DoctorDashboard() {
-  const [selectedPatientId, setSelectedPatientId] = useState(patients[0].id);
+  const [patients, setPatients] = useState<DocPatient[]>([]);
+  const [isLoadingPatients, setIsLoadingPatients] = useState(true);
+  const [selectedPatientId, setSelectedPatientId] = useState<number | null>(null);
   const [showAiDetails, setShowAiDetails] = useState(false);
   const [hoveredVital, setHoveredVital] = useState<string | null>(null);
   const [activePanel, setActivePanel] = useState<'ai' | 'soap'>('ai');
   const [lambdaStates, setLambdaStates] = useState<Record<number, LambdaStatus>>({});
   const [nurseVitals, setNurseVitals] = useState<Record<number, NurseVitalsSnapshot>>({});
 
-  // 간호사가 제출한 환자만 폴링 (nurse_queue 기반)
+  // 스케줄 로드 → 환자 정보 fetch → 제출된 환자 Lambda 폴링
   useEffect(() => {
-    const queue = getNurseQueue();
-    if (queue.length === 0) return;
-
+    const schedule = getSchedule();
     const controllers: AbortController[] = [];
-    queue.forEach(({ patientId, s3Key }) => {
-      const patient = patients.find(p => p.lambdaPatientId === patientId);
-      if (!patient) return;
-      setLambdaStates(prev => ({ ...prev, [patient.id]: { type: 'loading' } }));
-      const ctrl = new AbortController();
-      controllers.push(ctrl);
-      runAndPoll(
-        patientId,
-        (verdict) => {
-          setLambdaStates(prev => ({ ...prev, [patient.id]: { type: 'done', verdict } }));
-          const snapshot = getNurseVitals(patientId);
-          if (snapshot) setNurseVitals(prev => ({ ...prev, [patient.id]: snapshot }));
-        },
-        ctrl.signal,
-      ).catch(() => {
-        if (!ctrl.signal.aborted) {
-          setLambdaStates(prev => ({ ...prev, [patient.id]: { type: 'error' } }));
-        }
-      });
-      void s3Key; // s3Key는 runAndPoll이 캐시에서 사용
-    });
-    return () => controllers.forEach(c => c.abort());
-  }, []);
+    let isMounted = true;
 
-  const selectedPatient = patients.find(p => p.id === selectedPatientId) ?? patients[0];
-  const lambdaState = lambdaStates[selectedPatient.id];
-  const theme = STATUS_THEME_MAP[effectiveStatus(selectedPatient, lambdaState)];
+    (async () => {
+      if (schedule.length === 0) {
+        setIsLoadingPatients(false);
+        return;
+      }
+
+      const results = await Promise.all(
+        schedule.map(async ({ lambdaPatientId, time }, idx) => {
+          try {
+            const info = await fetchPatient(lambdaPatientId);
+            return {
+              id: idx + 1,
+              name: info.name,
+              age: info.age,
+              gender: info.gender === 'F' ? '여' : '남',
+              time,
+              status: 'pending' as const,
+              lambdaPatientId,
+              disease: info.conditions.join(', '),
+            } as DocPatient;
+          } catch {
+            return null;
+          }
+        })
+      );
+
+      if (!isMounted) return;
+
+      const valid = results
+        .filter((p): p is DocPatient => p !== null)
+        .sort((a, b) => a.time.localeCompare(b.time));
+
+      setPatients(valid);
+      if (valid.length > 0) setSelectedPatientId(valid[0].id);
+      setIsLoadingPatients(false);
+
+      // 이미 제출된 환자 폴링
+      const queue = getNurseQueue();
+      queue.forEach(({ patientId }) => {
+        const patient = valid.find(p => p.lambdaPatientId === patientId);
+        if (!patient) return;
+
+        setLambdaStates(prev => ({ ...prev, [patient.id]: { type: 'loading' } }));
+        const ctrl = new AbortController();
+        controllers.push(ctrl);
+
+        runAndPoll(
+          patientId,
+          (rawVerdict) => {
+            if (!isMounted) return;
+            const fullVitals = getNurseFullVitals(patientId);
+            const snapshot = getNurseVitals(patientId);
+            // fullVitals 우선, 없으면 snapshot(bp+sugar만)으로라도 패치
+            const vitalsSource = fullVitals ?? (snapshot ? snapshotToVisitVitals(snapshot) : null);
+            const verdict = vitalsSource ? patchVerdictWithNurse(rawVerdict, vitalsSource) : rawVerdict;
+            setLambdaStates(prev => ({ ...prev, [patient.id]: { type: 'done', verdict } }));
+            setPatients(prev => prev.map(p =>
+              p.id === patient.id ? applyVerdictToPatient(p, verdict) : p
+            ));
+            if (snapshot) setNurseVitals(prev => ({ ...prev, [patient.id]: snapshot }));
+          },
+          ctrl.signal,
+        ).catch(() => {
+          if (!ctrl.signal.aborted && isMounted) {
+            setLambdaStates(prev => ({ ...prev, [patient.id]: { type: 'error' } }));
+          }
+        });
+      });
+    })();
+
+    return () => {
+      isMounted = false;
+      controllers.forEach(c => c.abort());
+    };
+  }, []);
 
   useEffect(() => {
     setShowAiDetails(false);
     setActivePanel('ai');
   }, [selectedPatientId]);
 
+  // 로딩 중
+  if (isLoadingPatients) {
+    return (
+      <div className="flex items-center justify-center h-[calc(100vh-5rem)]">
+        <div className="flex flex-col items-center gap-4 text-slate-400">
+          <Loader2 className="w-8 h-8 animate-spin" />
+          <p className="font-bold">오늘의 방문 일정을 불러오는 중...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // 일정 없음 (간호사 앱 미실행)
+  if (patients.length === 0) {
+    return (
+      <div className="flex items-center justify-center h-[calc(100vh-5rem)]">
+        <div className="flex flex-col items-center gap-4 text-slate-400">
+          <ClipboardList className="w-12 h-12 opacity-30" />
+          <p className="font-bold text-lg">오늘 예정된 방문 환자가 없습니다</p>
+          <p className="text-sm">간호사 앱에서 오늘의 일정을 먼저 로드해주세요</p>
+        </div>
+      </div>
+    );
+  }
+
+  const selectedPatient = patients.find(p => p.id === selectedPatientId) ?? patients[0];
+  const lambdaState = lambdaStates[selectedPatient.id];
+  const theme = STATUS_THEME_MAP[effectiveStatus(selectedPatient, lambdaState)];
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 h-[calc(100vh-5rem)] flex flex-col lg:flex-row gap-8">
 
-      <PatientListPanel selectedPatientId={selectedPatientId} onSelect={setSelectedPatientId} lambdaStates={lambdaStates} />
+      <PatientListPanel
+        patients={patients}
+        selectedPatientId={selectedPatientId}
+        onSelect={setSelectedPatientId}
+        lambdaStates={lambdaStates}
+      />
 
       {/* Right Column */}
       <div className="w-full lg:w-2/3 flex flex-col h-full">
@@ -609,7 +869,12 @@ export default function DoctorDashboard() {
                   showAiDetails={showAiDetails}
                   onToggleDetails={() => setShowAiDetails(v => !v)}
                 />
-                <VitalsSection patient={selectedPatient} hoveredVital={hoveredVital} onHover={setHoveredVital} nurseSnapshot={nurseVitals[selectedPatient.id]} />
+                <VitalsSection
+                  patient={selectedPatient}
+                  hoveredVital={hoveredVital}
+                  onHover={setHoveredVital}
+                  nurseSnapshot={nurseVitals[selectedPatient.id]}
+                />
               </>
             ) : selectedPatient.soapNote ? (
               <SoapNoteView patient={selectedPatient} theme={theme} />
@@ -627,7 +892,7 @@ export default function DoctorDashboard() {
               기존 처방 유지
             </button>
             <button className={`flex-1 font-bold py-4 rounded-2xl transition-all text-lg border ${theme.footerBtn2}`}>
-              {selectedPatient.footerAction}
+              {lambdaState?.type === 'done' ? (selectedPatient.footerAction ?? '진료 예약하기') : 'AI 분석 후 결정'}
             </button>
           </div>
 
