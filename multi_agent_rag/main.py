@@ -12,9 +12,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         description="Silver Sync multi-agent revisit triage for diabetes + hypertension patients."
     )
-    parser.add_argument("--patient", help="환자 ID 또는 이름")
-    parser.add_argument("--dummy", help="로컬 더미 환자 ID 또는 이름")
-    parser.add_argument("--sample", action="store_true", help="DB 없이 샘플 환자로 실행")
+    parser.add_argument("--patient", help="환자 ID 또는 이름 (DynamoDB 조회)")
     parser.add_argument("--json", action="store_true", help="전체 결과를 JSON으로 출력")
     parser.add_argument("--log", action="store_true", help="agent/log 폴더에 txt 로그 저장")
     return parser
@@ -22,17 +20,12 @@ def build_parser() -> argparse.ArgumentParser:
 
 def main() -> None:
     args = build_parser().parse_args()
-    selected = [bool(args.sample), bool(args.patient), bool(args.dummy)]
-    if sum(selected) != 1:
-        raise SystemExit("--patient, --dummy, --sample 중 정확히 하나를 지정하세요.")
+    if not args.patient:
+        raise SystemExit("--patient <patient_id> 를 지정하세요.")
 
     pipeline = MultiAgentRevisitPipeline()
-    result = pipeline.run(
-        patient_search=args.patient or args.dummy,
-        use_sample=args.sample,
-        use_dummy=bool(args.dummy),
-    )
-    log_path = save_pipeline_log(result, args.patient or args.dummy or "sample") if args.log else None
+    result = pipeline.run(patient_search=args.patient)
+    log_path = save_pipeline_log(result, args.patient) if args.log else None
 
     if args.json:
         if log_path:
@@ -52,6 +45,11 @@ def main() -> None:
     print(f"UI 모드: {judge.ui_mode}")
     print("\n[판정 근거]")
     print(judge.rationale)
+
+    if result.guardian.medication_alerts:
+        print("\n[DUR 위험 알림]")
+        for alert in result.guardian.medication_alerts:
+            print(f"- {alert}")
 
     if result.guardian.reasons:
         print("\n[Guardian 알림]")

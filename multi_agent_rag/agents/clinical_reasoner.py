@@ -3,15 +3,15 @@ from __future__ import annotations
 from ..config import SETTINGS
 from ..llm import LLMClient, evidence_block, extract_json_object
 from ..personas import CLINICAL_REASONER_PERSONA
-from ..repository import MongoRepository
 from ..schemas import ContestedIssue, CuratedCase, ReasoningReport, RoutingDecision
 from ..utils import clamp
+from typing import Any
 
 
 class ClinicalReasoner:
     """Extracts clinical issues and decides whether a debate is necessary."""
 
-    def __init__(self, repository: MongoRepository):
+    def __init__(self, repository: Any):
         self.repository = repository
         self.llm = LLMClient(model=SETTINGS.planner_model)
 

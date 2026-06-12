@@ -9,7 +9,7 @@ from .config import SETTINGS
 
 
 class LLMClient:
-    """Small provider wrapper for Bedrock or Ollama with rule-based fallback."""
+    """Small provider wrapper for Bedrock with rule-based fallback."""
 
     def __init__(
         self,
@@ -17,10 +17,8 @@ class LLMClient:
         enabled: bool | None = None,
         provider: str | None = None,
     ):
-        self.provider = (provider or SETTINGS.llm_provider).lower()
-        self.model = model or (
-            SETTINGS.bedrock_model_id if self.provider == "bedrock" else SETTINGS.ollama_model
-        )
+        self.provider = "bedrock"
+        self.model = model or SETTINGS.bedrock_model_id
         self.enabled = SETTINGS.use_llm if enabled is None else enabled
         self._llm = None
         self._bedrock = None
@@ -38,7 +36,6 @@ class LLMClient:
         model = model or self.model
         if provider == self.provider and model == self.model:
             return
-        self.provider = provider
         self.model = model
         self._llm = None
         self._bedrock = None
@@ -48,26 +45,14 @@ class LLMClient:
         if not self.enabled:
             self.last_error = "USE_LLM=0으로 모델 호출이 비활성화되어 있습니다."
             return None
+
         try:
-            if self.provider == "bedrock":
-                return self._invoke_bedrock(prompt)
-            if self.provider == "ollama":
-                return self._invoke_ollama(prompt)
-            if self.provider == "gemma4":
-                return self._invoke_gemma4(prompt)
-            raise ValueError(f"지원하지 않는 LLM_PROVIDER입니다: {self.provider}")
+            return self._invoke_bedrock(prompt)
         except Exception as exc:
             self.last_error = f"{type(exc).__name__}: {exc}"
             if SETTINGS.require_llm:
                 raise RuntimeError(f"LLM 호출 실패 ({self.model}): {self.last_error}") from exc
             return None
-
-    def _invoke_ollama(self, prompt: str) -> str:
-        if self._llm is None:
-            from langchain_ollama import OllamaLLM
-
-            self._llm = OllamaLLM(model=self.model, temperature=0)
-        return self._llm.invoke(prompt)
 
     def _invoke_bedrock(self, prompt: str) -> str:
         if self._bedrock is None:
@@ -90,17 +75,25 @@ class LLMClient:
                 "maxTokens": 1200,
             },
         )
+
+        input_tok = 0
+        output_tok = 0
+
+        if "usage" in response:
+            usage = response["usage"]
+            input_tok = usage.get("inputTokens", 0)
+            output_tok = usage.get("outputTokens", 0)
+        elif "metrics" in response:
+            input_tok = response["metrics"].get("inputTokenCount", 0)
+            output_tok = response["metrics"].get("outputTokenCount", 0)
+
+        total_tok = input_tok + output_tok
+        if total_tok > 0:
+            print(f"    └── [Haiku 토큰 소모] 입력: {input_tok:,} | 출력: {output_tok:,} | 총 소모: {total_tok:,}")
+
         content = response.get("output", {}).get("message", {}).get("content", [])
         texts = [block.get("text", "") for block in content if isinstance(block, dict)]
         return "\n".join(text for text in texts if text).strip()
-
-    def _invoke_gemma4(self, prompt: str) -> str:
-        backend = SETTINGS.gemma4_backend
-        if backend == "ollama":
-            return self._invoke_gemma4_ollama(prompt)
-        if backend == "openai":
-            return self._invoke_gemma4_openai_compatible(prompt)
-        raise ValueError(f"지원하지 않는 GEMMA4_BACKEND입니다: {backend}")
 
     def _post_json(
         self,
@@ -116,50 +109,9 @@ class LLMClient:
             data=json.dumps(payload).encode("utf-8"),
             headers=request_headers,
         )
-        with urllib.request.urlopen(request, timeout=SETTINGS.gemma4_timeout) as response:
+        with urllib.request.urlopen(request, timeout=120) as response:
             body = response.read().decode("utf-8")
         return json.loads(body) if body else {}
-
-    def _invoke_gemma4_ollama(self, prompt: str) -> str:
-        payload = {
-            "model": self.model,
-            "stream": False,
-            "messages": [
-                {
-                    "role": "system",
-                    "content": "당신은 당뇨와 고혈압 고령 환자 재진 판단을 보조하는 한국어 의료 AI입니다. 추측하지 말고 JSON 형식을 지키세요.",
-                },
-                {"role": "user", "content": prompt},
-            ],
-            "options": {"temperature": SETTINGS.gemma4_temperature},
-        }
-        data = self._post_json(f"{SETTINGS.gemma4_base_url.rstrip('/')}/api/chat", payload)
-        return data.get("message", {}).get("content", "").strip()
-
-    def _invoke_gemma4_openai_compatible(self, prompt: str) -> str:
-        headers = {}
-        if SETTINGS.gemma4_api_key:
-            headers["Authorization"] = f"Bearer {SETTINGS.gemma4_api_key}"
-        payload = {
-            "model": self.model,
-            "temperature": SETTINGS.gemma4_temperature,
-            "messages": [
-                {
-                    "role": "system",
-                    "content": "당신은 당뇨와 고혈압 고령 환자 재진 판단을 보조하는 한국어 의료 AI입니다. 추측하지 말고 JSON 형식을 지키세요.",
-                },
-                {"role": "user", "content": prompt},
-            ],
-        }
-        data = self._post_json(
-            f"{SETTINGS.gemma4_base_url.rstrip('/')}/chat/completions",
-            payload,
-            headers=headers,
-        )
-        choices = data.get("choices", [])
-        if not choices:
-            return ""
-        return choices[0].get("message", {}).get("content", "").strip()
 
 
 def extract_json_object(text: str | None) -> dict[str, Any] | None:

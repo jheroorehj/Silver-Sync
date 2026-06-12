@@ -3,24 +3,21 @@ from __future__ import annotations
 from ..config import SETTINGS
 from ..llm import LLMClient, extract_json_object
 from ..personas import DATA_CURATOR_PERSONA
-from ..repository import MongoRepository, sample_diabetes_hypertension_patient
 from ..schemas import CuratedCase, PatientSnapshot
 from ..utils import contains_any, latest_numeric, parse_blood_pressure, trend_delta_desc
+from typing import Any
 
 
 class DataCurator:
     """Collects raw patient data and turns it into a reliable working memory."""
 
-    def __init__(self, repository: MongoRepository):
+    def __init__(self, repository: Any):
         self.repository = repository
         self.llm = LLMClient(model=SETTINGS.worker_model)
 
-    def run(self, search_input: str | None = None, use_sample: bool = False) -> CuratedCase:
-        patient = (
-            sample_diabetes_hypertension_patient()
-            if use_sample
-            else self.repository.load_patient_snapshot(search_input or "")
-        )
+    def run(self, search_input: str | None = None) -> CuratedCase:
+        # 람다 환경에서는 항상 실제 리포지토리(DynamoDB)를 통해 데이터를 가져옵니다.
+        patient = self.repository.load_patient_snapshot(search_input or "")
         return self._curate(patient)
 
     def _curate(self, patient: PatientSnapshot) -> CuratedCase:

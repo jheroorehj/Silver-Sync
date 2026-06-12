@@ -3,14 +3,14 @@ from __future__ import annotations
 from ..config import SETTINGS
 from ..llm import LLMClient, extract_json_object
 from ..personas import GUARDIAN_PERSONA
-from ..repository import MongoRepository
+from ..dynamo_repository import DynamoRepository
 from ..schemas import AdvocateArgument, CuratedCase, GuardianReport, ReasoningReport
 
 
 class Guardian:
-    """Three-layer safety monitor: medication, reasoning consistency, system health."""
+    """임상 데이터의 유효성 및 복약 상호작용 위험 요소를 상시 감시하는 최상위 안전 에이전트"""
 
-    def __init__(self, repository: MongoRepository):
+    def __init__(self, repository: DynamoRepository):
         self.repository = repository
         self.llm = LLMClient(model=SETTINGS.worker_model)
 
@@ -42,7 +42,7 @@ class Guardian:
             reasons.extend(system_alerts)
 
         model_output = self._model_consistency_check(
-            curated, reasoning, remote_argument, in_person_argument, consistency_alerts
+            curated, reasoning, remote_argument, in_person_argument, consistency_alerts, medication_alerts
         )
         parsed = extract_json_object(model_output)
         if parsed:
@@ -87,6 +87,7 @@ class Guardian:
         remote_argument: AdvocateArgument | None,
         in_person_argument: AdvocateArgument | None,
         rule_alerts: list[str],
+        medication_alerts: list[str],
     ) -> str | None:
         prompt = f"""{GUARDIAN_PERSONA}
 
@@ -98,6 +99,9 @@ class Guardian:
 
 [red_flags]
 {reasoning.red_flags}
+
+[DUR 약물 위험 알림]
+{medication_alerts if medication_alerts else "발견된 위험 없음"}
 
 [비대면 Advocate]
 {remote_argument}
