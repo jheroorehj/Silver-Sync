@@ -41,14 +41,25 @@ class DynamoRepository:
         return self._snapshot_from_db(item)
 
     def _snapshot_from_db(self, item: dict[str, Any]) -> PatientSnapshot:
-        raw_records = item.get("records", [])
+        # 레거시 'records' 필드와 새 'visit_records' 필드 모두 지원
+        raw_records = item.get("records") or item.get("visit_records") or []
         converted_records = [
             VisitRecord(
                 visit_date=str(r.get("visit_date", "N/A")),
                 chief_complaint=str(r.get("chief_complaint", "")),
-                blood_pressure=r.get("blood_pressure"),
-                blood_sugar=to_float(r.get("blood_sugar")),
-                hba1c=to_float(r.get("hba1c")),
+                blood_pressure=(
+                    r.get("blood_pressure")
+                    or (r.get("vital_signs") or {}).get("blood_pressure")
+                ),
+                blood_sugar=to_float(
+                    r.get("blood_sugar")
+                    or (r.get("vital_signs") or {}).get("blood_sugar")
+                    or (r.get("vital_signs") or {}).get("fasting_glucose")
+                ),
+                hba1c=to_float(
+                    r.get("hba1c")
+                    or (r.get("vital_signs") or {}).get("hba1c")
+                ),
                 notes=str(r.get("notes", "")),
                 raw=r
             ) for r in raw_records

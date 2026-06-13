@@ -22,10 +22,11 @@ def _dumps(obj) -> str:
     return json.dumps(obj, ensure_ascii=False, cls=_DecimalEncoder)
 
 
-# multi_agent_rag 패키지가 agent/ 하위에 있으므로 런타임 경로에 추가
-_agent_path = os.path.join(os.path.dirname(__file__), 'agent')
-if _agent_path not in sys.path:
-    sys.path.insert(0, _agent_path)
+# multi_agent_rag 패키지는 배포 패키지 루트(= /var/task, sys.path에 기본 포함)에 위치합니다.
+# 안전을 위해 이 파일이 있는 디렉토리를 명시적으로 경로에 추가합니다.
+_pkg_root = os.path.dirname(os.path.abspath(__file__))
+if _pkg_root not in sys.path:
+    sys.path.insert(0, _pkg_root)
 
 KST = timezone(timedelta(hours=9))
 

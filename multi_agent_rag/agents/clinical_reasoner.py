@@ -32,7 +32,14 @@ class ClinicalReasoner:
             "65세 이상 노인 당뇨병 고혈압 동반 환자 재진 혈당 혈압 조절 "
             "비대면 진료 대면 진료 위험도 기준 DUR 약물 안전"
         )
-        evidence = self.repository.retrieve_guidelines(query)
+        target_diseases: list[str] = []
+        if curated.has_diabetes:
+            target_diseases.append("Diabetes")
+        if curated.has_hypertension:
+            target_diseases.append("Hypertension")
+        evidence = self.repository.retrieve_guidelines(
+            query, target_diseases=target_diseases or None
+        )
 
         summary = (
             f"{curated.patient.age}세 환자, 당뇨/고혈압 동반 여부="
