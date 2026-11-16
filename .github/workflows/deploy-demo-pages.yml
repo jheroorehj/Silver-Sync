@@ -1,0 +1,55 @@
+# FE_DEMO 시연 화면을 GitHub Pages로 배포
+# 주소: https://jheroorehj.github.io/Silver-Sync/  (시연 가이드 자동 시작: ?demo=true)
+# 처음 한 번: 저장소 Settings → Pages → Source를 "GitHub Actions"로 설정
+name: Deploy demo to GitHub Pages
+
+on:
+  push:
+    branches: [feature/demo-tour-v2]
+    paths:
+      - 'FE_DEMO/**'
+      - '.github/workflows/deploy-demo-pages.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: FE_DEMO
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: FE_DEMO/package-lock.json
+
+      - run: npm ci
+
+      # Pages 주소가 /Silver-Sync/ 하위 경로라서 base 경로를 지정해 빌드
+      - run: npx vite build --base=/Silver-Sync/
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: FE_DEMO/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
