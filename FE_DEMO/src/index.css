@@ -67,3 +67,127 @@ body {
     size: A4;
   }
 }
+/* ── 시연 가이드 투어 (driver.js) ─────────────────────────────────────── */
+.driver-popover.ss-tour-popover {
+  --driver-popover-font-family: "Pretendard", ui-sans-serif, system-ui, sans-serif;
+  border-radius: 24px;
+  padding: 20px 22px 14px;
+  min-width: 280px;
+  max-width: 340px;
+  color: #0f172a;
+  box-shadow: 0 20px 40px -12px rgba(2, 132, 199, 0.35), 0 0 0 1px #e0f2fe;
+  word-break: keep-all;
+}
+.ss-tour-popover .driver-popover-title {
+  font-size: 18px;
+  font-weight: 800;
+  line-height: 1.45;
+  color: #0f172a;
+}
+.ss-tour-popover .driver-popover-description {
+  margin-top: 6px;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.55;
+  color: #475569;
+}
+.ss-tour-progress {
+  display: inline-block;
+  margin: 0 8px 6px 0;
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: #0369a1;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 800;
+  vertical-align: 2px;
+}
+.ss-tour-popover .driver-popover-footer { margin-top: 14px; }
+.ss-tour-popover .driver-popover-next-btn {
+  border: 0;
+  border-radius: 14px;
+  padding: 10px 18px;
+  background: #0369a1;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 800;
+  text-shadow: none;
+}
+.ss-tour-popover .driver-popover-next-btn:hover { background: #075985; }
+.ss-tour-controls {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 6px;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid #e0f2fe;
+  color: #94a3b8;
+  font-size: 13px;
+}
+.ss-tour-controls button {
+  all: unset;
+  cursor: pointer;
+  color: #475569;
+  font-weight: 700;
+  padding: 2px 4px;
+  border-radius: 6px;
+}
+.ss-tour-controls button:hover,
+.ss-tour-controls button:focus-visible { color: #0369a1; background: #f0f9ff; }
+
+/* 강조된 요소: 클릭을 유도하는 펄스 링 */
+@keyframes ss-tour-pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.85); }
+  70%  { box-shadow: 0 0 0 12px rgba(56, 189, 248, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0); }
+}
+.driver-active .driver-active-element {
+  animation: ss-tour-pulse 1.6s ease-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .driver-active .driver-active-element {
+    animation: none;
+    outline: 3px solid #38bdf8;
+    outline-offset: 4px;
+  }
+}
+
+/* 입력 단계: 예시 넣기 · 입력 완료(비활성) */
+.ss-tour-popover .driver-popover-footer { gap: 8px; }
+.ss-tour-popover .driver-popover-next-btn:disabled {
+  background: #e2e8f0;
+  color: #64748b;
+  cursor: not-allowed;
+}
+.ss-tour-example {
+  all: unset;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 12px;
+  border: 1px solid #bae6fd;
+  color: #0369a1;
+  font-size: 13px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+.ss-tour-example:hover,
+.ss-tour-example:focus-visible { background: #f0f9ff; }
+
+/* 대기 단계: 에이전트 진행 목록 */
+.ss-tour-agents { list-style: none; margin: 4px 0 0; padding: 0; display: grid; gap: 6px; }
+.ss-tour-agents li { position: relative; padding-left: 24px; font-size: 14px; line-height: 1.45; }
+.ss-tour-agents li::before {
+  content: ""; position: absolute; left: 0; top: 3px; width: 14px; height: 14px; border-radius: 999px;
+}
+.ss-tour-agents li.ok { color: #0f172a; font-weight: 600; }
+.ss-tour-agents li.ok::before { background: #0f766e; box-shadow: inset 0 0 0 4px #0f766e; }
+.ss-tour-agents li.ok::after {
+  content: ""; position: absolute; left: 5px; top: 5px; width: 4px; height: 7px;
+  border: solid #fff; border-width: 0 2px 2px 0; transform: rotate(45deg);
+}
+.ss-tour-agents li.now { color: #0369a1; font-weight: 800; }
+.ss-tour-agents li.now::before { border: 2px solid #bae6fd; border-top-color: #0369a1; animation: ss-spin .8s linear infinite; box-sizing: border-box; }
+.ss-tour-agents li.todo { color: #94a3b8; }
+.ss-tour-agents li.todo::before { border: 2px solid #e2e8f0; box-sizing: border-box; }
+@keyframes ss-spin { to { transform: rotate(360deg); } }

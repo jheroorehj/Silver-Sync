@@ -1,8 +1,11 @@
+import { analyzeVisit, type DemoAnalysis } from './demoAnalysis';
+import { demoPatients } from '../data/demoPatients';
+
 const API_BASE = 'https://ky1y2zdh68.execute-api.ap-northeast-2.amazonaws.com/dev';
 const NURSE_QUEUE_KEY = 'silversync_nurse_queue';
 
 // ── 데모 모드 ─────────────────────────────────────────────────────────────
-// true: API 호출 없이 하드코딩된 판정을 5초 뒤 반환
+// true: API 호출 없이, 간호사 입력값을 화면 쪽 CDS 규칙(demoAnalysis.ts)으로 판정해 몇 초 뒤 반환
 const DEMO_MODE = true;
 
 const DEMO_VERDICTS: Record<string, LambdaVerdict> = {
@@ -62,10 +65,15 @@ type QueueEntry = {
   s3Key: string;
   submittedAt: string;
   vitals?: NurseVitalsSnapshot;
+  analysis?: DemoAnalysis;
 };
 
 export function getNurseQueue(): QueueEntry[] {
   try { return JSON.parse(localStorage.getItem(NURSE_QUEUE_KEY) ?? '[]'); } catch { return []; }
+}
+
+export function getDemoAnalysis(patientId: string): DemoAnalysis | null {
+  return getNurseQueue().find(e => e.patientId === patientId)?.analysis ?? null;
 }
 
 export function getNurseVitals(patientId: string): NurseVitalsSnapshot | null {
@@ -87,8 +95,14 @@ export async function submitAnalysis(patientId: string, vitals: VisitVitals): Pr
   };
 
   if (DEMO_MODE) {
-    // 데모: API 호출 없이 즉시 큐에 추가
-    addToQueue({ patientId, s3Key: `demo/${patientId}`, submittedAt: new Date().toISOString(), vitals: snapshot });
+    // 데모: API 호출 없이 입력값으로 판정해 큐에 저장
+    const demo = demoPatients.find(d => d.lambdaPatientId === patientId);
+    const analysis = analyzeVisit({
+      systolic: vitals.systolic, diastolic: vitals.diastolic, sugar: vitals.blood_sugar,
+      medication: vitals.medication_status, observations: vitals.observations, notes: vitals.notes,
+      diseases: demo ? demo.disease.split(',').map(d => d.trim()) : [],
+    });
+    addToQueue({ patientId, s3Key: `demo/${patientId}`, submittedAt: new Date().toISOString(), vitals: snapshot, analysis });
     return `demo/${patientId}`;
   }
 
@@ -108,16 +122,19 @@ export async function submitAnalysis(patientId: string, vitals: VisitVitals): Pr
 
 const sleep = (ms: number) => new Promise<void>(r => setTimeout(r, ms));
 
+/** 데모 모드에서 에이전트 분석에 걸리는 시간 (가이드 투어 대기 단계와 맞춤) */
+export const DEMO_ANALYSIS_MS = 6000;
+
 export async function runAndPoll(
   patientId: string,
   onDone: (verdict: LambdaVerdict) => void,
   signal?: AbortSignal,
 ): Promise<void> {
   if (DEMO_MODE) {
-    // 데모: 10초 뒤 하드코딩된 판정 반환
-    await sleep(5000);
+    // 데모: 에이전트 분석 시간을 흉내 낸 뒤 입력값 기반 판정 반환
+    await sleep(DEMO_ANALYSIS_MS);
     if (signal?.aborted) return;
-    const verdict = DEMO_VERDICTS[patientId];
+    const verdict = getDemoAnalysis(patientId)?.verdict ?? DEMO_VERDICTS[patientId];
     if (verdict) onDone(verdict);
     return;
   }

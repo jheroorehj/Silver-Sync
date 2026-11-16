@@ -67,8 +67,8 @@ export const demoPatients: DocPatient[] = [
       ],
     },
     vitals: {
-      bp:        { current: '133/85', trend: '소폭 상승',        trendUp: true,  data: [128, 130, 131, 134, 133] },
-      sugar:     { current: '129',    status: '목표치 초과 (↑)', trendUp: true,  data: [118, 122, 125, 128, 129] },
+      bp:        { current: '138/88', trend: '소폭 상승',        trendUp: true,  data: [128, 130, 133, 135, 138] },
+      sugar:     { current: '138',    status: '목표치 초과 (↑)', trendUp: true,  data: [122, 126, 130, 134, 138] },
       adherence: { current: '92',     data: [100, 90, 90, 90, 100] },
     },
     footerAction: '대면 진료 예약하기',
@@ -80,16 +80,16 @@ export const demoPatients: DocPatient[] = [
       anomalies:  ['sugar'],
       references: [
         {
-          source: '대한당뇨병학회 당뇨병 진료지침 2023, 9장 p.142',
-          excerpt: '비증식성 당뇨망막병증 환자에서 시각 증상(비문증, 시야 흐림) 신규 발생 시 증식성 진행 가능성을 배제하기 위해 즉각적인 안과 협진을 강력 권고한다.',
+          source: '대한당뇨병학회 2025 당뇨병 진료지침 요약문, 8-3. 당뇨병망막병증 (권고 6)',
+          excerpt: '증식당뇨병망막병증으로 진행하였을 경우에는 범망막광응고의 시행을 위해 안과전문의에게 환자를 의뢰한다.',
         },
         {
-          source: '대한당뇨병학회 당뇨병 진료지침 2023, 5장 p.98',
-          excerpt: '공복혈당이 130 mg/dL를 초과하여 지속될 경우 현행 혈당강하제 용량 증량 또는 병용 요법으로의 강화를 고려한다.',
+          source: '대한당뇨병학회 2025 당뇨병 진료지침 요약문, 8-3. 당뇨병망막병증 (권고 1)',
+          excerpt: '당뇨병망막병증의 발생 위험을 낮추거나 진행을 억제하기 위해 최적의 혈당, 혈압 및 지질조절을 권고한다.',
         },
         {
-          source: '대한고혈압학회 고혈압 진료지침 2022, 6장 p.56',
-          excerpt: '당뇨병을 동반한 고혈압 환자의 혈압 목표치는 130/80 mmHg 미만으로 설정하며, 목표 초과 시 약제 추가 또는 용량 조정을 권고한다.',
+          source: '대한고혈압학회 2022 고혈압 진료지침, 8.3.2. 당뇨병을 동반한 고혈압',
+          excerpt: '무증상장기손상이 동반된 당뇨병의 경우 혈압은 130/80 mmHg 미만으로 조절할 것을 고려한다.',
         },
       ],
     },
@@ -110,7 +110,7 @@ export const demoPatients: DocPatient[] = [
       title: '모든 지표가 안정적으로 유지되어',
       highlight: '비대면 진료가 가능',
       reasons: [
-        { type: 'check', text: '혈압 <span class="font-bold text-slate-900">124/80 mmHg</span>으로 목표치 이내 안정' },
+        { type: 'check', text: '혈압 <span class="font-bold text-slate-900">124/78 mmHg</span>으로 목표치 이내 안정' },
         { type: 'check', text: '공복혈당 <span class="font-bold text-slate-900">105 mg/dL</span>, HbA1c 6.8% (목표 범위)' },
         { type: 'check', text: '자각 증상 없음, 복약 순응도 100%' },
       ],
@@ -121,14 +121,14 @@ export const demoPatients: DocPatient[] = [
       ],
     },
     vitals: {
-      bp:        { current: '124/80', trend: '안정적 유지 중', trendUp: false, data: [126, 122, 125, 124, 124] },
+      bp:        { current: '124/78', trend: '안정적 유지 중', trendUp: false, data: [126, 122, 125, 124, 124] },
       sugar:     { current: '105',    status: '목표 범위 유지', trendUp: false, data: [108, 104, 107, 103, 105] },
       adherence: { current: '100',    data: [100, 100, 100, 100, 100] },
     },
     footerAction: '비대면 상담 예약하기',
     soapNote: {
       subjective: '정기 재진. 특별한 불편 사항 없음. 매일 30분 산책, 저염식 유지 중.',
-      objective:  '혈압 124/80 mmHg. 공복혈당 105 mg/dL. HbA1c 6.8%. 복약 순응도 100%.',
+      objective:  '혈압 124/78 mmHg. 공복혈당 105 mg/dL. HbA1c 6.8%. 복약 순응도 100%.',
       assessment: '당뇨·고혈압 모두 안정적 조절 중. 현재 처방 및 생활 습관 유지로 충분.',
       plan:       '1. 현재 처방 유지. 2. 월 1회 비대면 정기 상담. 3. 현재 운동·식단 습관 격려.',
       anomalies:  [],

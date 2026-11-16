@@ -27,7 +27,7 @@ import {
 import { motion, AnimatePresence } from 'motion/react';
 import { LineChart, Line, ResponsiveContainer, XAxis, YAxis, Tooltip } from 'recharts';
 import { demoPatients } from '../data/demoPatients';
-import { getNurseQueue, getNurseVitals, runAndPoll } from '../lib/silverSyncApi';
+import { getNurseQueue, getNurseVitals, getDemoAnalysis, runAndPoll } from '../lib/silverSyncApi';
 import type { NurseVitalsSnapshot } from '../lib/silverSyncApi';
 import { DAYS, STATUS_THEME_MAP } from '../constants';
 import { DocStatusBadge } from './ui/StatusBadge';
@@ -379,7 +379,7 @@ function AIRecommendationSection({
         </div>
         <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-4">
           {patient.aiRecommendation.title}<br/>
-          <span className={effectiveTheme.highlightColor}>{patient.aiRecommendation.highlight}</span>됩니다.
+          <span className={effectiveTheme.highlightColor}>{patient.aiRecommendation.highlight}</span>{patient.aiRecommendation.highlight.endsWith('가능') ? '합니다.' : '됩니다.'}
         </h2>
         <div className="space-y-4">
           {patient.aiRecommendation.reasons.map((reason, idx) => (
@@ -508,6 +508,8 @@ function PatientListPanel({ selectedPatientId, onSelect, lambdaStates }: {
           return (
             <button
               key={patient.id}
+              data-tour={`doctor-patient-${patient.lambdaPatientId}`}
+              data-analysis={ls?.type ?? 'idle'}
               onClick={() => onSelect(patient.id)}
               className={`w-full text-left p-5 rounded-3xl transition-all duration-300 border ${
                 selectedPatientId === patient.id
@@ -599,8 +601,14 @@ export default function DoctorDashboard() {
     return () => controllers.forEach(c => c.abort());
   }, []);
 
-  const selectedPatient = patients.find(p => p.id === selectedPatientId) ?? patients[0];
-  const lambdaState = lambdaStates[selectedPatient.id];
+  const basePatient = patients.find(p => p.id === selectedPatientId) ?? patients[0];
+  const lambdaState = lambdaStates[basePatient.id];
+  // 간호사 입력값으로 분석이 끝난 환자는 생성된 AI 근거·SOAP 노트로 표시 (데모 모드)
+  const analysis = lambdaState?.type === 'done' && basePatient.lambdaPatientId
+    ? getDemoAnalysis(basePatient.lambdaPatientId) : null;
+  const selectedPatient: DocPatient = analysis
+    ? { ...basePatient, aiRecommendation: analysis.recommendation, soapNote: analysis.soap }
+    : basePatient;
   const theme = STATUS_THEME_MAP[effectiveStatus(selectedPatient, lambdaState)];
 
   useEffect(() => {
@@ -648,6 +656,7 @@ export default function DoctorDashboard() {
             ] as const).map(tab => (
               <button
                 key={tab.id}
+                data-tour={`doctor-tab-${tab.id}`}
                 onClick={() => setActivePanel(tab.id)}
                 className={`px-5 py-2.5 rounded-t-2xl text-sm font-bold flex items-center gap-2 border-b-2 transition-all ${
                   activePanel === tab.id
